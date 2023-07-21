@@ -8,5 +8,5 @@
 - Onil Mamo (Backend)
 - Sooraj Raja (Frontend)
 - Finn McKeefry (Frontend)
-- Andre Lepardo (Frontend)
+- Andre Lepardo (Frontend/Backend 70:30 ratio)
 
