@@ -1,4 +1,5 @@
-# ENGR302 Project Group D - DnD World Generator
+# ENGR302 Project 
+# Group D - DnD World Generator
 
 ## Team members and Role Assignments
 
