@@ -1,5 +1,9 @@
 Design Decisions
 
+    Map generation theme(s)
+
+        1. We have come up with a few different themes (alien dungeon, space station, underground space cave...). We need to research which themes have good free assets online that we can use legally. We could also research ai image generation to make our own assets. 
+
     Frontend Stuff
 
         1. Will have a way to save games (the generated map, the json room/path framework thing that relates to the generated map, the positions of the player(s) (maybe this includes past positions or just points where the fog has been lifted), any relevant settings for the game). 
