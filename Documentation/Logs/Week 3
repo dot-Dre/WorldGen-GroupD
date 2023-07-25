@@ -1,0 +1,27 @@
+Design Decisions
+
+    Frontend Stuff
+
+        1. Will have a way to save games (the generated map, the json room/path framework thing that relates to the generated map, the positions of the player(s) (maybe this includes past positions or just points where the fog has been lifted), any relevant settings for the game). 
+
+        2. Dark mode (might be the default and only mode considering we might just have most of the page as a map and a control panel on the side). 
+
+        3. A button for printing the map (ease of use for the user). 
+
+        4. Maybe need a way to easily connect the correct map view (the one with the fog of war) to a projector. 
+
+    Fog of War
+
+        We've met and discussed our questions around the fog of war functionality. 
+        
+        1. Originally we wanted the dungeon master to place points on the generated map which would then cause fog of war to be lifted in a circle around the placed point(s). This would also require the need for saving the positions of these points. Because if the game is saved and reloaded later, the player will want to continue from where they last were. Thus, saving previous positions would allow the game to display previously visited areas with lifted fog of war. 
+
+        2. Currently, we have decided to go with the approach of the backend additionally sending a lightweight json thing that holds information on the generated map's rooms/paths positions as a 2d grid. This would allow the frontend to light up rooms or pathways correctly rather than in uninformed circles around player positions. The circle display is bad because it might not show enough of a specific room or might show through nearby walls into other rooms (which is bad). We would also allow the user to input some sort of fog of war range to further inform this room/traversal based fog of war algorithm. This could include a parameter that sets a light range factor such that the light would slowly fade into the fog of war based on that factor. 
+
+        3. We also considered having the dungeon master being able to select/toggle tiles as being covered by fog of war or not through manual clicking/dragging. This has been decided to be an extra stretch goal, or secondary to the primary aforementioned method. 
+
+Out of Scope/Stretch goal
+
+    Map generation/type of map to use
+
+        1. world map generator. As this would use a completely different kind of algorithm which could genreate a map with curvy biome boundaries...
