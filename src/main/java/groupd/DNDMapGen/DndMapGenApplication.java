@@ -1,0 +1,13 @@
+package groupd.DNDMapGen;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DndMapGenApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DndMapGenApplication.class, args);
+	}
+
+}
