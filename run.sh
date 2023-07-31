@@ -24,6 +24,12 @@
 ########## DO NOT TOUCH #######################################################
 ########## DO NOT TOUCH #######################################################
 
+REACT_PORT=$(lsof -t -i:3000)
+SPRING_PORT=$(lsof -t -i:8080)
+
+kill -SIGINT $REACT_PORT
+kill -SIGINT $SPRING_PORT
+
 cd src/main/ui
 npm install
 npm start &
