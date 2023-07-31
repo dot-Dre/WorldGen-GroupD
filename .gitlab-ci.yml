@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  # Set the maven local repository location to speed up builds by reusing cached dependencies
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+# Build stage
+build:
+  stage: build
+  image: maven:latest
+  script:
+    - mvn $MAVEN_OPTS clean package
+
+# Test stage
+test:
+  stage: test
+  image: maven:latest
+  script:
+    - mvn $MAVEN_OPTS test
+
+# Deploy stage
+deploy:
+  stage: deploy
+  image: adoptopenjdk:11-jre-hotspot
+  script:
+    - java -jar -Dspring.profiles.active=production target/your-spring-boot-app.jar
+  only:
+    - master
