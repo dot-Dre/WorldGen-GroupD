@@ -10,7 +10,12 @@ variables:
 
 lint:
   stage: lint
-  image: pre-commit/pre-commit
+  image: quay.io/pre-commit/pre-commit
+  variables:
+    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+  cache:
+    paths:
+      - ${PRE_COMMIT_HOME}
   script:
     - pre-commit run --all-files
   tags:
