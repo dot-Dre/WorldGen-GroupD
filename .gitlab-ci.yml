@@ -44,4 +44,4 @@ deploy:
   tags:
     - docker
   only:
-    - master
+    - main
