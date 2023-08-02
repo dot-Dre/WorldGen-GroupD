@@ -18,6 +18,8 @@ lint:
       - ${PRE_COMMIT_HOME}
   script:
     - pre-commit run --all-files
+  tags:
+    - docker
 
 # Build stage
 build:
