@@ -1,16 +1,26 @@
+###############################
+# Initial pre-commit hooks
+# for projected code-base
+# Last updated : 2/08/23
+###############################
+
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
-    hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
-    -   id: check-json
-    -   id: no-commit-to-branch
-        args: [--branch, main]
+    rev: v4.4.0
 
--   repo: https://github.com/ejba/pre-commit-maven
-    rev: v0.3.3
+    # These hooks tells pre-commit what to check for when run
     hooks:
-    -   id: maven
-        args: ['clean compile']
+    -   id: check-yaml # checks yaml files for parseable syntax.
+
+    -   id: check-added-large-files # prevents giant files from being committed.
+        args: ['--maxkb=10240'] # Max size is 10240 kbs
+
+    -   id: check-shebang-scripts-are-executable # ensures that (non-binary) files with a shebang are executable.
+
+    -   id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline.
+
+    -   id: trailing-whitespace # trims trailing whitespace.
+        args: [--markdown-linebreak-ext=md]
+
+    -   id: check-json # checks json files for parseable syntax.
+
