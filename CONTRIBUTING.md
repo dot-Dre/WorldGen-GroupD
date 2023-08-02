@@ -5,6 +5,9 @@ Contributers to this project should practice Trunk-based development. This is th
 
 The motivation for the development of these updates should be traced back to a lone issue, which a branch is created from. The branches should be short lived and as a result of the branche's merge into the trunk, an atomic update to production should be made.
 
+## Passing Pre-commit
+As of 03/08/23 linting has been implemented to help maintain good QA and QC practices. To make sure that your contributions do not fail the linting stage please run pre-commit run --all-files before you commit / push your commits to the repository.
+
 ## Merge Request Reviews
 Below is a description of the types of labels assigned to Merge requests. These labels help to keep track of the state of a merge request :
 
