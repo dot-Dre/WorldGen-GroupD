@@ -10,13 +10,9 @@ variables:
 
 lint:
   stage: lint
-  image: $CI_REGISTRY_IMAGE/ci:lint
-  variables:
-    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
-  cache:
-    paths:
-      - ${PRE_COMMIT_HOME}
+  image: python:3.9 
   script:
+    - pip install pre-commit
     - pre-commit run --all-files
   tags:
     - docker
