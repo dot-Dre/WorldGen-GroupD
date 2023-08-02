@@ -7,6 +7,17 @@ variables:
   # Set the maven local repository location to speed up builds by reusing cached dependencies
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
+lint:
+  stage: lint
+  image: $CI_REGISTRY_IMAGE/ci:lint
+  variables:
+    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+  cache:
+    paths:
+      - ${PRE_COMMIT_HOME}
+  script:
+    - pre-commit run --all-files
+
 # Build stage
 build:
   stage: build
