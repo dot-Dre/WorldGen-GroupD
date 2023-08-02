@@ -10,9 +10,8 @@ variables:
 
 lint:
   stage: lint
-  image: python:3.9
+  image: pre-commit/pre-commit
   script:
-    - pip install pre-commit
     - pre-commit run --all-files
   tags:
     - docker
