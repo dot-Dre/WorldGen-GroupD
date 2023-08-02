@@ -1,12 +1,12 @@
 # D&D World Generator Project Plan
 
-## Stage 1: Project Kickoff and Requirements Review (Estimated Time: 20 hours) 
+## Stage 1: Project Kickoff and Requirements Review (Estimated Time: 20 hours)
 
 - Assemble the project team and establish roles and responsibilities.
 - Review and finalize project requirements.
 - Communicate with the client for any clarification needed on the requirements.
 
-## Stage 2: Research and Planning (Estimated Time: 80 hours) 
+## Stage 2: Research and Planning (Estimated Time: 80 hours)
 
 - Conduct research on D&D maps, their layouts, environmental storytelling techniques, and narrative elements.
 - Draft initial project plan and timeline.
@@ -18,7 +18,7 @@
 - Incorporate environmental storytelling components into map generation.
 - Develop user views: Dungeon Master View and Player View (Fog of War).
 - Test map generation and user views individually as they are developed.
- 
+
 ## Stage 4: Integration and Testing (Estimated Time: 150 hours)
 
 - Integrate all developed components into a cohesive system.

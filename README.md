@@ -1,4 +1,4 @@
-# ENGR302 Project 
+# ENGR302 Project
 # Group D - DnD World Generator
 
 ## Team members and Role Assignments
@@ -12,7 +12,7 @@
 
 # Setting up the Project
 ## Prerequisites: node, npm, java, and maven
-To check if these are already installed on your system run the commands: 
+To check if these are already installed on your system run the commands:
 1. `node -v`
 1. `npm -v`
 1. `java -version`
@@ -35,4 +35,4 @@ While in the project's root directory (where `run.sh` is)
 Run the command `./run.sh`
 
 # Application User Manual
-Click the button on the webpage and an image will be displayed. 
+Click the button on the webpage and an image will be displayed.

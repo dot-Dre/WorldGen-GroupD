@@ -3,7 +3,7 @@ import './App.css';
 import { getImageFromServer } from './components/button';
 
 function App() {
-  
+
   const [imageSrc, setImageSrc] = useState(null);
 
   const handleButtonClick = () => {

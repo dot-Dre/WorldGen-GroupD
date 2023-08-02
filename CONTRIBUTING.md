@@ -1,7 +1,7 @@
 # Contributing to the World Generator
 
 ## Development Practices
-Contributers to this project should practice Trunk-based development. This is the practice in which developers merge small frequent updates to a core "trunk" or main branch [1](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development). 
+Contributers to this project should practice Trunk-based development. This is the practice in which developers merge small frequent updates to a core "trunk" or main branch [1](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development).
 
 The motivation for the development of these updates should be traced back to a lone issue, which a branch is created from. The branches should be short lived and as a result of the branche's merge into the trunk, an atomic update to production should be made.
 
@@ -28,7 +28,7 @@ Responsibility: Reviewer
 The reviewer has read over the MR, and has approved the MR for merge.
 Responsibility: Reviewer
 
-Merge requests should be the central place for discussions regarding development rather than the issue it was created from. 
+Merge requests should be the central place for discussions regarding development rather than the issue it was created from.
 
 # Commit Messages
-We won't enforce a particular style of commit messages but commit messages should be written as described in [this](https://cbea.ms/git-commit/) article. 
+We won't enforce a particular style of commit messages but commit messages should be written as described in [this](https://cbea.ms/git-commit/) article.

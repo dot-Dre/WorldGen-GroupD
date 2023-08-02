@@ -20,7 +20,7 @@ The generator will require no necessary user input for map layout, meaning the m
 
 3. **Narrative (Environmental Storytelling):**
     - Each map should have embedded environmental storytelling elements that contribute to the narrative of the game. These can be through the placement and structure of geographic features, the layout of structures, or even the presence (or absence) of certain creatures or items.
-    - The generator should create a sense of history and depth in the map, making the environment an active part of the storytelling. 
+    - The generator should create a sense of history and depth in the map, making the environment an active part of the storytelling.
     - These environmental cues should be open to interpretation by the Dungeon Master and players, allowing them to weave these elements into their unique story.
 
 
