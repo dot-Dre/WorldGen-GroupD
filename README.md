@@ -40,4 +40,5 @@ Click the button on the webpage and an image will be displayed.
 # Additional Information
 
 This repo is currently around 402mb so clear out some space for it when necessary. 
+
 This is especially important as we can't really exceed a total of 4gb of memory on the ECS machines. 
