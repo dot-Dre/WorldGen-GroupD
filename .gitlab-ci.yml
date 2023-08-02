@@ -13,6 +13,8 @@ build:
   image: maven:latest
   script:
     - mvn $MAVEN_OPTS clean package
+  tags:
+    - docker
 
 # Test stage
 test:
@@ -20,12 +22,17 @@ test:
   image: maven:latest
   script:
     - mvn $MAVEN_OPTS test
+  tags:
+    - docker
 
 # Deploy stage
 deploy:
   stage: deploy
   image: adoptopenjdk:11-jre-hotspot
   script:
-    - java -jar -Dspring.profiles.active=production target/your-spring-boot-app.jar
+    - java -jar -Dspring.profiles.active=production target/DNDMapGen-0.0.1-SNAPSHOT.jar
+  tags:
+    - docker
   only:
     - master
+
