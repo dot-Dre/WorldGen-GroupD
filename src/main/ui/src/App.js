@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Generate from './pages/Generate';
 import DMView from './pages/DMView';
-import PlayerView from '/pages/PlayerView';
+import PlayerView from './pages/PlayerView';
 
 function App() {
   return (
