@@ -8,7 +8,6 @@ import PlayerView from './pages/PlayerView';
 function App() {
   return (
     <Router>
-      <Navigation />
       <Routes>
         <Route path = "/" element={<Home />} />
         <Route path = "/Generate" element={<Generate />} />
