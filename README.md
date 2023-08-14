@@ -34,5 +34,13 @@ While in the project's root directory (where `run.sh` is)
 
 Run the command `./run.sh`
 
+## Known Issues
+
+The environmental variable for JAVA_HOME may need to be set manually. This is due to the possibility that the script could
+be executed from a terminal that has an incorrect JAVA_HOME variable set. This will cause compatibility issues with the
+maven build.
+
+To correct this, set the JAVA_HOME variable to point to JDK with version 17.
+
 # Application User Manual
 Click the button on the webpage and an image will be displayed. 
