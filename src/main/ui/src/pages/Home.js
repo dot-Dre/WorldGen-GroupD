@@ -3,14 +3,14 @@ import { Box, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import "./Home.css"; 
+import "./Home.css";
 
 /**
  * This function returns the Home page component. This page
  * serves as a bridge for users of the application to enter a running game,
  * or generate a new map and host a new game off a newly
  * generated map.
- * 
+ *
  * @returns This function returns the Home page component.
  */
 function Home() {

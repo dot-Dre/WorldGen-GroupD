@@ -3,7 +3,7 @@
 .container {
     overflow: hidden;
   }
-  
+
   .main_box {
     background-image: url("./assets/dungen_3.gif");
     background-size: cover;
@@ -13,7 +13,7 @@
     position: absolute;
     left: 35vw;
   }
-  
+
   .sidebar {
     background-color: #cbdbd5;
     height: 100vh;
@@ -21,7 +21,7 @@
     left: 0;
     position: absolute;
   }
-  
+
   .logo {
     background-image: url("./assets/logo.jpg");
     background-size: cover;
@@ -32,13 +32,13 @@
     height: 15em;
     position: absolute;
   }
-  
+
   .game-code-title {
     position: absolute;
     left: 5vw;
     top: 40vh;
   }
-  
+
   .go-button {
     position: absolute;
     left: 26vw;
@@ -46,7 +46,7 @@
     height: 5vh;
     width: 4vw;
   }
-  
+
   .code-input {
     position: absolute;
     left: 1vw;
@@ -54,13 +54,13 @@
     width: 20vw;
     height: 20vh;
   }
-  
+
   .start-game-title {
     position: absolute;
     left: 5vw;
     top: 65vh;
   }
-  
+
   .generate-button {
     position: absolute;
     left: -19vw;
@@ -68,21 +68,20 @@
     height: 5vh;
     width: 10vw;
   }
-  
+
   .fade-in {
     opacity: 1;
     transition: opacity 10s ease-in-out;
   }
-  
+
   .smooth-text {
     transition: color 10s ease-in-out, transform 10s ease-in-out;
   }
-  
-  
+
+
   .horror-text {
     position: absolute;
     left: 5vw;
     top: 77vh;
     width: 25vw;
   }
-  
