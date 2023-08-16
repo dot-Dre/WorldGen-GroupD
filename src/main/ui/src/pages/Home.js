@@ -1,9 +1,56 @@
 import React, { useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import { TextField, Button, Grid, Typography } from "@mui/material";
+import { SplitScreen } from "../components/SplitScreen";
+import Lottie from "lottie-react"
+
+import logoImage from "./assets/logo.png"; // Adjust the path based on your directory structure
+import animationData from "./assets/grids.json"
 import "./Home.css";
+
+const LogoDiv = styled("div")({
+  backgroundImage: `url(${logoImage})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  width: "25vw", // Adjust the width as needed
+  height: "20vh", // Adjust the height as needed
+  marginTop: "5vh",
+  marginLeft: "5vw",
+});
+
+const CodeDiv = styled("div")({
+  marginLeft: "7vw",
+});
+
+const GameDiv = styled("div")({
+  marginLeft: "7vw",
+  marginTop: "12vh"
+});
+
+const AnimationDiv = styled("div")({
+  marginTop: "0vh"
+});
+
+const BlurbDiv = styled("div")({
+  marginLeft: "7vw"
+})
+
+const textFieldStyles = {
+  backgroundColor: "#222822",
+  borderRadius: "6px",
+  border: "#222822",
+};
+
+const buttonStyles = {
+  backgroundColor: "#26212a",
+  // border: "1px solid #a11cc9", // Set the border style
+  // borderColor: "#a11cc9", // Set the border color
+  // borderRadius: "0px",
+  color: "white",
+  height: "5vh",
+};
 
 /**
  * This function returns the Home page component. This page
@@ -14,62 +61,76 @@ import "./Home.css";
  * @returns This function returns the Home page component.
  */
 function Home() {
-
-  const navigateToGenerate = useNavigate()
-  const navigateToView = useNavigate()
+  const navigateToGenerate = useNavigate();
+  const navigateToView = useNavigate();
   const [showGenerateBlurb, setShowText] = useState(false);
 
   return (
-    <div className="container">
-      <Box className="main_box" />
-      <Container>
-        <Box className="sidebar">
-          <Box className="logo" />
-          <Typography variant="h4" className="game-code-title">
-            Enter Your Game Code
-          </Typography>
-          <Button variant="contained" className="go-button" onClick={() => navigateToView('/PlayerView')}>
-            Go
-          </Button>
-          <TextField
-            id="outlined-basic"
-            label="9 digit code"
-            variant="outlined"
-            className="code-input"
-          />
-          <Typography variant="h5" className="start-game-title">
-            Want To Start a Game?
-          </Typography>
-          <Button
-            variant="contained"
-            className="generate-button"
-            onClick={() => navigateToGenerate('/Generate')}
-            onMouseEnter={() => setShowText(true)}
-            onMouseLeave={() => setShowText(false)}
-          >
-            Generate
-          </Button>
-          {showGenerateBlurb && (
+    <SplitScreen leftSpace={3} rightSpace={4}>
+      <Container height="100vh">
+        <LogoDiv className="logo" />
+        <CodeDiv>
+          <h2 style={{ color: "#ffffff" }} className="code_prompt">
+            Enter Your Game ID
+          </h2>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <TextField
+                label="9-digit Code"
+                variant="outlined"
+                color="secondary"
+                focused
+                style={textFieldStyles}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Button variant="text" color="primary" style={buttonStyles}>
+                <Typography
+                  variant="body1"
+                  style={{ fontFamily: "Arial", fontWeight: "bold" }}
+                >
+                  Go!
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </CodeDiv>
+        <BlurbDiv>
+          <p style={{ color: "#ffffff", fontFamily: 'Courier New'}}>
+            In dapibus turpis eget turpis tincidunt,
+            at fringilla ipsum tempus. Vestibulum ante
+            ipsum primis in faucibus orci luctus et ultrices
+            posuere cubilia curae; Quisque nec purus nec
+            ligula ullamcorper laoreet. Suspendisse potenti.
+          </p>
+        </BlurbDiv>
+        <GameDiv>
+          <h3 style={{ color: "#ffffff" }}>Generate A Dungeon!</h3>
+          <Button variant="contained" color="primary" style={buttonStyles}>
             <Typography
-              variant="body2"
-              className={`smooth-text ${showGenerateBlurb ? "fade-in" : ""}`}
-              style={{
-                position: "absolute",
-                left: "5vw",
-                top: "77vh",
-                width: "25vw",
-              }}
+              variant="body1"
+              style={{ fontFamily: "Arial", fontWeight: "bold" }}
             >
-              Summon courage as you stand on the brink of dread. Dare to
-              traverse the 'Generate' threshold and forge a bespoke DnD horror
-              dungeon. Unearth nightmarish secrets, test resilience, and let
-              terror tell your tale. Embark now on a chilling odyssey that only
-              the brave survive.
+              Generate
             </Typography>
-          )}
-        </Box>
+          </Button>
+          <h3 style={{ color: "#ffffff" }}>
+            Load A Previously Generated Dungeon!
+          </h3>
+          <Button variant="contained" color="primary" style={buttonStyles}>
+            <Typography
+              variant="body1"
+              style={{ fontFamily: "Arial", fontWeight: "bold" }}
+            >
+              Load
+            </Typography>
+          </Button>
+        </GameDiv>
       </Container>
-    </div>
+      <AnimationDiv>
+        <Lottie animationData={animationData}/>
+      </AnimationDiv>
+    </SplitScreen>
   );
 }
 
