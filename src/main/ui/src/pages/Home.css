@@ -8,3 +8,43 @@ body {
 }
 
 /* #26212a, #1a161c */
+
+/* Replace these class names and properties with your actual styles */
+.logo-div {
+  background-image: url("./assets/logo.png");
+  background-size: cover;
+  background-position: center;
+  width: 25vw;
+  height: 20vh;
+  margin-top: 5vh;
+  margin-left: 5vw;
+}
+
+.code-div {
+  margin-left: 7vw;
+}
+
+.text-field {
+  background-color: #222822;
+  color: #ffffff;
+  border-radius: 6px;
+  border: none;
+}
+
+.button-text {
+  font-family: Arial;
+  font-weight: bold;
+  color: "#ffffff"
+}
+
+.game-div {
+  margin-left: 7vw;
+  margin-top: 12vh;
+}
+
+/* Add more CSS rules for other components as needed */
+.animation-div {
+  margin-top: 0vh;
+}
+
+/* Add any other styles from your original CSS here */

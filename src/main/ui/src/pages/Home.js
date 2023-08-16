@@ -1,60 +1,12 @@
 import React, { useState } from "react";
 import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import { TextField, Button, Grid, Typography } from "@mui/material";
 import { SplitScreen } from "../components/SplitScreen";
 import Lottie from "lottie-react"
 
-import logoImage from "./assets/logo.png"; // Adjust the path based on your directory structure
 import animationData from "./assets/overlay.json"
 import "./Home.css";
-
-const LogoDiv = styled("div")({
-  backgroundImage: `url(${logoImage})`,
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  width: "25vw", // Adjust the width as needed
-  height: "20vh", // Adjust the height as needed
-  marginTop: "5vh",
-  marginLeft: "5vw",
-});
-
-const CodeDiv = styled("div")({
-  marginLeft: "7vw",
-});
-
-const GameDiv = styled("div")({
-  marginLeft: "7vw",
-  marginTop: "12vh"
-});
-
-const AnimationDiv = styled("div")({
-  marginTop: "0vh"
-});
-
-const BlurbDiv = styled("div")({
-  marginLeft: "7vw"
-})
-
-const textFieldStyles = {
-  backgroundColor: "#222822",
-  textFieldStyles: {
-    color: "#ffffff"
-  },
-  borderRadius: "6px",
-  border: "#222822",
-};
-
-const buttonStyles = {
-  backgroundColor: "#221252",
-  // border: "1px solid #a11cc9", // Set the border style
-  // borderColor: "#a11cc9", // Set the border color
-  // borderRadius: "0px",
-  color: "white",
-  height: "5vh",
-};
-
 
 /**
  * This function returns the Home page component. This page
@@ -71,9 +23,9 @@ function Home() {
   return (
     <SplitScreen leftSpace={3} rightSpace={5}>
       <Container height="100vh">
-        <LogoDiv className="logo" />
-        <CodeDiv>
-          <h2 style={{ color: "#ffffff" }} className="code_prompt">
+        <div className="logo-div" />
+        <div className="code-div">
+          <h2 style={{ color: "#ffffff" }} className="code-prompt" >
             Enter Your Game ID
           </h2>
           <Grid container spacing={2} alignItems="center">
@@ -83,36 +35,36 @@ function Home() {
                 variant="outlined"
                 color="secondary"
                 focused
-                style={textFieldStyles}
+                className="text-field"
               />
             </Grid>
             <Grid item xs={4}>
-              <Button variant="contained" color="primary" style={buttonStyles} onClick={() => navigateToView('/DMView')}>
+              <Button variant="contained" color="primary" className="button" onClick={() => navigateToView('/DMView')}>
                 <Typography
                   variant="body1"
-                  style={{ fontFamily: "Arial", fontWeight: "bold" }}
+                  className="button-text"
                 >
                   Go!
                 </Typography>
               </Button>
             </Grid>
           </Grid>
-        </CodeDiv>
-        {/* <BlurbDiv>
-          <p style={{ color: "#ffffff", fontFamily: 'Courier New'}}>
+        </div>
+        {/* <div className="blurb-div">
+          <p>
             In dapibus turpis eget turpis tincidunt,
             at fringilla ipsum tempus. Vestibulum ante
             ipsum primis in faucibus orci luctus et ultrices
             posuere cubilia curae; Quisque nec purus nec
             ligula ullamcorper laoreet. Suspendisse potenti.
           </p>
-        </BlurbDiv> */}
-        <GameDiv>
+        </div> */}
+        <div className="game-div">
           <h3 style={{ color: "#ffffff" }}>Generate A Dungeon!</h3>
-          <Button variant="contained" color="primary" style={buttonStyles} onClick={() => navigateToGenerate('/Generate')}>
+          <Button variant="contained" className="button" onClick={() => navigateToGenerate('/Generate')}>
             <Typography
               variant="body1"
-              style={{ fontFamily: "Arial", fontWeight: "bold" }}
+              className="button-text"
             >
               Generate
             </Typography>
@@ -120,19 +72,21 @@ function Home() {
           <h3 style={{ color: "#ffffff" }}>
             Load A Previously Generated Dungeon!
           </h3>
-          <Button variant="contained" color="primary" style={buttonStyles}>
+          <Button variant="contained" style={{
+
+          }}>
             <Typography
               variant="body1"
-              style={{ fontFamily: "Arial", fontWeight: "bold" }}
+              className="button-text"
             >
               Load
             </Typography>
           </Button>
-        </GameDiv>
+        </div>
       </Container>
-      <AnimationDiv>
-        <Lottie animationData={animationData} style={{ width: '90vw', height: '90vh', marginTop: '20vh', marginLeft: '-10vw' }} />
-      </AnimationDiv>
+      <div className="animation-div">
+        <Lottie animationData={animationData} className="animation" />
+      </div>
     </SplitScreen>
   );
 }
