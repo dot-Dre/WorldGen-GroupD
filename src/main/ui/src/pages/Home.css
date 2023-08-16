@@ -31,10 +31,19 @@ body {
   border: none;
 }
 
+.button {
+  background-color: #221252;
+  color: white;
+  height: 5vh;
+  display: flex; /* Add this line to make the content of the button flex container */
+  align-items: center; /* Center the content vertically */
+}
+
 .button-text {
   font-family: Arial;
   font-weight: bold;
-  color: "#ffffff"
+  color: "#ffffff";
+  margin: 0 auto; /* Horizontally center the text within the button */
 }
 
 .game-div {
@@ -47,4 +56,25 @@ body {
   margin-top: 0vh;
 }
 
-/* Add any other styles from your original CSS here */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.help-text {
+  font-family: 'Courier New', monospace;
+  margin-left: 7vw;
+  font-size: small;
+  animation-name: fade-in;
+  animation-duration: 2s;
+}
+
+.help-text:hover {
+  display: block;
+}

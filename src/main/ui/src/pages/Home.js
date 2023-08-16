@@ -20,6 +20,15 @@ function Home() {
   const navigateToGenerate = useNavigate();
   const navigateToView = useNavigate();
 
+  const [isLoadButtonHovered, setIsLoadButtonHovered] = useState(false);
+  const handleLoadButtonMouseEnter = () => { setIsLoadButtonHovered(true); };
+  const handleLoadButtonMouseLeave = () => { setIsLoadButtonHovered(false); };
+
+  const [isGenerateButtonHovered, setIsGenerateButtonHovered] = useState(false);
+  const handleGenerateButtonMouseEnter = () => { setIsGenerateButtonHovered(true); };
+  const handleGenerateButtonMouseLeave = () => { setIsGenerateButtonHovered(false); };
+
+
   return (
     <SplitScreen leftSpace={3} rightSpace={5}>
       <Container height="100vh">
@@ -39,7 +48,7 @@ function Home() {
               />
             </Grid>
             <Grid item xs={4}>
-              <Button variant="contained" color="primary" className="button" onClick={() => navigateToView('/DMView')}>
+              <Button variant="outlined" size="small" color="primary" className="button" onClick={() => navigateToView('/DMView')}>
                 <Typography
                   variant="body1"
                   className="button-text"
@@ -61,7 +70,7 @@ function Home() {
         </div> */}
         <div className="game-div">
           <h3 style={{ color: "#ffffff" }}>Generate A Dungeon!</h3>
-          <Button variant="contained" className="button" onClick={() => navigateToGenerate('/Generate')}>
+          <Button variant="outlined" size="small" onClick={() => navigateToGenerate('/Generate')} onMouseEnter={handleGenerateButtonMouseEnter} onMouseLeave={handleGenerateButtonMouseLeave}>
             <Typography
               variant="body1"
               className="button-text"
@@ -72,9 +81,7 @@ function Home() {
           <h3 style={{ color: "#ffffff" }}>
             Load A Previously Generated Dungeon!
           </h3>
-          <Button variant="contained" style={{
-
-          }}>
+          <Button variant="outlined" size="small" onMouseEnter={handleLoadButtonMouseEnter} onMouseLeave={handleLoadButtonMouseLeave}>
             <Typography
               variant="body1"
               className="button-text"
@@ -82,6 +89,15 @@ function Home() {
               Load
             </Typography>
           </Button>
+        </div>
+        <div className="help-text">
+          <p style={{ color: "#ffffff" }}>
+          {isLoadButtonHovered
+            ? "Rediscover history with the \"Load\" button. Revisit a curated Dungeons & Dragons adventure, where challenges and treasures await from previous explorers. Relive the experience, uncovering the tales etched into this pre-generated world."
+            : isGenerateButtonHovered
+            ? "Unleash terror with the \"Generate\" button. Dive into a chilling Dungeons & Dragons adventure where every corridor holds dread, creatures lurk in darkness, and traps test your mettle. Embark on a journey that melds horror and strategy, as you navigate a procedurally crafted nightmare."
+            : ""}
+          </p>
         </div>
       </Container>
       <div className="animation-div">
