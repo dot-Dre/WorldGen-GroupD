@@ -7,7 +7,7 @@ import { SplitScreen } from "../components/SplitScreen";
 import Lottie from "lottie-react"
 
 import logoImage from "./assets/logo.png"; // Adjust the path based on your directory structure
-import animationData from "./assets/grids.json"
+import animationData from "./assets/overlay.json"
 import "./Home.css";
 
 const LogoDiv = styled("div")({
@@ -39,18 +39,22 @@ const BlurbDiv = styled("div")({
 
 const textFieldStyles = {
   backgroundColor: "#222822",
+  textFieldStyles: {
+    color: "#ffffff"
+  },
   borderRadius: "6px",
   border: "#222822",
 };
 
 const buttonStyles = {
-  backgroundColor: "#26212a",
+  backgroundColor: "#221252",
   // border: "1px solid #a11cc9", // Set the border style
   // borderColor: "#a11cc9", // Set the border color
   // borderRadius: "0px",
   color: "white",
   height: "5vh",
 };
+
 
 /**
  * This function returns the Home page component. This page
@@ -63,10 +67,9 @@ const buttonStyles = {
 function Home() {
   const navigateToGenerate = useNavigate();
   const navigateToView = useNavigate();
-  const [showGenerateBlurb, setShowText] = useState(false);
 
   return (
-    <SplitScreen leftSpace={3} rightSpace={4}>
+    <SplitScreen leftSpace={3} rightSpace={5}>
       <Container height="100vh">
         <LogoDiv className="logo" />
         <CodeDiv>
@@ -84,7 +87,7 @@ function Home() {
               />
             </Grid>
             <Grid item xs={4}>
-              <Button variant="text" color="primary" style={buttonStyles}>
+              <Button variant="contained" color="primary" style={buttonStyles} onClick={() => navigateToView('/DMView')}>
                 <Typography
                   variant="body1"
                   style={{ fontFamily: "Arial", fontWeight: "bold" }}
@@ -95,7 +98,7 @@ function Home() {
             </Grid>
           </Grid>
         </CodeDiv>
-        <BlurbDiv>
+        {/* <BlurbDiv>
           <p style={{ color: "#ffffff", fontFamily: 'Courier New'}}>
             In dapibus turpis eget turpis tincidunt,
             at fringilla ipsum tempus. Vestibulum ante
@@ -103,10 +106,10 @@ function Home() {
             posuere cubilia curae; Quisque nec purus nec
             ligula ullamcorper laoreet. Suspendisse potenti.
           </p>
-        </BlurbDiv>
+        </BlurbDiv> */}
         <GameDiv>
           <h3 style={{ color: "#ffffff" }}>Generate A Dungeon!</h3>
-          <Button variant="contained" color="primary" style={buttonStyles}>
+          <Button variant="contained" color="primary" style={buttonStyles} onClick={() => navigateToGenerate('/Generate')}>
             <Typography
               variant="body1"
               style={{ fontFamily: "Arial", fontWeight: "bold" }}
@@ -128,7 +131,7 @@ function Home() {
         </GameDiv>
       </Container>
       <AnimationDiv>
-        <Lottie animationData={animationData}/>
+        <Lottie animationData={animationData} style={{ width: '90vw', height: '90vh', marginTop: '20vh', marginLeft: '-10vw' }} />
       </AnimationDiv>
     </SplitScreen>
   );

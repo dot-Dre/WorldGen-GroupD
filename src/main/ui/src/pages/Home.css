@@ -2,7 +2,9 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background-image: linear-gradient(#34283d, #26212a, #1a161c, #030303);
+  background-image: linear-gradient(#34283d 5%, #000000 95%);
   background-size: cover;
   overflow: hidden;
 }
+
+/* #26212a, #1a161c */
