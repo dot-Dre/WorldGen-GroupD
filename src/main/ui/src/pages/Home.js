@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { TextField, Button, Grid, Typography } from "@mui/material";
+import { SplitScreen } from "../components/SplitScreen";
+import Lottie from "lottie-react"
+
+import animationData from "./assets/overlay.json"
 import "./Home.css";
 
 /**
@@ -14,62 +17,93 @@ import "./Home.css";
  * @returns This function returns the Home page component.
  */
 function Home() {
+  const navigateToGenerate = useNavigate();
+  const navigateToView = useNavigate();
 
-  const navigateToGenerate = useNavigate()
-  const navigateToView = useNavigate()
-  const [showGenerateBlurb, setShowText] = useState(false);
+  const [isLoadButtonHovered, setIsLoadButtonHovered] = useState(false);
+  const handleLoadButtonMouseEnter = () => { setIsLoadButtonHovered(true); };
+  const handleLoadButtonMouseLeave = () => { setIsLoadButtonHovered(false); };
+
+  const [isGenerateButtonHovered, setIsGenerateButtonHovered] = useState(false);
+  const handleGenerateButtonMouseEnter = () => { setIsGenerateButtonHovered(true); };
+  const handleGenerateButtonMouseLeave = () => { setIsGenerateButtonHovered(false); };
+
 
   return (
-    <div className="container">
-      <Box className="main_box" />
-      <Container>
-        <Box className="sidebar">
-          <Box className="logo" />
-          <Typography variant="h4" className="game-code-title">
-            Enter Your Game Code
-          </Typography>
-          <Button variant="contained" className="go-button" onClick={() => navigateToView('/PlayerView')}>
-            Go
-          </Button>
-          <TextField
-            id="outlined-basic"
-            label="9 digit code"
-            variant="outlined"
-            className="code-input"
-          />
-          <Typography variant="h5" className="start-game-title">
-            Want To Start a Game?
-          </Typography>
-          <Button
-            variant="contained"
-            className="generate-button"
-            onClick={() => navigateToGenerate('/Generate')}
-            onMouseEnter={() => setShowText(true)}
-            onMouseLeave={() => setShowText(false)}
-          >
-            Generate
-          </Button>
-          {showGenerateBlurb && (
+    <SplitScreen leftSpace={3} rightSpace={5}>
+      <Container height="100vh">
+        <div className="logo-div" />
+        <div className="code-div">
+          <h2 style={{ color: "#ffffff" }} className="code-prompt" >
+            Enter Your Game ID
+          </h2>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <TextField
+                label="9-digit Code"
+                variant="outlined"
+                color="secondary"
+                focused
+                className="text-field"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Button variant="outlined" size="small" color="primary" className="button" onClick={() => navigateToView('/DMView')}>
+                <Typography
+                  variant="body1"
+                  className="button-text"
+                >
+                  Go!
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
+        {/* <div className="blurb-div">
+          <p>
+            In dapibus turpis eget turpis tincidunt,
+            at fringilla ipsum tempus. Vestibulum ante
+            ipsum primis in faucibus orci luctus et ultrices
+            posuere cubilia curae; Quisque nec purus nec
+            ligula ullamcorper laoreet. Suspendisse potenti.
+          </p>
+        </div> */}
+        <div className="game-div">
+          <h3 style={{ color: "#ffffff" }}>Generate A Dungeon!</h3>
+          <Button variant="outlined" size="small" onClick={() => navigateToGenerate('/Generate')} onMouseEnter={handleGenerateButtonMouseEnter} onMouseLeave={handleGenerateButtonMouseLeave}>
             <Typography
-              variant="body2"
-              className={`smooth-text ${showGenerateBlurb ? "fade-in" : ""}`}
-              style={{
-                position: "absolute",
-                left: "5vw",
-                top: "77vh",
-                width: "25vw",
-              }}
+              variant="body1"
+              className="button-text"
             >
-              Summon courage as you stand on the brink of dread. Dare to
-              traverse the 'Generate' threshold and forge a bespoke DnD horror
-              dungeon. Unearth nightmarish secrets, test resilience, and let
-              terror tell your tale. Embark now on a chilling odyssey that only
-              the brave survive.
+              Generate
             </Typography>
-          )}
-        </Box>
+          </Button>
+          <h3 style={{ color: "#ffffff" }}>
+            Load A Previously Generated Dungeon!
+          </h3>
+          <Button variant="outlined" size="small" onMouseEnter={handleLoadButtonMouseEnter} onMouseLeave={handleLoadButtonMouseLeave}>
+            <Typography
+              variant="body1"
+              className="button-text"
+            >
+              Load
+            </Typography>
+          </Button>
+        </div>
+        <div className="help-text">
+          <p style={{ color: "#ffffff" }}>
+          {isLoadButtonHovered
+            ? "Rediscover history with the \"Load\" button. Revisit a curated Dungeons & Dragons adventure, where challenges and treasures await from previous explorers. Relive the experience, uncovering the tales etched into this pre-generated world."
+            : isGenerateButtonHovered
+            ? "Unleash terror with the \"Generate\" button. Dive into a chilling Dungeons & Dragons adventure where every corridor holds dread, creatures lurk in darkness, and traps test your mettle. Embark on a journey that melds horror and strategy, as you navigate a procedurally crafted nightmare."
+            : ""}
+          </p>
+        </div>
       </Container>
-    </div>
+      <div className="animation-div">
+        <Lottie animationData={animationData} className="animation" />
+      </div>
+    </SplitScreen>
   );
 }
 
