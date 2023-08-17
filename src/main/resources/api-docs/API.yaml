@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: DnD Map Generation API
+  description: An API for generating Dungeons and Dragons maps with custom parameters.
+  contact:
+    name: Luke Juriss
+    url: https://gitlab.ecs.vuw.ac.nz/mamoonil/world-gen
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /generateImage:
+    get:
+      summary: Generate a DnD map
+      description: Generates a random DnD map based on the provided parameters.
+      parameters:
+        - name: Map Size
+          in: query
+          schema:
+            type: string
+            enum: [s, m, l]
+          description: Size of the map (small, medium, large)
+          required: true
+        - name: Map Theme
+          in: query
+          schema:
+            type: string
+            enum: [g, n]
+          description: Type of theme (graveyard, necromancersDungeon)
+          required: true
+      responses:
+        '200':
+          description: Successfully generated a DnD map
+          content:
+            image/png:
+              schema:
+                type: string
+                format: byte
+                description: Binary image data of the generated map
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
