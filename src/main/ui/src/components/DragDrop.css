@@ -1,0 +1,20 @@
+.drag-drop {
+    opacity: 0.6;
+}
+
+.drag-drop input {
+    opacity: 0;
+    position: inherit;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: aqua;
+    cursor: pointer;
+    padding: 100px;
+}
+
+.drag-drop:hover,
+.drag-drop.dragover {
+    opacity: 1.0;
+}
