@@ -18,9 +18,13 @@
 }
 
 .progress-bar {
-    margin-top: 27vh;
+    margin-top: 24vh;
     border-radius: 20px;
     height: 1vh;
+}
+
+.go {
+    margin-top: 2vh;
 }
 
 .drag-drop input {

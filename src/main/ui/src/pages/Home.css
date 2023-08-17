@@ -59,7 +59,8 @@ body {
 
 /* Add more CSS rules for other components as needed */
 .animation-div {
-  margin-top: 10vh;
+  margin-top: 20vh;
+  margin-left: -15vw;
 }
 
 @keyframes fade-in {

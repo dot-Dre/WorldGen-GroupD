@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { PropTypes } from "prop-types";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import dragDrop from "../pages/assets/dragdrop.png";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -8,6 +9,7 @@ import "./DragDrop.css";
 
 export const DragDrop = (props) => {
   const wrapperRef = useRef(null);
+  const navigateToView = useNavigate();
   const onDragEnter = () => wrapperRef.current.classList.add("dragover");
   const onDragLeave = () => wrapperRef.current.classList.remove("dragover");
   const onDrop = () => wrapperRef.current.classList.remove("dragover");
@@ -17,6 +19,12 @@ export const DragDrop = (props) => {
 
   const [progress, setProgress] = useState(0);
   const [barColor, setBarColor] = useState("secondary");
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const handleButtonClicked = () => {
+    navigateToView("/DMView")
+  };
 
   const onFileDrop = (e) => {
     const dungeonFile = e.target.files[0];
@@ -28,9 +36,11 @@ export const DragDrop = (props) => {
         setProgress(100)
         setFile(dungeonFile);
         props.onFileChange(dungeonFile)
+        setButtonDisabled(false)
       } else {
         setBarColor("tertiary")
         setDisplayMessage("Please use a .json")
+        setButtonDisabled(false)
       }
     }
   };
@@ -68,6 +78,7 @@ export const DragDrop = (props) => {
             </div>
           <LinearProgress variant="determinate" value={progress} className="progress-bar" color={barColor}/>
         </Box>
+        <Button variant="outlined" className="go" onClick={handleButtonClicked} disabled={buttonDisabled} color={barColor}>Start Game</Button>
       </center>
     </Box>
   );

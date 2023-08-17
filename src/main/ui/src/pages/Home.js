@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Grid, Typography, Modal, Box } from "@mui/material";
+import { TextField, Button, Grid, Typography, Modal } from "@mui/material";
 import { SplitScreen } from "../components/SplitScreen";
 import { DragDrop } from "../components/DragDrop"
 import { ThemeProvider } from "@mui/material/styles";
@@ -11,6 +11,7 @@ import Lottie from "lottie-react";
 import animationData from "./assets/overlay.json";
 import "./Home.css";
 import logo from "./assets/logo.png"
+import overlay from "./assets/overlaygrid.png"
 
 /**
  * This function returns the Home page component. This page
@@ -71,7 +72,7 @@ function Home() {
       <SplitScreen leftSpace={2} rightSpace={1.5}>
         <Container height="100vh">
           {/* <div className="logo-div"/> */}
-          <img src={logo} style={{
+          <img src={logo} alt="crashed" style={{
             marginLeft: "5vw",
             width: "35vw",
             height: "35vh"
@@ -172,6 +173,7 @@ function Home() {
         </Container>
         <div className="animation-div">
           <Lottie animationData={animationData} className="animation" />
+          {/* <img src={overlay} /> */}
         </div>
       </SplitScreen>
     </ThemeProvider>
