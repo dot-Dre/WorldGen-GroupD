@@ -4,12 +4,10 @@ info:
   description: An API for generating Dungeons and Dragons maps with custom parameters.
   contact:
     name: Luke Juriss
-    url: https://gitlab.ecs.vuw.ac.nz/mamoonil/world-gen
+    url: 'https://gitlab.ecs.vuw.ac.nz/mamoonil/world-gen'
   version: 1.0.0
-
 servers:
-  - url: http://localhost:8080
-
+  - url: 'http://localhost:8080'
 paths:
   /generateImage:
     get:
@@ -20,15 +18,20 @@ paths:
           in: query
           schema:
             type: string
-            enum: [small, medium, large]
-          description: Size of the map (small, medium, large)
+            enum:
+              - small
+              - medium
+              - large
+          description: 'Size of the map (small, medium, large)'
           required: true
         - name: map_theme
           in: query
           schema:
             type: string
-            enum: [graveyard, necromancersDungeon]
-          description: Type of theme (graveyard, necromancersDungeon)
+            enum:
+              - graveyard
+              - necromancersDungeon
+          description: 'Type of theme (graveyard, necromancersDungeon)'
           required: true
       responses:
         '200':
