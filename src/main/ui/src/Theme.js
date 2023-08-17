@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import { defer } from 'react-router-dom';
 
 /**
  * This is a theme constant which should be wrapped around all styled MUI components

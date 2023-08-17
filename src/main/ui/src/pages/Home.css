@@ -11,7 +11,7 @@ body {
 
 /* Replace these class names and properties with your actual styles */
 .logo-div {
-  background-image: url("./assets/logo.jpg");
+  background-image: url("./assets/logo.png");
   background-size: cover;
   background-position: center;
   width: 25vw;
