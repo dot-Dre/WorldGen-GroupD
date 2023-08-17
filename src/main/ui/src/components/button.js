@@ -12,3 +12,18 @@ export const getImageFromServer = () => {
         throw error;
       });
   };
+
+export const copyIPv4 = () => {
+  return fetch('https://api64.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      // Get the IPv4 address
+      var ipv4Address = data.ip;
+
+      // Copy the IPv4 address to clipboard
+      navigator.clipboard.writeText(ipv4Address);
+    })
+    .catch(error => {
+      console.error('Error fetching IP address:', error);
+    });
+};

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getImageFromServer } from './components/button';
+import { getImageFromServer, copyIPv4 } from './components/button';
 
 function App() {
   
@@ -17,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={handleButtonClick}>Get Image from Backend</button>
+      <button onClick={copyIPv4}>Copy IPv4 Address</button>
       {imageSrc && <img src={imageSrc} alt="Received from server" />}
     </div>
   );
