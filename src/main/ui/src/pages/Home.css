@@ -22,6 +22,7 @@ body {
 
 .code-div {
   margin-left: 7vw;
+  margin-top: 0;
   width: "50vw";
 }
 
@@ -38,6 +39,10 @@ body {
   height: 5vh;
   display: flex; /* Add this line to make the content of the button flex container */
   align-items: center; /* Center the content vertically */
+}
+
+.button:hover {
+  background-color: #92df9b
 }
 
 .button-text {

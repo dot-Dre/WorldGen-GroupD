@@ -10,6 +10,7 @@ import Lottie from "lottie-react";
 
 import animationData from "./assets/overlay.json";
 import "./Home.css";
+import logo from "./assets/logo.png"
 
 /**
  * This function returns the Home page component. This page
@@ -22,36 +23,59 @@ import "./Home.css";
 function Home() {
   const navigateToGenerate = useNavigate();
   const navigateToView = useNavigate();
+  const [loadButtonColor, setLoadButtonColor] = useState("primary")
+  const [createButtonColor, setCreateButtonColor] = useState("primary")
+  const [goButtonColor, setGoButtonColor] = useState("primary")
+  const [file, setFile] = useState(null)
 
   const [isLoadButtonHovered, setIsLoadButtonHovered] = useState(false);
   const handleLoadButtonMouseEnter = () => {
     setIsLoadButtonHovered(true);
+    setLoadButtonColor("secondary")
   };
   const handleLoadButtonMouseLeave = () => {
     setIsLoadButtonHovered(false);
+    setLoadButtonColor("primary")
   };
 
   const [isGenerateButtonHovered, setIsGenerateButtonHovered] = useState(false);
   const handleGenerateButtonMouseEnter = () => {
     setIsGenerateButtonHovered(true);
+    setCreateButtonColor("secondary")
   };
   const handleGenerateButtonMouseLeave = () => {
     setIsGenerateButtonHovered(false);
+    setCreateButtonColor("primary")
+  };
+
+  const [isGoButtonHovered, setIsGoButtonHovered] = useState(false);
+  const handleGoButtonMouseEnter = () => {
+    setIsGoButtonHovered(true);
+    setGoButtonColor("secondary")
+  };
+  const handleGoButtonMouseLeave = () => {
+    setIsGenerateButtonHovered(false);
+    setGoButtonColor("primary")
   };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onFileChange = (files) => {
-    alert(files)
+  const onFileChange = (file) => {
+    setFile(file)
   }
-
-  return (
+ 
+  return (  
     <ThemeProvider theme={theme}>
       <SplitScreen leftSpace={2} rightSpace={1.5}>
         <Container height="100vh">
-          <div className="logo-div" />
+          {/* <div className="logo-div"/> */}
+          <img src={logo} style={{
+            marginLeft: "5vw",
+            width: "35vw",
+            height: "35vh"
+          }}/>
           <div className="code-div">
             <h2 style={{ color: "#ffffff" }} className="code-prompt">
               Enter A Game ID
@@ -76,9 +100,11 @@ function Home() {
                 <Button
                   variant="outlined"
                   size="small"
-                  color="primary"
+                  color={goButtonColor}
                   className="button"
                   onClick={() => navigateToView("/DMView")}
+                  onMouseEnter={handleGoButtonMouseEnter}
+                  onMouseLeave={handleGoButtonMouseLeave}
                 >
                   <Typography variant="body1" className="button-text">
                     Go!
@@ -101,12 +127,13 @@ function Home() {
             <Button
               variant="outlined"
               size="small"
+              color={createButtonColor}
               onClick={() => navigateToGenerate("/Generate")}
               onMouseEnter={handleGenerateButtonMouseEnter}
               onMouseLeave={handleGenerateButtonMouseLeave}
             >
               <Typography variant="body1" className="button-text">
-                Generate
+                Create Dungeon
               </Typography>
             </Button>
             <h3 style={{ color: "#ffffff" }}>
@@ -114,13 +141,14 @@ function Home() {
             </h3>
             <Button
               variant="outlined"
+              color={loadButtonColor}
               size="small"
               onMouseEnter={handleLoadButtonMouseEnter}
               onMouseLeave={handleLoadButtonMouseLeave}
               onClick={handleOpen}
             >
               <Typography variant="body1" className="button-text">
-                Load
+                Load Dungeon
               </Typography>
             </Button>
             <Modal
