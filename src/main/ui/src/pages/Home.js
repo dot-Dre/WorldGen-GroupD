@@ -65,8 +65,8 @@ function Home() {
   const onFileChange = (file) => {
     setFile(file)
   }
- 
-  return (  
+
+  return (
     <ThemeProvider theme={theme}>
       <SplitScreen leftSpace={2} rightSpace={1.5}>
         <Container height="100vh">

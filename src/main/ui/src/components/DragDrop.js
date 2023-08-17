@@ -20,7 +20,7 @@ export const DragDrop = (props) => {
 
   const onFileDrop = (e) => {
     const dungeonFile = e.target.files[0];
-    
+
     if (dungeonFile) {
       if (dungeonFile.name.endsWith('.json')) {
         setBarColor("secondary")
