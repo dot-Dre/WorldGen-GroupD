@@ -16,18 +16,18 @@ paths:
       summary: Generate a DnD map
       description: Generates a random DnD map based on the provided parameters.
       parameters:
-        - name: Map Size
+        - name: map_size
           in: query
           schema:
             type: string
-            enum: [s, m, l]
+            enum: [small, medium, large]
           description: Size of the map (small, medium, large)
           required: true
-        - name: Map Theme
+        - name: map_theme
           in: query
           schema:
             type: string
-            enum: [g, n]
+            enum: [graveyard, necromancersDungeon]
           description: Type of theme (graveyard, necromancersDungeon)
           required: true
       responses:
@@ -43,4 +43,3 @@ paths:
           description: Bad request
         '500':
           description: Internal server error
-
