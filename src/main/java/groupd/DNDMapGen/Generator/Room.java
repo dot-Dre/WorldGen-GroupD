@@ -7,6 +7,14 @@ public class Room {
     private final int width;
     private final int height;
 
+    /**
+     * Constructs a new Room with the specified position and dimensions.
+     *
+     * @param x      The x-coordinate of the top-left corner of the room.
+     * @param y      The y-coordinate of the top-left corner of the room.
+     * @param width  The width of the room.
+     * @param height The height of the room.
+     */
     public Room(int x, int y, int width, int height){
         this.x = x;
         this.y = y;

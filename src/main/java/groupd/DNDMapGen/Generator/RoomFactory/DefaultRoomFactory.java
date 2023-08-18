@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class DefaultRoomFactory extends AbstractRoomFactory {
 
@@ -62,4 +63,14 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
 
         return rooms;
     }
+
+    public List<Room> selectMainRooms(Collection<Room> rooms) {
+        double averageWidth = rooms.stream().mapToInt(Room::width).average().orElse(0);
+        double averageHeight = rooms.stream().mapToInt(Room::height).average().orElse(0);
+
+        return rooms.stream()
+                .filter(room -> room.width() >= averageWidth && room.height() >= averageHeight && Math.random() < 0.8)
+                .collect(Collectors.toList());
+    }
+
 }

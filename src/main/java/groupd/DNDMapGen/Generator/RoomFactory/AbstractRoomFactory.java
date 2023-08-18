@@ -67,6 +67,7 @@ public abstract class AbstractRoomFactory {
 
     /**
      * Checks if all bodies in a dyn4j world are at rest
+     * This is a helper method for separateRooms()
      * @param world The world to check
      * @return True if all bodies are not moving, false otherwise
      */
