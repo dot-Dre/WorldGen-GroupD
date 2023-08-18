@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import { PropTypes } from "prop-types";
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setFile } from "../slices/fileSlice";
 
 import dragDrop from "../pages/assets/dragdrop.png";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -14,13 +16,14 @@ export const DragDrop = (props) => {
   const onDragLeave = () => wrapperRef.current.classList.remove("dragover");
   const onDrop = () => wrapperRef.current.classList.remove("dragover");
 
-  const [file, setFile] = useState(null);
   const [displayMessage, setDisplayMessage] = useState("Drag & Drop your Dungeon file");
 
   const [progress, setProgress] = useState(0);
   const [barColor, setBarColor] = useState("secondary");
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleButtonClicked = () => {
     navigateToView("/DMView")
@@ -31,10 +34,13 @@ export const DragDrop = (props) => {
 
     if (dungeonFile) {
       if (dungeonFile.name.endsWith('.json')) {
+        //
+        dispatch(setFile('haha'))
+        //
         setBarColor("secondary")
         setDisplayMessage("Good to go!")
         setProgress(100)
-        setFile(dungeonFile);
+        // setFile(dungeonFile);
         props.onFileChange(dungeonFile)
         setButtonDisabled(false)
       } else {
