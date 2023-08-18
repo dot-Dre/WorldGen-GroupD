@@ -43,7 +43,7 @@ export const DragDrop = (props) => {
           try {
             const fileContent = event.target.result;
             const parsedContent = JSON.parse(fileContent);
-            console.log(parsedContent); 
+            console.log(parsedContent);
             dispatch(setFile(parsedContent));
             setBarColor("secondary");
             setDisplayMessage("Good to go!");
