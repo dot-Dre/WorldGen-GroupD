@@ -1,7 +1,7 @@
 package groupd.DNDMapGen;
 
+import groupd.DNDMapGen.Generator.Generator;
 import groupd.DNDMapGen.Generator.RoomFactory.AbstractRoomFactory;
-import groupd.DNDMapGen.Generator.RoomFactory.DefaultRoomFactory;
 
 public enum MapTheme {
     GRAVEYARD,
@@ -9,14 +9,4 @@ public enum MapTheme {
     NEW_THEME,
     MANSION,
     BASEMENT;
-
-    public AbstractRoomFactory getRoomFactory(){
-        return getRoomFactory(this);
-    }
-
-    public static AbstractRoomFactory getRoomFactory(MapTheme mapTheme) {
-        return switch (mapTheme) {
-            default -> new DefaultRoomFactory();
-        };
-    }
 }
