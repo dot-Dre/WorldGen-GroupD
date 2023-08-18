@@ -1,8 +1,11 @@
 package texturerendering;
 
+import java.awt.image.BufferedImage;
+
 public class Texture {
     private final String name;
     private final String path;
+    private BufferedImage image;
     private final int width;
     private final int height;
 

@@ -1,8 +1,12 @@
 package texturerendering;
 
+import java.awt.image.BufferedImage;
+
 public class Prop {
 private final String name;
     private final String path;
+
+    private BufferedImage image;
     private final int width;
     private final int height;
 
