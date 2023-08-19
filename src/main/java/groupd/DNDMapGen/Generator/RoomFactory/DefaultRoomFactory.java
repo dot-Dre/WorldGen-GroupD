@@ -60,7 +60,7 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
         }
 
         separateRooms(rooms);
-
+        adjustNegativePosition(rooms);
         return rooms;
     }
 

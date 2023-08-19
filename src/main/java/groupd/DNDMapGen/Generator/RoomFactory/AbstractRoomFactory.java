@@ -65,6 +65,14 @@ public abstract class AbstractRoomFactory {
         }
     }
 
+    protected void adjustNegativePosition(Collection<Room> rooms){
+        int minX = rooms.stream().mapToInt(Room::x).min().getAsInt();
+        int minY = rooms.stream().mapToInt(Room::y).min().getAsInt();
+        for(Room room : rooms){
+            room.moveTo(room.x() - minX, room.y() - minY);
+        }
+    }
+
     /**
      * Checks if all bodies in a dyn4j world are at rest
      * This is a helper method for separateRooms()
