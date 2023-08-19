@@ -35,8 +35,11 @@ public class Generator {
         };
     }
 
-    public void build(){
-        // TODO: Implement
+    public Dungeon build(){
+        DefaultRoomFactory roomFactory = new DefaultRoomFactory();
+        Collection<Room> rooms = roomFactory.generateRooms(size);
+        Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms);
+        return new Dungeon(theme, rooms, mainRooms);
     }
 
     public MapSize getSize() {
