@@ -47,7 +47,7 @@ public abstract class AbstractRoomFactory {
             roomBody.setAngularVelocity(0.0);
 
             // Move the room to its position
-            roomBody.translate(room.x(), room.y());
+            roomBody.translate(room.x()+room.width()/2.0, room.y()+room.height()/2.0);
             world.addBody(roomBody);
             roomBodies.put(roomBody, room);
         }
