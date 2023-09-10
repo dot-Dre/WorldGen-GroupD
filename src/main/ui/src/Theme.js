@@ -26,4 +26,10 @@ export const theme = createTheme({
     },
 });
 
+export const ourPalette = {
+    primary: "#7711C6",
+    secondary: "#92DF9B",
+    tertiary: "#A40D08"
+};
+
 export default theme;
