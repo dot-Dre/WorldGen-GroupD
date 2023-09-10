@@ -5,6 +5,7 @@ import PlayerView from '../pages/PlayerView';
 import React from 'react';
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from 'framer-motion';
+import PlayerDetails from '../pages/PlayerDetails';
 
 function AnimatedRoutes() {
     const location = useLocation();
@@ -15,6 +16,7 @@ function AnimatedRoutes() {
             <Route path = "/Generate" element={<Generate />} />
             <Route path = "/DMView" element={<DMView />} />
             <Route path = "/PlayerView" element={<PlayerView />} />
+            <Route path = "/PlayerDetails" element={<PlayerDetails/>}/>
         </Routes>
       </AnimatePresence>
     );
