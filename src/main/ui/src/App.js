@@ -1,39 +1,52 @@
-import React, { useState } from 'react';
-import './App.css';
-import { getImageFromServer } from './components/button';
+import React, { useEffect, useState } from 'react';
 
 function App() {
-    const [imageSrc, setImageSrc] = useState(null);
-    const [mapSize, setMapSize] = useState('s');
-    const [mapTheme, setMapTheme] = useState('g');
+    const [mapData, setMapData] = useState(null);
+    const [size, setSize] = useState('null');
+    const [theme, setTheme] = useState('null');
+    const [shouldRequest, setShouldRequest] = useState(false);
 
-    const handleButtonClick = () => {
-        getImageFromServer(mapSize, mapTheme)
-            .then(imageUrl => setImageSrc(imageUrl))
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    };
+    useEffect(() => {
+        if (!shouldRequest) return;
+
+        let socket = new WebSocket("ws://localhost:8080/map");
+
+        socket.addEventListener('open', () => {
+            const params = {
+                size: size,
+                theme: theme
+            };
+            socket.send(JSON.stringify(params));
+        });
+
+        socket.addEventListener('message', (event) => {
+            const receivedMapData = JSON.parse(event.data);
+            setMapData(receivedMapData);
+        });
+
+        socket.addEventListener('close', () => {
+            setShouldRequest(false);
+        });
+
+        return () => {
+            socket.close();
+        };
+    }, [size, theme, shouldRequest]);
 
     return (
-        <div className="App">
-            <div>
-                <label htmlFor="mapSize">Select Map Size: </label>
-                <select id="mapSize" value={mapSize} onChange={event => setMapSize(event.target.value)}>
-                    <option value="s">Small</option>
-                    <option value="m">Medium</option>
-                    <option value="l">Large</option>
-                </select>
-            </div>
-            <div>
-                <label htmlFor="mapTheme">Select Map Theme: </label>
-                <select id="mapTheme" value={mapTheme} onChange={event => setMapTheme(event.target.value)}>
-                    <option value="g">Graveyard</option>
-                    <option value="n">Necromancer's Dungeon</option>
-                </select>
-            </div>
-            <button onClick={handleButtonClick}>Get Image from Backend</button>
-            {imageSrc && <img src={imageSrc} alt="Received from server" />}
+        <div>
+            <select onChange={(e) => setSize(e.target.value)}>
+                <option value="s">Small</option>
+                <option value="m">Medium</option>
+                <option value="l">Large</option>
+            </select>
+            <select onChange={(e) => setTheme(e.target.value)}>
+                <option value="g">Graveyard</option>
+                <option value="n">Necromancer's Dungeon</option>
+            </select>
+            <button onClick={() => setShouldRequest(true)}>Request Map</button>
+            {/* Render the map based on mapData */}
+            {mapData && <img src={`data:image/png;base64,${mapData}`} alt="Generated Map" />}
         </div>
     );
 }
