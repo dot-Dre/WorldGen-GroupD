@@ -85,3 +85,8 @@ body {
 .help-text:hover {
   display: block;
 }
+
+.code-help {
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+}

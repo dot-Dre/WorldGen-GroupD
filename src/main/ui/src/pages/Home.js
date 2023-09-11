@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
 
 import animationData from "./assets/overlay.json";
 import "./Home.css";
@@ -69,6 +70,16 @@ function Home() {
     setFile(file);
   };
 
+  const [gameCode, setGameCode] = useState(""); // Initialize gameCode as an empty string
+  const [inputError, setInputError] = useState(true);
+
+  const handleGameCodeChange = (event) => {
+    const inputValue = event.target.value;
+    setGameCode(inputValue);
+
+    setInputError(inputValue.length !== 9 || !/^\d+$/.test(inputValue));
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -94,7 +105,7 @@ function Home() {
               </h2>
               <Grid container spacing={2} alignItems="center">
                 <Grid item>
-                  <TextField
+                <TextField
                     sx={{
                       input: {
                         color: "#ffffff",
@@ -106,14 +117,24 @@ function Home() {
                     autoFocus="True"
                     className="text-field"
                     fullWidth="true"
+                    value={gameCode} // Set value to gameCode
+                    onChange={handleGameCodeChange} // Add onChange handler
+                    error={inputError} // Show error state
                   />
                 </Grid>
                 <Grid item xs={4}>
                   <Button
+                    sx={{
+                      "&.Mui-disabled": {
+                        borderColor: "#9d82ab",
+                        color: "#9d82ab", // Text color in disabled state
+                      }
+                    }}
                     variant="outlined"
                     size="small"
                     color={goButtonColor}
                     className="button"
+                    disabled={inputError}
                     onClick={() => navigateToView("/PlayerDetails")}
                     onMouseEnter={handleGoButtonMouseEnter}
                     onMouseLeave={handleGoButtonMouseLeave}
@@ -125,6 +146,9 @@ function Home() {
                 </Grid>
               </Grid>
             </div>
+            { inputError ? (
+              <p style={{marginLeft:"7vw"}} className="code-help"> Your game code isn't formatted correctly! </p>
+            ) : ( <></>)}
             {/* <div className="blurb-div">
           <p>
             In dapibus turpis eget turpis tincidunt,
@@ -183,8 +207,6 @@ function Home() {
             </div>
           </Container>
           <div className="animation-div">
-            <Lottie animationData={animationData} className="animation" />
-            {/* <img src={overlay} /> */}
           </div>
         </SplitScreen>
       </ThemeProvider>
