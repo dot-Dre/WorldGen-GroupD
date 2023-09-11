@@ -13,6 +13,7 @@ import animationData from "./assets/overlay.json";
 import "./Home.css";
 import logo from "./assets/logo.png";
 import overlay from "./assets/overlaygrid.png";
+import { useSelector } from "react-redux";
 
 /**
  * This function returns the Home page component. This page

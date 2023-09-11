@@ -7,13 +7,17 @@ import "./PlayerDetails.css";
 import lostEyes from "./assets/lostEyes.gif";
 import monsters from "./assets/monsters.gif";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setPlayerName } from "../slices/playerNameSlice";
 
 function PlayerDetails() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
+  const dispatch = useDispatch();
+
   // Function to handle button click
-  const handleAdventureStart = () => {};
+  const handleAdventureStart = () => { };
 
   const isButtonDisabled = name.trim() === "" || role.trim() === "";
 
