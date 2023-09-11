@@ -1,4 +1,4 @@
-package groupd.DNDMapGen;
+package groupd.com.DNDMapGen;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,7 @@ public class MapDataHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         // Extract the parameters from the incoming message
         String payload = message.getPayload();
-        Map<String, String> params = parseParameters(payload);
+        Map params = parseParameters(payload);
 
         // Generate map data based on the parameters
         assert params != null;

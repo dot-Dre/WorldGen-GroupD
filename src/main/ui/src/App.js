@@ -9,7 +9,7 @@ function App() {
     useEffect(() => {
         if (!shouldRequest) return;
 
-        let socket = new WebSocket("ws://localhost:8080/map");
+        let socket = new WebSocket("ws://130.195.6.107:8080/map");
 
         socket.addEventListener('open', () => {
             const params = {
