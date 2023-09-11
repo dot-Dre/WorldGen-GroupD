@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import animationData from "./assets/overlay.json";
 import "./Home.css";
 import logo from "./assets/logo.png";
+import hall from "./assets/hood.png"
 import overlay from "./assets/overlaygrid.png";
 import { useSelector } from "react-redux";
 
@@ -154,8 +155,8 @@ function Home() {
               </Grid>
             </div>
             { inputError ? (
-              <p style={{marginLeft:"7vw"}} className="code-help"> Your game code isn't formatted correctly! </p>
-            ) : ( <></>)}
+              <p style={{marginLeft:"7vw", marginTop:"2vh"}} className="code-help"> Your game code isn't formatted correctly! </p>
+            ) : ( <p style={{marginLeft:"7vw", marginTop:"2vh"}} className="code-help">  e.g 143344561 </p>)}
             {/* <div className="blurb-div">
           <p>
             In dapibus turpis eget turpis tincidunt,

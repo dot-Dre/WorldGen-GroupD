@@ -9,7 +9,8 @@ import monsters from "./assets/monsters.gif";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setPlayerName } from "../slices/playerNameSlice";
-import { setRole } from "../slices/roleSlice";
+import { setPlayerRole } from "../slices/roleSlice";
+import character from "./assets/hood.png"
 
 function PlayerDetails() {
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ function PlayerDetails() {
   // Function to handle button click
   const handleAdventureStart = () => {
     dispatch(setPlayerName(name))
-    dispatch(setRole(role))
+    dispatch(setPlayerRole(role))
   };
 
   const isButtonDisabled = name.trim() === "" || role.trim() === "";
@@ -126,6 +127,16 @@ function PlayerDetails() {
                 height: "60vh",
               }}
             /> */}
+            <img
+              src={character}
+              alt="crashed"
+              style={{
+                marginLeft: "33vw",
+                marginTop:"7vh",
+                width: "60%",
+                height: "60%",
+              }}
+            />
           </div>
         </SplitScreen>
       </ThemeProvider>

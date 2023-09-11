@@ -8,15 +8,15 @@ export const roleSlice = createSlice({
     name: 'roleState',
     initialState,
     reducers: {
-        setRole: (state, action) => {
+        setPlayerRole: (state, action) => {
             state.role = action.payload
         },
-        clearRole: (state) => {
+        clearPlayerRole: (state) => {
             state.role = 'none'
         }
     }
 })
 
-export const {setRole, clearRole} = roleSlice.actions
+export const {setPlayerRole, clearPlayerRole} = roleSlice.actions
 
 export default roleSlice.reducer
