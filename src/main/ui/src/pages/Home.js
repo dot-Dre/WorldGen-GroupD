@@ -71,7 +71,7 @@ function Home() {
   };
 
   const [gameCode, setGameCode] = useState(""); // Initialize gameCode as an empty string
-  const [inputError, setInputError] = useState(true);
+  const [inputError, setInputError] = useState(false);
 
   const handleGameCodeChange = (event) => {
     const inputValue = event.target.value;
@@ -135,7 +135,14 @@ function Home() {
                     color={goButtonColor}
                     className="button"
                     disabled={inputError}
-                    onClick={() => navigateToView("/PlayerDetails")}
+                    onClick={() => {
+                      if (gameCode.length !== 9 || !/^\d+$/.test(gameCode)) {
+                        setInputError(true);
+                      } else {
+                        setInputError(false);
+                        navigateToView("/PlayerDetails")
+                      }
+                    }}
                     onMouseEnter={handleGoButtonMouseEnter}
                     onMouseLeave={handleGoButtonMouseLeave}
                   >
