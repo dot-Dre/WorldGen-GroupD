@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setFile } from "../slices/fileSlice";
 import { FileParser } from "../util/FileParser";
 
-import dragDrop from "../pages/assets/dragdrop.png";
+import dragDrop from "./dragdrop.png";
 import LinearProgress from "@mui/material/LinearProgress";
 import "./DragDrop.css";
 
