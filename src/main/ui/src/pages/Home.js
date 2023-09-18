@@ -219,10 +219,10 @@ function Home() {
               src={gen}
               alt="crashed"
               style={{
-                marginLeft: "2%",
-                marginTop: "20%",
-                width: "80%",
-                height: "80%",
+                marginLeft: "2vw",
+                marginTop: "20vh",
+                width: "35vw",
+                height: "60vh",
               }}
             />
         </SplitScreen>
