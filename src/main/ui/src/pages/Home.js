@@ -15,6 +15,7 @@ import "./Home.css";
 import logo from "./assets/logo.png";
 import hall from "./assets/hood.png"
 import overlay from "./assets/overlaygrid.png";
+import gen from "./assets/gen.gif"
 import { useSelector } from "react-redux";
 
 /**
@@ -214,8 +215,16 @@ function Home() {
               </p>
             </div>
           </Container>
-          <div className="animation-div">
-          </div>
+          <img
+              src={gen}
+              alt="crashed"
+              style={{
+                marginLeft: "2%",
+                marginTop: "20%",
+                width: "80%",
+                height: "80%",
+              }}
+            />
         </SplitScreen>
       </ThemeProvider>
     </motion.div>
