@@ -1,0 +1,11 @@
+/* Hide the scrollbar for WebKit-based browsers */
+::-webkit-scrollbar {
+  width: 0.5rem; /* Adjust the width to make it invisible, but still clickable (optional) */
+  background: transparent; /* Set the background color to match your component's background */
+}
+
+/* Hide the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: transparent; /* Set the background color to match your component's background */
+}
+
