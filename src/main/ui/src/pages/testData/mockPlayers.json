@@ -1,0 +1,59 @@
+[
+  {
+    "x": 15,
+    "y": 25,
+    "name": "Player 1",
+    "role": "Assassin",
+    "status": "Alive"
+  },
+  {
+    "x": 30,
+    "y": 40,
+    "name": "Player 2",
+    "role": "Healer",
+    "status": "Dead"
+  },
+  {
+    "x": 45,
+    "y": 60,
+    "name": "Player 3",
+    "role": "Wizard",
+    "status": "Sleepy"
+  },
+  {
+    "x": 15,
+    "y": 25,
+    "name": "Player 1",
+    "role": "Assassin"
+  },
+  {
+    "x": 30,
+    "y": 40,
+    "name": "Player 2",
+    "role": "Healer"
+  },
+  {
+    "x": 45,
+    "y": 60,
+    "name": "Player 3",
+    "role": "Wizard"
+  },
+  {
+    "x": 15,
+    "y": 25,
+    "name": "Player 1",
+    "role": "Assassin"
+  },
+  {
+    "x": 30,
+    "y": 40,
+    "name": "Player 2",
+    "role": "Healer"
+  },
+  {
+    "x": 45,
+    "y": 60,
+    "name": "Player 3",
+    "role": "Wizard"
+  }
+]
