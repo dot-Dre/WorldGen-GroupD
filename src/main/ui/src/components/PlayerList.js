@@ -57,22 +57,23 @@ const PlayerList = ({ initialData, height, sx, }) => {
       <List style={listStyle}>
         {data.map((item, index) => (
           <ListItem key={index} onClick={() => handleClickOpen(item)}>
-            <ListItemButton color="primary" style={{ fontFamily: "monospace", borderRadius: "4px" }}>
-              <ListItemText
-                primary={<span style={{ fontFamily: 'monospace' }}>{item.name}</span>}
-                secondary={
-                  <React.Fragment>
-                    <span style={{ fontFamily: 'monospace' }}>Role: {item.role}</span>
-                    <br />
-                    <span style={{ fontFamily: 'monospace' }}>Status: {item.status}</span>
-                  </React.Fragment>
-                }
-              />
-              <div style={{ marginLeft: "auto", fontFamily: "monospace" }}>
-                X: {item.x}, Y: {item.y}
-              </div>
-            </ListItemButton>
-          </ListItem>
+          <ListItemButton color="primary" style={{ fontFamily: "monospace", borderRadius: "4px" }}>
+            <ListItemText
+              primary={<span style={{ fontFamily: 'monospace', fontSize: '10px' }}>{item.name}</span>}
+              secondary={
+                <React.Fragment>
+                  <span style={{ fontFamily: 'monospace', fontSize: '9px' }}>Role: {item.role}</span>
+                  <br />
+                  <span style={{ fontFamily: 'monospace', fontSize: '9px' }}>Status: {item.status}</span>
+                </React.Fragment>
+              }
+            />
+            <div style={{ marginLeft: "auto", fontFamily: "monospace", fontSize: '9px' }}>
+              X: {item.x}, Y: {item.y}
+            </div>
+          </ListItemButton>
+        </ListItem>
+        
         ))}
       </List>
 
