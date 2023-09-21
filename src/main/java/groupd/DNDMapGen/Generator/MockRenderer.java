@@ -42,15 +42,25 @@ public class MockRenderer {
         // Draw base rooms
         g.setColor(BASE_ROOM_COLOR);
         rooms.forEach(room -> {
-            g.fillRect((room.x() - minX)* IMAGE_SCALE , (room.y() - minY)* IMAGE_SCALE, (room.width() - 1)* IMAGE_SCALE, (room.height() - 1)* IMAGE_SCALE);
+            g.fillRect((room.x() - minX) * IMAGE_SCALE , (room.y() - minY)* IMAGE_SCALE, (room.width() - 1)* IMAGE_SCALE, (room.height() - 1)* IMAGE_SCALE);
         });
 
         g.setColor(HALLWAY_COLOR);
         for(Hallway h: hallways){
             Collection<Room> hallwayRooms = h.getRooms();
             hallwayRooms.forEach(room -> {
-                g.fillRect((room.x() - minX)* IMAGE_SCALE, (room.y() - minY)* IMAGE_SCALE, (room.width())* IMAGE_SCALE, (room.height())* IMAGE_SCALE);
+                g.fillRect((room.x() - minX) * IMAGE_SCALE, (room.y() - minY) * IMAGE_SCALE, (room.width())* IMAGE_SCALE, (room.height())* IMAGE_SCALE);
             });
+        }
+
+        g.setColor(Color.BLUE);
+        Tile[][] tiles = dungeon.getTiles();
+        for(int row = 0; row < tiles.length; row++){
+            for(int col = 0; col < tiles[row].length; col++){
+                if(tiles[row][col] == Tile.WALL){
+                    g.fillRect((col) * IMAGE_SCALE, (row) * IMAGE_SCALE, IMAGE_SCALE, IMAGE_SCALE);
+                }
+            }
         }
 
         // Save image

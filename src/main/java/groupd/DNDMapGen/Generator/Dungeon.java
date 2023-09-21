@@ -76,6 +76,17 @@ public class Dungeon {
         }
 
         // Place rooms
+        addRoomTiles(tiles, rooms);
+
+        // Place hallways
+        for(Hallway hallway : hallways){
+            addRoomTiles(tiles, hallway.getRooms());
+        }
+
+        return tiles;
+    }
+
+    private void addRoomTiles(Tile[][] tiles, Collection<Room> rooms) {
         for(Room room : rooms){
             int x = room.x() - minX;  // Note the -minX
             int y = room.y() - minY;  // Note the -minY
@@ -86,20 +97,6 @@ public class Dungeon {
                 }
             }
         }
-
-        // Place hallways
-        for(Hallway hallway : hallways){
-            int x = hallway.x() - minX;  // Note the -minX
-            int y = hallway.y() - minY;  // Note the -minY
-            Tile[][] hallwayTiles = hallway.getTiles();
-            for(int row = 0; row < hallwayTiles.length; row++){
-                for(int col = 0; col < hallwayTiles[row].length; col++){
-                    tiles[y + row][x + col] = hallwayTiles[row][col];
-                }
-            }
-        }
-
-        return tiles;
     }
 
 }
