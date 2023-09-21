@@ -1,5 +1,7 @@
 package groupd.DNDMapGen.Generator;
 
+import groupd.DNDMapGen.Generator.HallwayFactory.AbstractHallwayFactory;
+import groupd.DNDMapGen.Generator.HallwayFactory.DefaultHallwayFactory;
 import groupd.DNDMapGen.Generator.RoomFactory.AbstractRoomFactory;
 import groupd.DNDMapGen.Generator.RoomFactory.DefaultRoomFactory;
 import groupd.DNDMapGen.MapSize;
@@ -35,25 +37,53 @@ public class Generator {
         };
     }
 
-    public Dungeon build(){
-        DefaultRoomFactory roomFactory = new DefaultRoomFactory();
-        Collection<Room> rooms = roomFactory.generateRooms(size);
-        Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms);
-        return new Dungeon(theme, rooms, mainRooms);
+    /**
+     * Returns an instance of a HallwayFactory based on the provided map theme.
+     *
+     * @param mapTheme  The theme for which the hallway factory should be created.
+     * @return An instance of AbstractHallwayFactory corresponding to the provided theme.
+     */
+    public static AbstractHallwayFactory getHallwayFactory(MapTheme mapTheme) {
+        return switch (mapTheme) {
+            default -> new DefaultHallwayFactory();
+        };
     }
 
+    /**
+     * Builds a new Dungeon based on the provided size and theme.
+     * @return A new Dungeon.
+     */
+    public Dungeon build(){
+        // Select Room and Hallway factories based on theme
+        AbstractRoomFactory roomFactory = getRoomFactory(theme);
+        AbstractHallwayFactory hallwayFactory = getHallwayFactory(theme);
+
+        // Generate rooms and hallways
+        Collection<Room> rooms = roomFactory.generateRooms(size);
+        Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms);
+        Collection<Hallway> hallways = hallwayFactory.generate(mainRooms);
+
+        // Return a new Dungeon
+        return new Dungeon(theme, mainRooms, hallways);
+    }
+
+    /**
+     * Returns the specified map size.
+     */
     public MapSize getSize() {
         return size;
     }
 
+    /**
+     * Returns the specified map theme.
+     */
     public MapTheme getTheme() {
         return theme;
     }
 
     public static void main(String[] args) {
-        DefaultRoomFactory roomFactory = new DefaultRoomFactory();
-        Collection<Room> rooms = roomFactory.generateRooms(MapSize.LARGE);
-        Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms);
-        MockRenderer.render(rooms, mainRooms, "./test.png");
+        Generator gen = new Generator(MapSize.LARGE, MapTheme.NECROMANCER_DUNGEON);
+        Dungeon dungeon = gen.build();
+        MockRenderer.render(dungeon, "./test.png");
     }
 }

@@ -26,6 +26,13 @@ public abstract class AbstractRoomFactory {
     public abstract Collection<Room> generateRooms(MapSize size);
 
     /**
+     * Selects the main rooms from a collection of rooms
+     * @param rooms The rooms to select from
+     * @return A collection of main rooms
+     */
+    public abstract Collection<Room> selectMainRooms(Collection<Room> rooms);
+
+    /**
      * Takes a collection of rooms and separates them, so they don't overlap.
      * This is done by simulating the rooms as rigid bodies in a dyn4j world
      * @param rooms The rooms to separate

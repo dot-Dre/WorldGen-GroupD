@@ -14,15 +14,17 @@ import java.util.Collection;
 public class MockRenderer {
 
     private static final Color BACKGROUND_COLOR = Color.BLACK;
-    private static final Color MAIN_ROOM_COLOR = Color.RED;
-    private static final Color BASE_ROOM_COLOR = Color.WHITE;
+    private static final Color BASE_ROOM_COLOR = Color.RED;
     private static final int IMAGE_SCALE = 5;
     public static final Color HALLWAY_COLOR = Color.ORANGE;
 
     /**
      * Render the map to a file at a certain scale
      */
-    public static void render(Collection<Room> rooms, Collection<Room> mainRooms, String outputPath) {
+    public static void render(Dungeon dungeon, String outputPath) {
+        Collection<Room> rooms = dungeon.getRooms();
+        Collection<Hallway> hallways = dungeon.getHallways();
+
         int minX = rooms.stream().mapToInt(Room::x).min().getAsInt();
         int minY = rooms.stream().mapToInt(Room::y).min().getAsInt();
         int maxX = rooms.stream().mapToInt(room -> room.x() + room.width()).max().getAsInt();
@@ -43,14 +45,7 @@ public class MockRenderer {
             g.fillRect((room.x() - minX)* IMAGE_SCALE , (room.y() - minY)* IMAGE_SCALE, (room.width() - 1)* IMAGE_SCALE, (room.height() - 1)* IMAGE_SCALE);
         });
 
-        // Draw main rooms
-        g.setColor(MAIN_ROOM_COLOR);
-        mainRooms.forEach(room -> {
-            g.fillRect((room.x() - minX)* IMAGE_SCALE, (room.y() - minY)* IMAGE_SCALE, (room.width() - 1)* IMAGE_SCALE, (room.height() - 1)* IMAGE_SCALE);
-        });
-
         g.setColor(HALLWAY_COLOR);
-        Collection<Hallway> hallways = new DefaultHallwayFactory().generate(mainRooms);
         for(Hallway h: hallways){
             Collection<Room> hallwayRooms = h.getRooms();
             hallwayRooms.forEach(room -> {
