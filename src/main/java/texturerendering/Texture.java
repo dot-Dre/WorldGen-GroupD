@@ -1,6 +1,9 @@
 package texturerendering;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Texture {
     private final String name;
@@ -14,6 +17,17 @@ public class Texture {
         this.path = path;
         this.width = width;
         this.height = height;
+
+        try {
+            this.image = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.image = null;
+        }
+    }
+
+    public BufferedImage getImage() {
+        return this.image;
     }
 
     public String getPath() {
