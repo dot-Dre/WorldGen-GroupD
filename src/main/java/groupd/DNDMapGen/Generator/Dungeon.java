@@ -93,7 +93,9 @@ public class Dungeon {
             Tile[][] roomTiles = room.getTiles();
             for(int row = 0; row < roomTiles.length; row++){
                 for(int col = 0; col < roomTiles[row].length; col++){
-                    tiles[y + row][x + col] = roomTiles[row][col];
+                    if(tiles[y + row][x + col] != Tile.FLOOR){
+                        tiles[y + row][x + col] = roomTiles[row][col];
+                    };
                 }
             }
         }
