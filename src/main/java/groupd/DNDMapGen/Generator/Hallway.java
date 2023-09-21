@@ -43,6 +43,7 @@ public class Hallway {
                     int x = room.x() - minX + col;
                     int y = room.y() - minY + row;
 
+                    // Only overwrite tiles if they are not floors
                     if(tiles[y][x] != FLOOR){
                         tiles[y][x] = roomTiles[row][col];
                     }

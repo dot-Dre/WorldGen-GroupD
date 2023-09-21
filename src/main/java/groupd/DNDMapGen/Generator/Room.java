@@ -37,7 +37,7 @@ public class Room {
         }
     }
 
-    public void moveTo(int x, int y){
+    protected void moveTo(int x, int y){
         this.x = x;
         this.y = y;
     }

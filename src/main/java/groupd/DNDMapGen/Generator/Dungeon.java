@@ -9,6 +9,8 @@ public class Dungeon {
     private final Collection<Room> rooms;
     private final Collection<Hallway> hallways;
     private final MapTheme theme;
+    private final int minX;
+    private final int minY;
     private final int width;
     private final int height;
 
@@ -37,6 +39,8 @@ public class Dungeon {
             maxY = Math.max(maxY, hallway.y() + hallway.height());
         }
 
+        this.minX = minX;
+        this.minY = minY;
         this.width = maxX - minX;
         this.height = maxY - minY;
     }
@@ -62,17 +66,19 @@ public class Dungeon {
     }
 
     public Tile[][] getTiles(){
-        Tile[][] tiles = new Tile[width][height];
+        Tile[][] tiles = new Tile[height][width];
 
+        // Initialize tiles with EMPTY
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
-                tiles[x][y] = Tile.EMPTY;
+                tiles[y][x] = Tile.EMPTY;
             }
         }
 
+        // Place rooms
         for(Room room : rooms){
-            int x = room.x();
-            int y = room.y();
+            int x = room.x() - minX;  // Note the -minX
+            int y = room.y() - minY;  // Note the -minY
             Tile[][] roomTiles = room.getTiles();
             for(int row = 0; row < roomTiles.length; row++){
                 for(int col = 0; col < roomTiles[row].length; col++){
@@ -81,9 +87,10 @@ public class Dungeon {
             }
         }
 
+        // Place hallways
         for(Hallway hallway : hallways){
-            int x = hallway.x();
-            int y = hallway.y();
+            int x = hallway.x() - minX;  // Note the -minX
+            int y = hallway.y() - minY;  // Note the -minY
             Tile[][] hallwayTiles = hallway.getTiles();
             for(int row = 0; row < hallwayTiles.length; row++){
                 for(int col = 0; col < hallwayTiles[row].length; col++){
@@ -94,4 +101,5 @@ public class Dungeon {
 
         return tiles;
     }
+
 }
