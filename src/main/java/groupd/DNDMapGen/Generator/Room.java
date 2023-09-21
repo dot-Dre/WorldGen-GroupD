@@ -1,11 +1,14 @@
 package groupd.DNDMapGen.Generator;
 
+import java.util.Arrays;
+
 public class Room {
 
     private int x;
     private int y;
     private final int width;
     private final int height;
+    private final Tile[][] tiles;
 
     /**
      * Constructs a new Room with the specified position and dimensions.
@@ -20,6 +23,18 @@ public class Room {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.tiles = new Tile[height][width];
+
+        // Initialize the perimeter of the room to be walls
+        for (int row = 0; row < height; row++){
+            for (int col = 0; col < width; col++){
+                if(row == 0 || row == height - 1 || col == 0 || col == width - 1){
+                    tiles[row][col] = Tile.WALL;
+                } else {
+                    tiles[row][col] = Tile.FLOOR;
+                }
+            }
+        }
     }
 
     public void moveTo(int x, int y){
@@ -51,21 +66,26 @@ public class Room {
         return y + (int) Math.round(height/2.0);
     }
 
-    public String[][] toStringArray(){
-        String[][] room = new String[height][width];
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++) {
-                if ((i == 0 || i == height - 1) && (j == 0 || j == width - 1)) {
-                    room[i][j] = "+";
-                } else if (i == 0 || i == height - 1) {
-                    room[i][j] = "-";
-                } else if (j == 0 || j == width - 1) {
-                    room[i][j] = "|";
-                } else {
-                    room[i][j] = " ";
-                }
-            }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Room other)) return false;
+        // Equal if they are in the same position and have the same dimensions
+        return x == other.x
+                && y == other.y
+                && width == other.width
+                && height == other.height;
+    }
+
+    /**
+     * Returns a copy of the tiles in this room
+     * @return A copy of the tiles in this room
+     */
+    public Tile[][] getTiles(){
+        Tile[][] copy = new Tile[height][width];
+        for (int row = 0; row < height; row++){
+            copy[row] = Arrays.copyOf(tiles[row], width);
         }
-        return room;
+        return copy;
     }
 }

@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 public class DefaultRoomFactory extends AbstractRoomFactory {
 
-
     /**
      * Generates a collection of non-overlapping rooms based on the given map size.
      * <p>
@@ -51,7 +50,7 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
             int height = (int) (Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
 
             // Ensure the width to height ratio isn't too skewed (We don't want long skinny rooms)
-            while (width / (double)height > 2 || height / (double)width > 2) {
+            while (width / (double)height > 2.5 || height / (double)width > 2.5) {
                 width = (int) Math.round(Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
                 height = (int) Math.round(Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
             }
@@ -60,7 +59,7 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
         }
 
         separateRooms(rooms);
-        adjustNegativePosition(rooms);
+        normalizeRoomPosition(rooms);
         return rooms;
     }
 
@@ -69,7 +68,7 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
         double averageHeight = rooms.stream().mapToInt(Room::height).average().orElse(0);
 
         return rooms.stream()
-                .filter(room -> room.width() >= averageWidth && room.height() >= averageHeight && Math.random() < 0.8)
+                .filter(room -> room.width() >= averageWidth && room.height() >= averageHeight)
                 .collect(Collectors.toList());
     }
 

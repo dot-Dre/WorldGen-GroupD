@@ -16,7 +16,7 @@ public abstract class AbstractRoomFactory {
     /**
      * The default minimum room size
      */
-    private static final int DEFAULT_MIN_ROOM_SIZE = 10;
+    private static final int DEFAULT_MIN_ROOM_SIZE = 5;
 
     /**
      * Generates a collection of rooms
@@ -31,6 +31,7 @@ public abstract class AbstractRoomFactory {
      * @param rooms The rooms to separate
      */
     protected void separateRooms(Collection<Room> rooms){
+        System.out.println("Creating physics world...");
         Map<Body, Room> roomBodies = new HashMap<>();
         // Create a dyn4j world
         World<Body> world = new World<>();
@@ -53,10 +54,12 @@ public abstract class AbstractRoomFactory {
         }
 
         // Simulate the world until all bodies are at rest
+        System.out.println("Simulating physics...");
         while(!allBodiesAtRest(world)){
             world.step(1);
         }
 
+        System.out.println("Saving room positions...");
         // Update the room positions
         for(Body b: world.getBodies()){
             Room room = roomBodies.get(b);
@@ -65,7 +68,7 @@ public abstract class AbstractRoomFactory {
         }
     }
 
-    protected void adjustNegativePosition(Collection<Room> rooms){
+    protected void normalizeRoomPosition(Collection<Room> rooms){
         int minX = rooms.stream().mapToInt(Room::x).min().getAsInt();
         int minY = rooms.stream().mapToInt(Room::y).min().getAsInt();
         for(Room room : rooms){
@@ -95,9 +98,9 @@ public abstract class AbstractRoomFactory {
      */
     protected int getRoomCount(MapSize size){
         return switch (size) {
-            case SMALL -> 25;
-            case MEDIUM -> 50;
-            case LARGE -> 100;
+            case SMALL -> 50;
+            case MEDIUM -> 100;
+            case LARGE -> 150;
         };
     }
 

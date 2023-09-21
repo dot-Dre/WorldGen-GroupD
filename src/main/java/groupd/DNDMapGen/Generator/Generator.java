@@ -52,7 +52,7 @@ public class Generator {
 
     public static void main(String[] args) {
         DefaultRoomFactory roomFactory = new DefaultRoomFactory();
-        Collection<Room> rooms = roomFactory.generateRooms(MapSize.SMALL);
+        Collection<Room> rooms = roomFactory.generateRooms(MapSize.LARGE);
         Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms);
         MockRenderer.render(rooms, mainRooms, "./test.png");
     }
