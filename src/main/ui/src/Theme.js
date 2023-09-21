@@ -29,7 +29,10 @@ export const theme = createTheme({
 export const ourPalette = {
     primary: "#7711C6",
     secondary: "#92DF9B",
-    tertiary: "#A40D08"
+    tertiary: "#A40D08",
+    white: "#FFFFFF",
+    pageGradient: "linear-gradient(#34283d 5%, #000000 95%)",
+    // firstGradient: "linear-gradient()",
 };
 
 export default theme;
