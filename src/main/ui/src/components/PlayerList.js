@@ -13,7 +13,7 @@ import Notes from "../components/Notes";
 import { ourPalette } from "../Theme";
 import "./PlayerList.css";
 
-const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
+const PlayerList = ({ initialData, sx, gameID, isDMView }) => {
   const [data, setData] = useState(initialData);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -21,7 +21,7 @@ const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
 
   const handleClickOpen = (player) => {
     if (!isDMView) {
-      return
+      return;
     }
     setSelectedPlayer(player);
     setOpenDialog(true);
@@ -46,24 +46,23 @@ const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
   };
 
   const listStyle = {
-    height: height,
+    height: "50vh",
     overflowY: "auto",
     backgroundColor: ourPalette.blank,
     borderRadius: "2px",
     ...(sx || {}),
-    marginLeft: "calc((100% - 135%) / 2)",
-    marginRight: "calc((100% - 135%) / 2)",
-    width: "auto",
-    maxWidth: "150%",
+    marginLeft: "12%",
+    width: "75%",
   };
 
   const playersTypographyStyle = {
     fontFamily: "Monospace",
     fontWeight: "Bold",
     textAlign: "left",
-    marginLeft: "calc((100% - 135%) / 2)",
-    padding: "3vh 0px 1.2vh 0px",
-    color: ourPalette.white
+    marginLeft: "12%",
+    marginTop: "5vh",
+    paddingBottom: "3%",
+    color: ourPalette.secondary,
   };
 
   const gameIDTypographyStyle = {
@@ -73,8 +72,8 @@ const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
     textAlign: "left",
     color: ourPalette.secondary,
     fontSize: "3.5vh",
-    marginLeft: -30,
-    marginTop: 0,
+    marginLeft: "12%",
+    marginTop: 12,
   };
 
   const gameIDNumberTypographyStyle = {
@@ -82,7 +81,7 @@ const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
     // fontWeight: "Bold",
     color: ourPalette.white,
     textAlign: "left",
-    marginLeft: -30,
+    marginLeft: "12%",
     marginTop: -10,
   };
 
@@ -93,9 +92,6 @@ const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom style={gameIDTypographyStyle} >
-        Game ID:
-      </Typography>
       <Typography style={gameIDNumberTypographyStyle}>{gameID}</Typography>
       <Notes />
       <Typography variant="h6" style={playersTypographyStyle}>
@@ -106,29 +102,41 @@ const PlayerList = ({ initialData, height, sx, gameID, isDMView }) => {
           <ListItem key={index} onClick={() => handleClickOpen(item)}>
             <ListItemButton
               color="primary"
-              style={{ fontFamily: "monospace", borderRadius: "4px", color: ourPalette.white, }}
+              style={{
+                fontFamily: "monospace",
+                borderRadius: "4px",
+                color: ourPalette.white,
+              }}
               sx={{
-                '&:hover': {
-                  backgroundColor: ourPalette.black // Change this to your desired hover color
+                "&:hover": {
+                  backgroundColor: ourPalette.black, // Change this to your desired hover color
                 },
               }}
             >
               <ListItemText
                 primary={
-                  <span style={{ fontFamily: "monospace", fontSize: "0.6vw", }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "0.6vw" }}>
                     {item.name}
                   </span>
                 }
                 secondary={
                   <React.Fragment>
                     <span
-                      style={{ fontFamily: "monospace", fontSize: "0.6vw", color:ourPalette.smooth }}
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "0.6vw",
+                        color: ourPalette.smooth,
+                      }}
                     >
                       Role: {item.role}
                     </span>
                     <br />
                     <span
-                      style={{ fontFamily: "monospace", fontSize: "0.6vw", color:ourPalette.smooth }}
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "0.6vw",
+                        color: ourPalette.smooth,
+                      }}
                     >
                       Status: {item.status}
                     </span>

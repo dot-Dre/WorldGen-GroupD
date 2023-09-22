@@ -44,6 +44,7 @@ function Home() {
     setIsGenerateButtonHovered(true);
     setCreateButtonColor("secondary");
   };
+  
   const handleGenerateButtonMouseLeave = () => {
     setIsGenerateButtonHovered(false);
     setCreateButtonColor("primary");
