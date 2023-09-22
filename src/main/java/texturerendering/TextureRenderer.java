@@ -1,9 +1,7 @@
 package texturerendering;
+
 import groupd.DNDMapGen.Generator.Dungeon;
-import groupd.DNDMapGen.Generator.Generator;
 import groupd.DNDMapGen.Generator.Tile;
-import groupd.DNDMapGen.MapSize;
-import groupd.DNDMapGen.MapTheme;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,13 +13,28 @@ public class TextureRenderer {
 
     private HashMap<String, Texture> textureMap;
 
+    /**
+     * Creates a new TextureRenderer.
+     * The textures are loaded from the textures' folder.
+     * The textures are rendered to a file.
+     *
+     * @param dungeon The dungeon to render.
+     */
     public TextureRenderer(Dungeon dungeon) {
         this.textureMap = new HashMap<>();
         initializeTextures();
-        renderTextures(dungeon);
+        renderTextures(dungeon, 1);
+        renderTextures(dungeon, 2);
+        renderTextures(dungeon, 3);
+        renderTextures(dungeon, 4);
     }
 
-
+    /**
+     * Initializes the texture map with the textures in the textures folder.
+     * The textures are stored in a HashMap with the texture name as the key.
+     * The texture name is the file name without the extension.
+     * For example, the texture "wall_topinner.png" is stored with the key "wall_topinner".
+     */
     public void initializeTextures() {
         // Make sure textureMap is initialized
         if (textureMap == null) {
@@ -41,19 +54,28 @@ public class TextureRenderer {
         }
         System.out.println("Textures loaded: " + textureMap.size());
     }
-    public void renderTextures(Dungeon dungeon) {
-        Tile[][] tiles = dungeon.getTiles();
+
+    /**
+     * Renders the textures of the dungeon to a file.
+     *
+     * @param dungeon     The dungeon to render.
+     * @param scaleFactor The scale factor of the dungeon.
+     */
+    public void renderTextures(Dungeon dungeon, int scaleFactor) {
+        Tile[][] tiles = scaleDownDungeon(dungeon.getTiles(), scaleFactor);
+
+        int newWidth = tiles[0].length;
+        int newHeight = tiles.length;
         int tileWidth = 16;
         int tileHeight = 16;
 
-        // Create a BufferedImage to hold the textures
-        BufferedImage image = new BufferedImage(dungeon.width() * tileWidth, dungeon.height() * tileHeight, BufferedImage.TYPE_INT_ARGB);
+        // Create a new image
+        BufferedImage image = new BufferedImage(newWidth * tileWidth, newHeight * tileHeight, BufferedImage.TYPE_INT_RGB);
 
-        for (int y = 0; y < dungeon.height(); y++) {
-            for (int x = 0; x < dungeon.width(); x++) {
+        for (int y = 0; y < newHeight; y++) {
+            for (int x = 0; x < newWidth; x++) {
                 Tile tile = tiles[y][x];
                 Texture texture;
-
                 // Assign the texture based on the tile type
                 if (tile == Tile.EMPTY) {
                     texture = textureMap.get("wall_topinner");
@@ -64,19 +86,73 @@ public class TextureRenderer {
                 } else {
                     continue;
                 }
-
-                //get the BufferedImage
                 BufferedImage tileImage = texture.getImage();
-
-                // Draw this texture onto the main image at position (x * tileWidth, y * tileHeight)
-                image.getGraphics().drawImage(tileImage, x * tileWidth, y * tileHeight, null);
+                image.getGraphics().drawImage(tileImage, x * tileWidth, y * tileHeight, tileWidth, tileHeight, null);
             }
         }
+
         // Save the image to disk
         try {
-            ImageIO.write(image, "PNG", new File("outputMap.png"));
+            ImageIO.write(image, "PNG", new File("outputMap_" + scaleFactor + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Scales down the dungeon by the specified scale factor.
+     * The scale factor is the number of tiles in the new dungeon in one dimension.
+     * For example, a scale factor of 2 means that the new dungeon is 2x2 tiles.
+     * The new dungeon is created by taking the tile with the highest priority in each area.
+     * The priority is determined by the following rules:
+     * - If any tile in the area is a wall, return a wall.
+     * - If any tile in the area is a floor, return a floor.
+     * - Otherwise, return an empty tile.
+     *
+     * @param originalTiles The tiles to scale down.
+     * @param scaleFactor   The scale factor.
+     * @return The scaled down tiles.
+     */
+    public Tile[][] scaleDownDungeon(Tile[][] originalTiles, int scaleFactor) {
+        int originalWidth = originalTiles[0].length;
+        int originalHeight = originalTiles.length;
+        int newWidth = originalWidth / scaleFactor;
+        int newHeight = originalHeight / scaleFactor;
+
+        Tile[][] scaledTiles = new Tile[newHeight][newWidth];
+
+        for (int y = 0; y < newHeight; y++) {
+            for (int x = 0; x < newWidth; x++) {
+                scaledTiles[y][x] = getPrioritizedTile(originalTiles, x, y, scaleFactor);
+            }
+        }
+
+        return scaledTiles;
+    }
+
+    /**
+     * Returns the tile with the highest priority in the specified area.
+     * The area is specified by the top left corner (x, y) and the scale factor.
+     *
+     * @param tiles       The tiles to search.
+     * @param x           The x coordinate of the top left corner of the area.
+     * @param y           The y coordinate of the top left corner of the area.
+     * @param scaleFactor The scale factor of the area.
+     * @return The tile with the highest priority in the specified area.
+     */
+    public Tile getPrioritizedTile(Tile[][] tiles, int x, int y, int scaleFactor) {
+        Tile prioritizedTile = Tile.EMPTY;
+        for (int dy = 0; dy < scaleFactor; dy++) {
+            for (int dx = 0; dx < scaleFactor; dx++) {
+                Tile tile = tiles[y * scaleFactor + dy][x * scaleFactor + dx];
+                // Priority: WALL > FLOOR > EMPTY
+                if (tile == Tile.WALL) {
+                    return Tile.WALL;
+                } else if (tile == Tile.FLOOR) {
+                    prioritizedTile = Tile.FLOOR;
+                }
+            }
+        }
+        return prioritizedTile;
     }
 }
