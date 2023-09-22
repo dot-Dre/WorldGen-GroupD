@@ -1,8 +1,7 @@
-body {
+.Home {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background-image: linear-gradient(#34283d 5%, #000000 95%);
   background-size: cover;
   overflow: hidden;
 }
@@ -29,7 +28,7 @@ body {
 .text-field {
   background-color: #222822;
   color: #ffffff;
-  border-radius: 6px;
+  border-radius: 2px;
   border: none;
 }
 

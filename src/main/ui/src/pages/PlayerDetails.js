@@ -6,15 +6,19 @@ import theme from "../Theme";
 import "./PlayerDetails.css";
 import lostEyes from "./assets/lostEyes.gif";
 import monsters from "./assets/monsters.gif";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setPlayerName } from "../slices/playerNameSlice";
 import { setPlayerRole } from "../slices/roleSlice";
+import { ourPalette } from "../Theme";
 import character from "./assets/hood.png"
 
 function PlayerDetails() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+
+  const navigateToPlayerView = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -22,12 +26,14 @@ function PlayerDetails() {
   const handleAdventureStart = () => {
     dispatch(setPlayerName(name))
     dispatch(setPlayerRole(role))
+    navigateToPlayerView("/PlayerView")
   };
 
   const isButtonDisabled = name.trim() === "" || role.trim() === "";
 
   return (
-    <motion.div
+    <body style={{background:ourPalette.pageGradient}} className="PlayerDetails">
+      <motion.div
         initial={{opacity: 0}}
         animate={{opacity: 1}}
         exit={{opacity: 0}}
@@ -35,28 +41,31 @@ function PlayerDetails() {
       <ThemeProvider theme={theme}>
         <SplitScreen leftSpace={1} rightSpace={3}>
           <div>
-            <h1 style={{ color: "#bdffcf" }} className="title-text">
+            <h1 style={{ color: ourPalette.secondary, fontFamily: 'Monospace'}} className="title-text">
               Who Are You?
             </h1>
-            <h3 style={{ color: "#ffffff" }} className="help-text">
+            <h3 style={{ color: ourPalette.white }} className="help-text">
               Before you enter the game, inscribe your name and role below.
             </h3>
 
             <h4
-              style={{ color: "#ffffff", marginTop: "9vh", marginLeft: "7vw" }}
+              style={{ color: ourPalette.white, marginTop: "9vh", marginLeft: "7vw", fontFamily: 'Monospace' }}
             >
               Enter your Name
             </h4>
             <TextField
               sx={{
                 input: {
-                  color: "#ffffff",
+                  color: ourPalette.white,
                 },
                 marginLeft: "7vw",
                 marginTop: "",
               }}
+              InputProps={{
+                style: { color: ourPalette.white, fontFamily: 'Courier New, monospace', fontSize: '90%' }
+              }}
               label="Name"
-              variant="outlined"
+              variant="filled"
               color="secondary"
               autoFocus={true}
               className="text-field"
@@ -65,7 +74,7 @@ function PlayerDetails() {
               onChange={(e) => setName(e.target.value)}
             />
             <h4
-              style={{ color: "#ffffff", marginTop: "4vh", marginLeft: "7vw" }}
+              style={{ color: ourPalette.white, marginTop: "4vh", marginLeft: "7vw", fontFamily: 'Monospace' }}
             >
               Declare your Role
             </h4>
@@ -77,8 +86,11 @@ function PlayerDetails() {
                 marginLeft: "7vw",
                 marginTop: "1vh",
               }}
+              InputProps={{
+                style: { color: ourPalette.white, fontFamily: 'Courier New, monospace', fontSize: '90%' }
+              }}
               label="Role"
-              variant="outlined"
+              variant="filled"
               color="secondary"
               autoFocus={true}
               className="text-field"
@@ -93,13 +105,14 @@ function PlayerDetails() {
               onClick={handleAdventureStart}
               disabled={isButtonDisabled}
               sx={{
+                fontFamily: 'Monospace',
                 "&.Mui-disabled": {
-                  borderColor: "#9d82ab",
-                  color: "#9d82ab", // Text color in disabled state
+                  borderColor: ourPalette.disabled,
+                  color: ourPalette.disabled, // Text color in disabled state
                 },
                 "&:hover": {
-                  borderColor: "#92DF9B",
-                  color: "#92DF9B",
+                  borderColor: ourPalette.primary,
+                  color: ourPalette.primary,
                 },
               }}
             >
@@ -141,6 +154,7 @@ function PlayerDetails() {
         </SplitScreen>
       </ThemeProvider>
     </motion.div>
+    </body>
   );
 }
 

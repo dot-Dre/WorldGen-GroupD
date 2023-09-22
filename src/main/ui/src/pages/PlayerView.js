@@ -6,23 +6,33 @@ import animationData from "./assets/overlay.json";
 import theme from "../Theme";
 import PlayerList from "../components/PlayerList";
 import data from "./testData/mockPlayers.json";
+import { ourPalette } from "../Theme";
+import { motion } from "framer-motion";
+import "./PlayerView.css";
 
 function PlayerView() {
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container spacing={0}>
+    <body style={{backgroundColor:ourPalette.blank}} className="PlayerView">
+      <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <ThemeProvider theme={theme}>
+      <Grid container spacing={0} >
         {/* Control Panel on the left */}
         <Grid
           item
-          xs={3}
+          xs={2}
           style={{
-            backgroundColor: "#E0E0E0",
-            borderRight: "2px solid #3C3C3C",
+            // backgroundColor: "#E0E0E0",
+            // borderRight: "2px solid #3C3C3C",
+            background:ourPalette.tabGradient
           }}
         >
           <Container
             style={{
-              width: "80%",
+              width: "65%",
               textAlign: "center",
               color: "#3C3C3C",
               paddingTop: "50px",
@@ -44,7 +54,7 @@ function PlayerView() {
           </Container>
         </Grid>
         {/* Game Window on the right */}
-        <Grid item xs={9}>
+        <Grid item xs={10}>
           <div style={{ width: "100%", height: "100vh", position: "relative" }}>
             <Lottie
               animationData={animationData}
@@ -60,6 +70,8 @@ function PlayerView() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </motion.div>
+    </body>
   );
 }
 

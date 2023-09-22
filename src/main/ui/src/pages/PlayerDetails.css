@@ -1,8 +1,7 @@
-body {
+.PlayerDetails {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background-image: linear-gradient(to right, #31213d, #020004, #000000);
   background-size: cover;
   overflow: hidden;
 }

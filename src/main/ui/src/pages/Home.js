@@ -6,17 +6,12 @@ import { SplitScreen } from "../components/SplitScreen";
 import { DragDrop } from "../components/DragDrop";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
-import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { ourPalette } from "../Theme";
 
-import animationData from "./assets/overlay.json";
 import "./Home.css";
 import logo from "./assets/logo.png";
-import hall from "./assets/hood.png"
-import overlay from "./assets/overlaygrid.png";
 import gen from "./assets/gen.gif"
-import { useSelector } from "react-redux";
 
 /**
  * This function returns the Home page component. This page
@@ -83,7 +78,8 @@ function Home() {
   };
 
   return (
-    <motion.div
+    <body style={{background:ourPalette.pageGradient}} className="Home">
+      <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -102,7 +98,7 @@ function Home() {
               }}
             />
             <div className="code-div">
-              <h2 style={{ color: "#ffffff" }} className="code-prompt">
+              <h2 style={{ color: ourPalette.white, fontFamily: 'Monospace' }} className="code-prompt">
                 Enter A Game ID
               </h2>
               <Grid container spacing={2} alignItems="center">
@@ -110,11 +106,11 @@ function Home() {
                 <TextField
                     sx={{
                       input: {
-                        color: "#ffffff",
+                        color: ourPalette.white,
                       },
                     }}
                     label="9-digit Code"
-                    variant="outlined"
+                    variant="filled"
                     color="secondary"
                     autoFocus="True"
                     className="text-field"
@@ -168,7 +164,7 @@ function Home() {
           </p>
         </div> */}
             <div className="game-div">
-              <h3 style={{ color: "#ffffff" }}>Generate A Dungeon!</h3>
+              <h3 style={{ color: ourPalette.white, fontFamily: 'Monospace' }}>Generate A Dungeon!</h3>
               <Button
                 variant="outlined"
                 size="small"
@@ -177,11 +173,11 @@ function Home() {
                 onMouseEnter={handleGenerateButtonMouseEnter}
                 onMouseLeave={handleGenerateButtonMouseLeave}
               >
-                <Typography variant="body1" className="button-text">
+                <Typography variant="body1" className="button-text" sx={{fontFamily: 'Monospace', fontSize: '2vh'}}>
                   Create Dungeon
                 </Typography>
               </Button>
-              <h3 style={{ color: "#ffffff" }}>
+              <h3 style={{ color: ourPalette.white, fontFamily: 'Monospace' }}>
                 Load A Previously Generated Dungeon!
               </h3>
               <Button
@@ -192,7 +188,7 @@ function Home() {
                 onMouseLeave={handleLoadButtonMouseLeave}
                 onClick={handleOpen}
               >
-                <Typography variant="body1" className="button-text">
+                <Typography variant="body1" className="button-text" sx={{fontFamily: 'Monospace', fontSize: '2vh'}}>
                   Load Dungeon
                 </Typography>
               </Button>
@@ -206,7 +202,7 @@ function Home() {
               </Modal>
             </div>
             <div className="help-text">
-              <p style={{ color: "#ffffff" }}>
+              <p style={{ color: ourPalette.white }}>
                 {isLoadButtonHovered
                   ? 'Rediscover history with the "Load" button. Revisit a curated Dungeons & Dragons adventure, where challenges and treasures await from previous explorers. Relive the experience, uncovering the tales etched into this pre-generated world.'
                   : isGenerateButtonHovered
@@ -228,6 +224,7 @@ function Home() {
         </SplitScreen>
       </ThemeProvider>
     </motion.div>
+    </body>
   );
 }
 

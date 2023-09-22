@@ -31,8 +31,24 @@ export const ourPalette = {
     secondary: "#92DF9B",
     tertiary: "#A40D08",
     white: "#FFFFFF",
-    pageGradient: "linear-gradient(#34283d 5%, #000000 95%)",
-    // firstGradient: "linear-gradient()",
+    disabled: "#9d82ab",
+    black: "#000000",
+    blank:"#1a191c",
+    blankDarker:"",
+    smooth:"#87868a",
+    pageGradient: "linear-gradient(90deg, rgba(20,5,46,1) 21%, rgba(0,0,0,1) 50%)",
+    tabGradient: "linear-gradient(rgba(20,5,46,1) 21%, rgba(0,0,0,1) 50%)",
+    modalGradient: "linear-gradient(rgba(2,0,36,1) 0%, rgba(222,207,242,1) 0%, rgba(20,14,24,1) 96%)",
+
+    buttonBorders: {
+        light: "#f2f207",
+        base: "#b7ff00",
+        dark: "#3fdb07"
+    },
+
+    buttonColors: {
+        primary: "#080114"
+    }
 };
 
 export default theme;
