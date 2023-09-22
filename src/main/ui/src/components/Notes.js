@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
+import { ourPalette } from "../Theme";
 
 const Notes = () => {
   const [notes, setNotes] = useState("");
@@ -22,12 +23,16 @@ const Notes = () => {
   };
 
   const notesStyle = {
-    height: "10vh",
-    marginLeft: "calc((100% - 135%) / 2)",
-    marginRight: "calc((100% - 135%) / 2)",
-    width: "135%",
-    maxWidth: "150%",
-    padding: "1.2vh 0px 1.2vh 0px",
+    // height: "10vh",
+    marginLeft: "12%",
+    // marginRight: "calc((100% - 135%) / 2)",
+    width: "75%",
+    // maxWidth: "150%",
+    marginTop: "10%",
+    // padding: "1.2vh 0px 1.2vh 0px",
+    backgroundColor: "#27252b",
+    borderRadius: "2px",
+    color:ourPalette.white,
   }
 
   return (
@@ -36,11 +41,14 @@ const Notes = () => {
         label="Notes"
         multiline
         rows={4}
-        variant="outlined"
+        variant="filled"
         fullWidth
         value={notes}
         onChange={handleNotesChange}
         style={notesStyle}
+        InputProps={{
+          style: { color: ourPalette.white, fontFamily: 'Courier New, monospace', fontSize: '90%' }
+        }}
       />
     </div>
   );

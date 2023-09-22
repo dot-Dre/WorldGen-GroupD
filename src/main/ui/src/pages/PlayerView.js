@@ -1,65 +1,85 @@
-import React from "react";
-import { Container, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Button, Container, Grid, IconButton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Lottie from "lottie-react";
 import animationData from "./assets/overlay.json";
 import theme from "../Theme";
 import PlayerList from "../components/PlayerList";
 import data from "./testData/mockPlayers.json";
+import { ourPalette } from "../Theme";
+import { color, motion, useCycle } from "framer-motion";
+import * as IoIcon from "react-icons/io5";
+import "./PlayerView.css";
+import TransformImage from "../components/TransformImage";
+import { Link } from "react-router-dom";
+import dummy from "./assets/gen.gif";
+import { Typography } from "@mui/material";
 
 function PlayerView() {
+  const [show, setShow] = useState(true);
+  const [slide, setSlide] = useCycle(2, 1);
+
+  const reveal = () => {
+    setShow(!show);
+    setSlide();
+  };
+
+  const tabStyle = {
+    flex: 1,
+    background: ourPalette.tabGradient,
+    marginLeft: show ? 0 : "-40%",
+    // opacity: show ? 1 : 0,
+    transition: "margin-left 0.1s ease",
+    width: "20%",
+    height: "100vh",
+  };
+
+  const tabImgStyle = {
+    position: "absolute",
+    marginLeft: show ? "20vw" : "15vw",
+    transition: "margin-left 0.1s ease",
+    marginTop: "-100vh",
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container spacing={0}>
-        {/* Control Panel on the left */}
-        <Grid
-          item
-          xs={3}
-          style={{
-            backgroundColor: "#E0E0E0",
-            borderRight: "2px solid #3C3C3C",
-          }}
-        >
-          <Container
-            style={{
-              width: "80%",
-              textAlign: "center",
-              color: "#3C3C3C",
-              paddingTop: "50px",
-              height: "100vh",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <PlayerList
-                initialData={data}
-                height={"46vh"}
-                gameID={123123123}
-                isDMView={false}
-              />
-            </div>
-          </Container>
-        </Grid>
-        {/* Game Window on the right */}
-        <Grid item xs={9}>
-          <div style={{ width: "100%", height: "100vh", position: "relative" }}>
-            <Lottie
-              animationData={animationData}
+    <body style={{ background: ourPalette.black, overflow: "hidden" }}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ThemeProvider theme={theme}>
+          <nav style={{ backgroundColor: ourPalette.blank, height:"3vh" }}>
+            <Button onClick={reveal}>
+              {show ? <IoIcon.IoCaretBack/> : <IoIcon.IoCaretForward/>}
+            </Button>
+          </nav>
+          <nav style={tabStyle}>
+            <Typography
+              variant="h5"
+              gutterBottom
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
+                fontFamily: "Monospace",
+                fontWeight: "Bold",
+                textAlign: "left",
+                color: ourPalette.secondary,
+                fontSize: "3.5vh",
+                marginLeft: "12%",
+                paddingTop: "7%"
               }}
-            />
+            >
+              Game ID:
+            </Typography>
+            <div>
+              <PlayerList initialData={data} gameID={"234-900-001"} />
+            </div>
+          </nav>
+          <div style={tabImgStyle}>
+            <TransformImage img={dummy} imgWidth={"70vw"} imgHeight={"90vh"} />
           </div>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+        </ThemeProvider>
+      </motion.div>
+    </body>
   );
 }
 

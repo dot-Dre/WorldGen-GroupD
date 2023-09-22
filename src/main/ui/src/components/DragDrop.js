@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setFile } from "../slices/fileSlice";
 import { FileParser } from "../util/FileParser";
+import { ourPalette } from "../Theme";
 
 import dragDrop from "./dragdrop.png";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -70,8 +71,8 @@ export const DragDrop = (props) => {
     <Box
       sx={{
         position: "absolute",
-        backgroundImage: "linear-gradient(#781da8, #4a285c, #211f26)",
-        borderRadius: "20px",
+        backgroundImage: ourPalette.modalGradient,
+        borderRadius: "2px",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
