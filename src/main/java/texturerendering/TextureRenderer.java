@@ -14,13 +14,11 @@ import java.util.HashMap;
 public class TextureRenderer {
 
     private HashMap<String, Texture> textureMap;
-    private Dungeon dungeon;
-    public TextureRenderer() {
+
+    public TextureRenderer(Dungeon dungeon) {
         this.textureMap = new HashMap<>();
-        Generator generator = new Generator(MapSize.SMALL, MapTheme.MANSION);
-        this.dungeon = generator.build();
         initializeTextures();
-        renderTextures();
+        renderTextures(dungeon);
     }
 
 
@@ -41,9 +39,9 @@ public class TextureRenderer {
             Texture texture = new Texture(name, file.getPath(), 16, 16);
             textureMap.put(key, texture);
         }
-        System.out.println(textureMap);
+        System.out.println("Textures loaded: " + textureMap.size());
     }
-    public void renderTextures() {
+    public void renderTextures(Dungeon dungeon) {
         Tile[][] tiles = dungeon.getTiles();
         int tileWidth = 16;
         int tileHeight = 16;
@@ -51,9 +49,9 @@ public class TextureRenderer {
         // Create a BufferedImage to hold the textures
         BufferedImage image = new BufferedImage(dungeon.width() * tileWidth, dungeon.height() * tileHeight, BufferedImage.TYPE_INT_ARGB);
 
-        for (int x = 0; x < dungeon.width(); x++) {
-            for (int y = 0; y < dungeon.height(); y++) {
-                Tile tile = tiles[x][y];
+        for (int y = 0; y < dungeon.height(); y++) {
+            for (int x = 0; x < dungeon.width(); x++) {
+                Tile tile = tiles[y][x];
                 Texture texture;
 
                 // Assign the texture based on the tile type
@@ -74,7 +72,6 @@ public class TextureRenderer {
                 image.getGraphics().drawImage(tileImage, x * tileWidth, y * tileHeight, null);
             }
         }
-
         // Save the image to disk
         try {
             ImageIO.write(image, "PNG", new File("outputMap.png"));
