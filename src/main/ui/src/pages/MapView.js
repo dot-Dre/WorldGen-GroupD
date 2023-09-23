@@ -1,89 +1,251 @@
-import React, { useState } from 'react';
-import { Container, Button, Typography, Grid, Box, TextField } from '@mui/material';
+import React, { useState } from "react";
+import {
+  Button,
+  Typography,
+  TextField,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { ourPalette } from "../Theme";
+import TransformImage from "../components/TransformImage";
+import * as IoIcon from "react-icons/io5";
+import * as BiIcon from "react-icons/bi";
+import theme from "../Theme";
+import { ThemeProvider } from "@mui/material/styles";
+import dummy from "./assets/test.png";
+import SpeedDial from "@mui/material/SpeedDial";
+import { SpeedDialAction } from "@mui/material";
+
+const dummyFunction = () => {
+  alert("dummy");
+};
+
+const actions = [
+  {
+    icon: <BiIcon.BiSolidSave />,
+    name: "Save your dungeon as a .json file!",
+    onClick: () => {
+      dummyFunction();
+    },
+  },
+  { icon: <BiIcon.BiSolidPrinter />, name: "Print your map!" },
+  { icon: <BiIcon.BiShareAlt />, name: "Share your map using a link!" },
+];
 
 function MapView() {
-    const [infoText, setInfoText] = useState('Game details will appear here.');
+  const [show, setShow] = useState(true);
 
-    const handleRegenerateClick = () => {
-        console.log(`Regenerating dungeon...`);
-        // Add your regeneration logic here.
-    };
+  const reveal = () => {
+    setShow(!show);
+  };
 
-    const handleBeginGame = () => {
-        console.log(`Beginning game...`);
-        // Logic for starting the game
-    };
+  const tabStyle = {
+    flex: 1,
+    background: ourPalette.tabGradient,
+    marginLeft: show ? 0 : "-40%",
+    transition: "margin-left 0.1s ease",
+    width: "20%",
+    height: "100vh",
+  };
 
-    const handleSaveGame = () => {
-        console.log(`Saving game...`);
-        // Logic for saving the game
-    };
+  const tabImgStyle = {
+    // position: "absolute",
+    marginLeft: show ? "20vw" : "15vw",
+    transition: "margin-left 0.1s ease",
+    marginTop: "-100vh",
+  };
 
-    return (
-        <Grid container spacing={0}>
-            {/* Control Panel on the left */}
-            <Grid item xs={2} style={{ backgroundColor: '#E0E0E0', borderRight: '2px solid #3C3C3C' }}>
-                <Container style={{ width: '80%', textAlign: 'center', color: '#3C3C3C', paddingTop: '50px', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
-
-                    <Typography variant="h4" gutterBottom style={{ textTransform: 'uppercase', fontFamily: 'fantasy' }}>
-                        All Done
-                    </Typography>
-
-                    {/* Game Details Text Box */}
-                    <Box mb={4} width="100%">
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            multiline
-                            rows={4}
-                            value={infoText}
-                            disabled // If you don't want users to modify it
-                        />
-                    </Box>
-
-                    {/* Begin and Save Game Buttons */}
-                    <Button
-                        variant="outlined"
-                        fullWidth
-                        size="medium"
-                        style={{ marginBottom: '15px', color: '#3C3C3C', borderColor: '#3C3C3C', backgroundColor: '#D0D0D0' }}
-                        onClick={handleBeginGame}
-                    >
-                        Begin Game
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        fullWidth
-                        size="medium"
-                        style={{ marginBottom: '15px', color: '#3C3C3C', borderColor: '#3C3C3C', backgroundColor: '#D0D0D0' }}
-                        onClick={handleSaveGame}
-                    >
-                        Save Game
-                    </Button>
-
-                    {/* Regenerate Button */}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        style={{ marginBottom: '20px', backgroundColor: '#3C3C3C', color: '#E0E0E0' }}
-                        onClick={handleRegenerateClick}
-                        onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#4C4C4C'; }}
-                        onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#3C3C3C'; }}
-                    >
-                        Regenerate
-                    </Button>
-                </Container>
-            </Grid>
-
-            {/* Map View on the right */}
-            <Grid item xs={10}>
-                <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-                    {/* This is where your map or any other content will go. */}
-                </div>
-            </Grid>
-        </Grid>
-    );
+  return (
+    <body style={{ backgroundColor: ourPalette.black, overflow: "hidden" }}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ThemeProvider theme={theme}>
+          <nav style={{ backgroundColor: ourPalette.blank, height: "3vh" }}>
+            <Button onClick={reveal}>
+              {show ? <IoIcon.IoCaretBack /> : <IoIcon.IoCaretForward />}
+            </Button>
+          </nav>
+          <nav style={tabStyle}>
+            <div>
+              <ControlPanel />
+            </div>
+          </nav>
+          <div style={tabImgStyle}>
+            <TransformImage img={dummy} imgWidth={"70vw"} imgHeight={"100vh"} />
+          </div>
+          { !show ? <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            direction="up"
+            FabProps={{
+              style: {
+                width: "50px",
+                height: "50px",
+                borderRadius: "0%",
+                backgroundColor: ourPalette.primary,
+              },
+            }}
+            sx={{ position: 'absolute', bottom: 16, right: 16 }}
+            icon={<BiIcon.BiDownload />}
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                onClick={action.onClick}
+              />
+            ))}
+          </SpeedDial> : <></>}
+        </ThemeProvider>
+      </motion.div>
+    </body>
+  );
 }
+
+const ControlPanel = () => {
+  const [infoText, setInfoText] = useState(
+    "Generation details will appear here"
+  );
+
+  const handleRegenerateClick = () => {
+    console.log(`Regenerating dungeon...`);
+    // Add your regeneration logic here.
+  };
+
+  const handleBeginGame = () => {
+    console.log(`Beginning game...`);
+    // Logic for starting the game
+  };
+
+  return (
+    <>
+      <Typography
+        variant="h3"
+        style={{
+          fontFamily: "Monospace",
+          fontWeight: "Bold",
+          paddingLeft: "12%",
+          paddingTop: "12%",
+          color: ourPalette.secondary,
+        }}
+      >
+        All Done!
+      </Typography>
+      <Typography
+        variant="p"
+        style={{
+          fontFamily: "Monospace",
+          paddingLeft: "12%",
+          fontSize: "20px",
+          color: ourPalette.white,
+        }}
+      >
+        Generation Details
+      </Typography>
+      <TextField
+        // fullWidth
+        variant="filled"
+        multiline
+        rows={7}
+        style={{
+          marginLeft: "12%",
+          marginTop: "5%",
+          width: "70%",
+          backgroundColor: ourPalette.blank,
+          borderRadius: "2px",
+        }}
+        value={infoText}
+        inputProps={{
+          style: {
+            fontFamily: "Monospace",
+            color: ourPalette.white,
+          },
+        }}
+        // disabled // If you don't want users to modify it
+      />
+      <Button
+        variant="outlined"
+        onClick={handleBeginGame}
+        style={{
+          marginLeft: "12%",
+          marginTop: "5%",
+          width: "70%",
+          backgroundColor: ourPalette.blank,
+          borderRadius: "2px",
+          borderColor: ourPalette.secondary,
+          color: ourPalette.secondary,
+        }}
+      >
+        Begin Game
+      </Button>
+      <Typography
+        style={{
+          fontFamily: "Monospace",
+          paddingLeft: "12%",
+          paddingTop: "5%",
+          fontSize: "20px",
+          color: ourPalette.white,
+        }}
+      >
+        Save Options
+      </Typography>
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        direction="down"
+        FabProps={{
+          style: {
+            width: "50px",
+            height: "50px",
+            borderRadius: "0%",
+            backgroundColor: ourPalette.blank,
+            borderColor: ourPalette.white,
+          },
+        }}
+        style={{
+          marginLeft: "-70%",
+          marginTop: "5%",
+          paddingLeft: "5%",
+        }}
+        icon={<BiIcon.BiDownload />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.onClick}
+          />
+        ))}
+      </SpeedDial>
+      <Typography
+        style={{
+          fontFamily: "Monospace",
+          paddingLeft: "12%",
+          paddingTop: "5%",
+          fontSize: "15px",
+          color: ourPalette.white,
+        }}
+      >
+        Not Happy?
+      </Typography>
+      <Button
+        style={{
+          marginLeft: "12%",
+          marginTop: "5%",
+          width: "70%",
+          backgroundColor: ourPalette.blank,
+          borderRadius: "2px",
+          borderColor: ourPalette.secondary,
+          color: ourPalette.secondary,
+        }}
+        onClick={handleRegenerateClick}
+      >
+        Regenerate
+      </Button>
+    </>
+  );
+};
 
 export default MapView;
