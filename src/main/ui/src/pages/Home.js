@@ -26,7 +26,7 @@ import {
   LeftImageStyles,
 } from "./HomeStyle";
 
-// import "./Home.css"; // No longer using this, using component style or sx props
+import "./Home.css";
 import logo from "./assets/logo.png";
 import gen from "./assets/gen.gif";
 
@@ -71,11 +71,19 @@ export const Home = () => {
   const handleGameCodeChange = (event) => {
     const inputValue = event.target.value;
     setGameCode(inputValue);
-    setInputError(inputValue.length !== 9 || !/^\d+$/.test(inputValue));
+    setInputError(inputValue.length !== 9 || !/^\d+$/.test(inputValue))
   };
 
+  const gameCodeSubmit = () => {
+    localStorage.setItem("gameCode", gameCode)
+    // More logic here
+  }
+
   return (
-    <body style={HomeBody}>
+    <body
+    style={HomeBody}
+    // className="HomeBody"
+    >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -109,6 +117,7 @@ export const Home = () => {
                     } else {
                       setInputError(false);
                       navigateToView("/PlayerDetails");
+                      gameCodeSubmit();
                     }
                   }}
                   onMouseEnter={() => {

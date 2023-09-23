@@ -10,15 +10,14 @@ export const HomeBody = {
 export const LogoStyles = {
   marginLeft: "5%",
   width: "67%",
-  height: "67%",
-  marginTop: "-10%",
+  height: "67%"
 };
 
 export const EnterIDStyles = {
   color: ourPalette.white,
   fontFamily: "Monospace",
   marginLeft: "15%",
-  marginTop: "-15%",
+  marginTop: "",
 };
 
 export const CodeFieldStyles = {
@@ -28,6 +27,7 @@ export const CodeFieldStyles = {
   },
   backgroundColor: ourPalette.blank,
   marginLeft: "15%",
+
 };
 
 export const RocketButtonStyles = {
@@ -36,7 +36,8 @@ export const RocketButtonStyles = {
     color: "#9d82ab", // Text color in disabled state
   },
   marginLeft: "2%",
-  maxHeight: "90%",
+  // maxHeight: "90%",
+  height: "6.7vh"
 };
 
 export const EnterHelpStyles = {

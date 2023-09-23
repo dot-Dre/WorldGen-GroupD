@@ -1,95 +1,16 @@
-/*
- File no longer in use
-*/
-
-.Home {
-  margin: 0;
-  padding: 0;
+.HomeBody {
+  background-image: linear-gradient(
+    45deg,
+    rgba(0,0,0,1) 0%, rgba(37,27,93,1) 20%, rgba(0,0,0,1) 46%
+  );
   height: 100vh;
-  background-size: cover;
-  overflow: hidden;
+  width: 100vw;
+  overflow: "hidden";
+  animation: flowAnimation 2s infinite alternate;
 }
 
-/* #26212a, #1a161c */
-
-/* Replace these class names and properties with your actual styles */
-.logo-div {
-  background-image: url("./assets/logo.png");
-  background-size: cover;
-  background-position: center;
-  width: 35vw;
-  height: 30vh;
-  margin-top: 5vh;
-  margin-left: 5vw;
-}
-
-.code-div {
-  margin-left: 7vw;
-  margin-top: 0;
-  width: "50vw";
-}
-
-.text-field {
-  background-color: #222822;
-  color: #ffffff;
-  border-radius: 2px;
-  border: none;
-}
-
-.button {
-  background-color: #221252;
-  color: white;
-  height: 5vh;
-  display: flex; /* Add this line to make the content of the button flex container */
-  align-items: center; /* Center the content vertically */
-}
-
-.button:hover {
-  background-color: #92df9b
-}
-
-.button-text {
-  font-family: Arial;
-  font-weight: bold;
-  color: "#ffffff";
-  margin: 0 auto; /* Horizontally center the text within the button */
-}
-
-.game-div {
-  margin-left: 7vw;
-  margin-top: 7vh;
-}
-
-/* Add more CSS rules for other components as needed */
-.animation-div {
-  margin-top: 20vh;
-  margin-left: -15vw;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.help-text {
-  font-family: 'Courier New', monospace;
-  margin-left: 7vw;
-  font-size: medium;
-  animation-name: fade-in;
-  animation-duration: 2s;
-}
-
-.help-text:hover {
-  display: block;
-}
-
-.code-help {
-  color: #ffffff;
-  font-family: 'Courier New', monospace;
+@keyframes flowAnimation {
+  33% { background-position: -10px;}
+  66% {background-position: -20px;}
+  99% {background-position: -30px;}
 }
