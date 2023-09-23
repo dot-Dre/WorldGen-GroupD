@@ -1,59 +1,92 @@
 [
   {
-    "x": 15,
-    "y": 25,
-    "name": "Player 1",
+    "id": 1,
+    "x": -1,
+    "y": -1,
+    "name": "John",
     "role": "Assassin",
-    "status": "Alive"
+    "status": "Alive",
+    "isPlaced": false
   },
   {
-    "x": 30,
-    "y": 40,
-    "name": "Player 2",
+    "id": 2,
+    "x": -1,
+    "y": -1,
+    "name": "Sarah",
     "role": "Healer",
-    "status": "Dead"
+    "status": "Lost Memory",
+    "isPlaced": false
   },
   {
-    "x": 45,
-    "y": 60,
-    "name": "Player 3",
+    "id": 3,
+    "x": -1,
+    "y": -1,
+    "name": "David",
     "role": "Wizard",
-    "status": "Sleepy"
+    "status": "Alive",
+    "isPlaced": false
   },
   {
-    "x": 15,
-    "y": 25,
-    "name": "Player 1",
-    "role": "Assassin"
+    "id": 4,
+    "x": -1,
+    "y": -1,
+    "name": "Emma",
+    "role": "Rogue",
+    "status": "Imprisoned",
+    "isPlaced": false
   },
   {
-    "x": 30,
-    "y": 40,
-    "name": "Player 2",
-    "role": "Healer"
+    "id": 5,
+    "x": -1,
+    "y": -1,
+    "name": "Michael",
+    "role": "Cleric",
+    "status": "Poisoned",
+    "isPlaced": false
   },
   {
-    "x": 45,
-    "y": 60,
-    "name": "Player 3",
-    "role": "Wizard"
+    "id": 6,
+    "x": -1,
+    "y": -1,
+    "name": "Sophia",
+    "role": "Barbarian",
+    "status": "Asleep",
+    "isPlaced": false
   },
   {
-    "x": 15,
-    "y": 25,
-    "name": "Player 1",
-    "role": "Assassin"
+    "id": 7,
+    "x": -1,
+    "y": -1,
+    "name": "William",
+    "role": "Sorcerer",
+    "status": "Alive",
+    "isPlaced": false
   },
   {
-    "x": 30,
-    "y": 40,
-    "name": "Player 2",
-    "role": "Healer"
+    "id": 8,
+    "x": -1,
+    "y": -1,
+    "name": "Olivia",
+    "role": "Druid",
+    "status": "Dead",
+    "isPlaced": false
   },
   {
-    "x": 45,
-    "y": 60,
-    "name": "Player 3",
-    "role": "Wizard"
+    "id": 9,
+    "x": -1,
+    "y": -1,
+    "name": "James",
+    "role": "Monk",
+    "status": "Frozen",
+    "isPlaced": false
+  },
+  {
+    "id": 10,
+    "x": -1,
+    "y": -1,
+    "name": "Charlotte",
+    "role": "Paladin",
+    "status": "Alive",
+    "isPlaced": false
   }
 ]
