@@ -11,6 +11,7 @@ import { setPlayerName } from "../slices/playerNameSlice";
 import { setPlayerRole } from "../slices/roleSlice";
 import { ourPalette } from "../Theme";
 import character from "./assets/hood.png";
+import { EnterYourNameStyles, EnterYourRoleStyles, HoodPersonStyles, InputNameTextFieldStyles, InstructionStyles, NameTextFieldStyles, StartButtonStyles, WhoAreYouStyles } from "./PlayerDetailsStyle";
 
 function PlayerDetails() {
   // Navigation hook
@@ -49,54 +50,23 @@ function PlayerDetails() {
           <SplitScreen leftSpace={1} rightSpace={3}>
             <div>
               <h1
-                style={{
-                  color: ourPalette.secondary,
-                  fontFamily: "monospace",
-                  fontSize: "7vh",
-                  marginLeft: "7vw",
-                  marginTop: "25%",
-                }}
+                style={WhoAreYouStyles}
               >
                 Who Are You?
               </h1>
               <h3
-                style={{
-                  color: ourPalette.white,
-                  fontFamily: "monospace",
-                  marginLeft: "7vw",
-                }}
+                style={InstructionStyles}
               >
                 Before you enter the game, inscribe your name and role below.
               </h3>
               <h4
-                style={{
-                  color: ourPalette.white,
-                  marginTop: "9vh",
-                  marginLeft: "7vw",
-                  fontFamily: "Monospace",
-                }}
+                style={EnterYourNameStyles}
               >
                 Enter your Name
               </h4>
               <TextField
-                sx={{
-                  input: {
-                    color: ourPalette.white,
-                    backgroundColor: ourPalette.blank,
-                  },
-                  label: {
-                    color: ourPalette.white,
-                    fontFamily: "monospace",
-                  },
-                  marginLeft: "7vw",
-                }}
-                InputProps={{
-                  style: {
-                    color: ourPalette.white,
-                    fontFamily: "monospace",
-                    fontSize: "90%",
-                  },
-                }}
+                sx={NameTextFieldStyles}
+                InputProps={InputNameTextFieldStyles}
                 label="Name"
                 variant="filled"
                 color="secondary"
@@ -106,34 +76,13 @@ function PlayerDetails() {
                 onChange={(e) => setName(e.target.value)}
               />
               <h4
-                style={{
-                  color: ourPalette.white,
-                  marginTop: "4vh",
-                  marginLeft: "7vw",
-                  fontFamily: "monospace",
-                }}
+                style={EnterYourRoleStyles}
               >
                 Declare your Role
               </h4>
               <TextField
-                sx={{
-                  input: {
-                    color: "#ffffff",
-                  },
-                  label: {
-                    fontFamily: "monospace",
-                    color: ourPalette.white,
-                  },
-                  backgroundColor: ourPalette.blank,
-                  marginLeft: "7vw",
-                }}
-                InputProps={{
-                  style: {
-                    color: ourPalette.white,
-                    fontFamily: "Courier New, monospace",
-                    fontSize: "90%",
-                  },
-                }}
+                sx={NameTextFieldStyles}
+                InputProps={InputNameTextFieldStyles}
                 label="Role"
                 variant="filled"
                 color="secondary"
@@ -145,20 +94,9 @@ function PlayerDetails() {
               <Button
                 variant="outlined"
                 size="large"
-                style={{ marginLeft: "7vw", marginTop: "5vh" }}
                 onClick={handleAdventureStart}
                 disabled={isButtonDisabled}
-                sx={{
-                  fontFamily: "Monospace",
-                  "&.Mui-disabled": {
-                    borderColor: ourPalette.disabled,
-                    color: ourPalette.disabled, // Text color in disabled state
-                  },
-                  "&:hover": {
-                    borderColor: ourPalette.primary,
-                    color: ourPalette.primary,
-                  },
-                }}
+                sx={StartButtonStyles}
               >
                 Start Your Adventure
               </Button>
@@ -167,12 +105,7 @@ function PlayerDetails() {
               <img
                 src={character}
                 alt="crashed"
-                style={{
-                  marginLeft: "33vw",
-                  marginTop: "7vh",
-                  width: "60%",
-                  height: "60%",
-                }}
+                style={HoodPersonStyles}
               />
             </div>
           </SplitScreen>

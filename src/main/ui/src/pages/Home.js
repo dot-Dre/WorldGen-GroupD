@@ -9,6 +9,22 @@ import theme from "../Theme";
 import { motion } from "framer-motion";
 import * as BiIcons from "react-icons/bi";
 import { ourPalette } from "../Theme";
+import {
+  HomeBody,
+  LogoStyles,
+  EnterIDStyles,
+  CodeFieldStyles,
+  EnterHelpStyles,
+  RocketButtonStyles,
+  GenerateTextStyles,
+  CreateButtonStyles,
+  CreateButtonTextStyles,
+  LoadTextStyles,
+  LoadButtonStyles,
+  LoadButtonTextStyles,
+  DescriptionTextStyles,
+  LeftImageStyles,
+} from "./HomeStyle";
 
 // import "./Home.css"; // No longer using this, using component style or sx props
 import logo from "./assets/logo.gif";
@@ -59,14 +75,7 @@ export const Home = () => {
   };
 
   return (
-    <body
-      style={{
-        background: ourPalette.pageGradient,
-        overflow: "hidden",
-        backgroundSize: "cover",
-        height: "100vh",
-      }}
-    >
+    <body style={HomeBody}>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -75,36 +84,11 @@ export const Home = () => {
         <ThemeProvider theme={theme}>
           <SplitScreen leftSpace={2} rightSpace={1.5}>
             <Container height="100vh">
-              <img
-                src={logo}
-                alt="crashed"
-                style={{
-                  marginLeft: "5%",
-                  width: "67%",
-                  height: "67%",
-                  marginTop: "-10%",
-                }}
-              />
+              <img src={logo} alt="crashed" style={LogoStyles} />
               <div>
-                <h2
-                  style={{
-                    color: ourPalette.white,
-                    fontFamily: "Monospace",
-                    marginLeft: "15%",
-                    marginTop: "-15%",
-                  }}
-                >
-                  Enter A Game ID
-                </h2>
+                <h2 style={EnterIDStyles}>Enter A Game ID</h2>
                 <TextField
-                  sx={{
-                    // same as style prop
-                    input: {
-                      color: ourPalette.white,
-                    },
-                    backgroundColor: ourPalette.blank,
-                    marginLeft: "15%",
-                  }}
+                  sx={CodeFieldStyles}
                   label="9-digit Code"
                   variant="filled"
                   color="secondary"
@@ -114,14 +98,7 @@ export const Home = () => {
                   error={inputError} // Show error state
                 />
                 <Button
-                  sx={{
-                    "&.Mui-disabled": {
-                      borderColor: "#9d82ab",
-                      color: "#9d82ab", // Text color in disabled state
-                    },
-                    marginLeft: "2%",
-                    maxHeight: "90%",
-                  }}
+                  sx={RocketButtonStyles}
                   variant="outlined"
                   size="small"
                   color={goButtonColor}
@@ -148,39 +125,14 @@ export const Home = () => {
                 </Button>
               </div>
               {inputError ? (
-                <p
-                  style={{
-                    marginLeft: "15%",
-                    marginTop: "2vh",
-                    fontFamily: "Monospace",
-                    color: ourPalette.white,
-                  }}
-                >
+                <p style={EnterHelpStyles}>
                   Your game code isn't formatted correctly!
                 </p>
               ) : (
-                <p
-                  style={{
-                    marginLeft: "15%",
-                    marginTop: "2vh",
-                    fontFamily: "Monospace",
-                    color: ourPalette.white,
-                  }}
-                >
-                  e.g 143344561
-                </p>
+                <p style={EnterHelpStyles}>e.g 143344561</p>
               )}
               <div>
-                <h3
-                  style={{
-                    color: ourPalette.white,
-                    fontFamily: "Monospace",
-                    marginLeft: "15%",
-                    marginTop: "5%",
-                  }}
-                >
-                  Generate A Dungeon!
-                </h3>
+                <h3 style={GenerateTextStyles}>Generate A Dungeon!</h3>
                 <Button
                   variant="outlined"
                   size="small"
@@ -194,21 +146,17 @@ export const Home = () => {
                     setIsGenerateButtonHovered(false);
                     setCreateButtonColor("primary");
                   }}
-                  style={{ marginLeft: "15%" }}
+                  style={CreateButtonStyles}
                 >
                   <Typography
                     variant="body1"
-                    sx={{ fontFamily: "Monospace", fontSize: "2vh" }}
+                    sx={CreateButtonTextStyles}
                   >
                     Create Dungeon
                   </Typography>
                 </Button>
                 <h3
-                  style={{
-                    color: ourPalette.white,
-                    fontFamily: "Monospace",
-                    marginLeft: "15%",
-                  }}
+                  style={LoadTextStyles}
                 >
                   Load A Previously Generated Dungeon!
                 </h3>
@@ -225,11 +173,11 @@ export const Home = () => {
                     setLoadButtonColor("primary");
                   }}
                   onClick={handleOpen}
-                  style={{ marginLeft: "15%" }}
+                  style={LoadButtonStyles}
                 >
                   <Typography
                     variant="body1"
-                    sx={{ fontFamily: "Monospace", fontSize: "2vh" }}
+                    sx={LoadButtonTextStyles}
                   >
                     Load Dungeon
                   </Typography>
@@ -245,11 +193,7 @@ export const Home = () => {
               </div>
               <div>
                 <p
-                  style={{
-                    color: ourPalette.white,
-                    marginLeft: "15%",
-                    fontFamily: "monospace",
-                  }}
+                  style={DescriptionTextStyles}
                 >
                   {isLoadButtonHovered
                     ? 'Rediscover history with the "Load" button. Revisit a curated Dungeons & Dragons adventure, where challenges and treasures await from previous explorers. Relive the experience, uncovering the tales etched into this pre-generated world.'
@@ -262,12 +206,7 @@ export const Home = () => {
             <img
               src={gen}
               alt="crashed"
-              style={{
-                marginLeft: "2vw",
-                marginTop: "20vh",
-                width: "35vw",
-                height: "60vh",
-              }}
+              style={LeftImageStyles}
             />
           </SplitScreen>
         </ThemeProvider>

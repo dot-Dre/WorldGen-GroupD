@@ -9,25 +9,81 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-// import Lottie from "lottie-react";
-// import animationData from "./assets/overlay.json";
 import theme from "../Theme";
 import { ourPalette } from "../Theme";
-// import { color } from 'framer-motion';
 import { motion } from "framer-motion";
 import TransformImage from "../components/TransformImage";
 import gen from "./assets/gen.gif";
-// import "./Generate.css";
 import * as GiIcon from "react-icons/gi";
+import * as FaIcon from "react-icons/fa";
 
 export const Generate = () => {
   const [infoText, setInfoText] = useState("");
   const [showPopup, setShowPopup] = useState(true); // State to control the visibility of the popup
 
-  const handleGenerateClick = () => {
+  // Selection functionality
+  const [selectedTheme, setSelectedTheme] = useState("Graveyard");
+  const [selectedSize, setSelectedSize] = useState("Medium");
+
+  const [graveyardButtonColor, setGraveyardButtonColor] = useState(
+    ourPalette.white
+  );
+  const [mansionButtonColor, setMansionButtonColor] = useState(
+    ourPalette.primary
+  );
+  const [basementButtonColor, setBasementButtonColor] = useState(
+    ourPalette.primary
+  );
+
+  const [smallButtonColor, setSmallButtonColor] = useState(ourPalette.primary);
+  const [mediumButtonColor, setMediumButtonColor] = useState(
+    ourPalette.white
+  );
+  const [largeButtonColor, setLargeButtonColor] = useState(ourPalette.primary);
+
+  const HandleSizeClick = (size) => {
+    if (size.trim() === "Small".trim()) {
+      setSelectedSize("Small");
+      setSmallButtonColor(ourPalette.white);
+      setMediumButtonColor(ourPalette.primary);
+      setLargeButtonColor(ourPalette.primary);
+    } else if (size.trim() === "Medium".trim()) {
+      setSelectedSize("Medium");
+      setSmallButtonColor(ourPalette.primary);
+      setMediumButtonColor(ourPalette.white);
+      setLargeButtonColor(ourPalette.primary);
+    } else if (size.trim() === "Large".trim()) {
+      setSelectedSize("Large");
+      setSmallButtonColor(ourPalette.primary);
+      setMediumButtonColor(ourPalette.primary);
+      setLargeButtonColor(ourPalette.white);
+    }
+  };
+
+  const handleThemeClick = (theme) => {
     console.log(`Generating dungeon...`);
-    setShowPopup(false); // Hide the popup when the generate button is clicked
-    // Add your generation logic here.
+    setShowPopup(false);
+
+    if (theme.trim() === "Graveyard".trim()) {
+      setSelectedTheme("Graveyard");
+      setGraveyardButtonColor(ourPalette.white);
+      setMansionButtonColor(ourPalette.primary);
+      setBasementButtonColor(ourPalette.primary);
+    } else if (theme.trim() === "Mansion".trim()) {
+      setSelectedTheme("Mansion");
+      setGraveyardButtonColor(ourPalette.primary);
+      setMansionButtonColor(ourPalette.white);
+      setBasementButtonColor(ourPalette.primary);
+    } else if (theme.trim() === "Basement".trim()) {
+      setSelectedTheme("Basement");
+      setGraveyardButtonColor(ourPalette.primary);
+      setMansionButtonColor(ourPalette.primary);
+      setBasementButtonColor(ourPalette.white);
+    }
+  };
+
+  const handleGenerateClick = () => {
+    // Ideally somee fetch requests
   };
 
   const handleMouseOver = (text) => {
@@ -98,13 +154,13 @@ export const Generate = () => {
                     size="medium"
                     style={{
                       marginBottom: "15px",
-                      color: ourPalette.white,
-                      borderColor: ourPalette.white,
+                      color: graveyardButtonColor,
+                      borderColor: graveyardButtonColor,
                       borderRadius: "2px",
                       fontFamily: "Monospace",
                       backgroundColor: ourPalette.blank,
                     }}
-                    onClick={() => handleGenerateClick("Graveyard")}
+                    onClick={() => handleThemeClick("Graveyard")}
                     onMouseOver={() =>
                       handleMouseOver(
                         "Graveyard: A spooky and haunted place filled with undead creatures."
@@ -113,7 +169,7 @@ export const Generate = () => {
                     onMouseOut={handleMouseOut}
                   >
                     Graveyard
-                    <GiIcon.GiPirateGrave/>
+                    <GiIcon.GiPirateGrave style={{ marginLeft: "7%" }} />
                   </Button>
                   <Button
                     variant="outlined"
@@ -121,13 +177,13 @@ export const Generate = () => {
                     size="medium"
                     style={{
                       marginBottom: "15px",
-                      color: ourPalette.white,
-                      borderColor: ourPalette.white,
+                      color: mansionButtonColor,
+                      borderColor: mansionButtonColor,
                       borderRadius: "2px",
                       fontFamily: "Monospace",
                       backgroundColor: ourPalette.blank,
                     }}
-                    onClick={() => handleGenerateClick("Mansion")}
+                    onClick={() => handleThemeClick("Mansion")}
                     onMouseOver={() =>
                       handleMouseOver(
                         "Mansion: A grand house that may have hidden secrets and rooms."
@@ -136,7 +192,7 @@ export const Generate = () => {
                     onMouseOut={handleMouseOut}
                   >
                     Mansion
-                    <GiIcon.GiGhost/>
+                    <GiIcon.GiGhost style={{ marginLeft: "7%" }} />
                   </Button>
                   <Button
                     variant="outlined"
@@ -144,13 +200,13 @@ export const Generate = () => {
                     size="medium"
                     style={{
                       marginBottom: "15px",
-                      color: ourPalette.white,
-                      borderColor: ourPalette.white,
+                      color: basementButtonColor,
+                      borderColor: basementButtonColor,
                       borderRadius: "2px",
                       fontFamily: "Monospace",
                       backgroundColor: ourPalette.blank,
                     }}
-                    onClick={() => handleGenerateClick("Basement")}
+                    onClick={() => handleThemeClick("Basement")}
                     onMouseOver={() =>
                       handleMouseOver(
                         "Basement: The dark underbelly of a house, where unknown dangers lurk."
@@ -159,7 +215,7 @@ export const Generate = () => {
                     onMouseOut={handleMouseOut}
                   >
                     Basement
-                    <GiIcon.GiUndergroundCave/>
+                    <GiIcon.GiUndergroundCave style={{ marginLeft: "7%" }} />
                   </Button>
                   <Typography
                     variant="h6"
@@ -179,11 +235,12 @@ export const Generate = () => {
                         size="small"
                         style={{
                           color: ourPalette.white,
-                          borderColor: ourPalette.buttonBorders.light,
+                          borderColor: smallButtonColor,
                           borderRadius: "2px",
                           fontFamily: "Monospace",
                           backgroundColor: ourPalette.blank,
                         }}
+                        onClick={() => HandleSizeClick("Small")}
                         onMouseOver={() => handleMouseOver("Small map size.")}
                         onMouseOut={handleMouseOut}
                       >
@@ -196,11 +253,12 @@ export const Generate = () => {
                         size="small"
                         style={{
                           color: ourPalette.white,
-                          borderColor: ourPalette.buttonBorders.base,
+                          borderColor: mediumButtonColor,
                           borderRadius: "2px",
                           fontFamily: "Monospace",
                           backgroundColor: ourPalette.blank,
                         }}
+                        onClick={() => HandleSizeClick("Medium")}
                         onMouseOver={() => handleMouseOver("Medium map size.")}
                         onMouseOut={handleMouseOut}
                       >
@@ -213,11 +271,12 @@ export const Generate = () => {
                         size="small"
                         style={{
                           color: ourPalette.white,
-                          borderColor: ourPalette.buttonBorders.dark,
+                          borderColor: largeButtonColor,
                           borderRadius: "2px",
                           fontFamily: "Monospace",
                           backgroundColor: ourPalette.blank,
                         }}
+                        onClick={() => HandleSizeClick("Large")}
                         onMouseOver={() => handleMouseOver("Large map size.")}
                         onMouseOut={handleMouseOut}
                       >
@@ -252,24 +311,25 @@ export const Generate = () => {
                   size="large"
                   style={{
                     marginBottom: "20px",
-                    color: ourPalette.secondary,
+                    color: ourPalette.primary,
                     borderRadius: "2px",
-                    borderColor: ourPalette.secondary,
+                    borderColor: ourPalette.primary,
                     backgroundColor: ourPalette.black,
                     width: "100%",
                     fontFamily: "Monospace",
                   }}
                   onClick={handleGenerateClick}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.borderColor = ourPalette.primary;
-                    e.currentTarget.style.color = ourPalette.primary;
-                  }}
-                  onMouseOut={(e) => {
                     e.currentTarget.style.borderColor = ourPalette.secondary;
                     e.currentTarget.style.color = ourPalette.secondary;
                   }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = ourPalette.primary;
+                    e.currentTarget.style.color = ourPalette.primary;
+                  }}
                 >
                   Generate
+                  <FaIcon.FaLocationArrow style={{ marginLeft: "7%" }} />
                 </Button>
               </Container>
             </Grid>
@@ -278,9 +338,6 @@ export const Generate = () => {
               <div
                 style={{ width: "100%", height: "100vh", position: "relative" }}
               >
-                {/* Lottie animation */}
-                {/* <Lottie animationData={animationData} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} /> */}
-                {/* <img src={} sy/> */}
                 <TransformImage
                   img={gen}
                   imgHeight={"120vh"}
@@ -298,6 +355,6 @@ export const Generate = () => {
       </motion.div>
     </body>
   );
-}
+};
 
 export default Generate;
