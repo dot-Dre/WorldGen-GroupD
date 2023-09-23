@@ -11,7 +11,7 @@ import * as BiIcons from "react-icons/bi";
 import { ourPalette } from "../Theme";
 
 // import "./Home.css"; // No longer using this, using component style or sx props
-import logo from "./assets/logo.gif";
+import logo from "./assets/logo.png";
 import gen from "./assets/gen.gif";
 
 /**
