@@ -24,10 +24,10 @@ const Notes = () => {
 
   const notesStyle = {
     // height: "10vh",
-    marginLeft: "calc((100% - 135%) / 2)",
-    marginRight: "calc((100% - 135%) / 2)",
-    width: "135%",
-    maxWidth: "150%",
+    marginLeft: "12%",
+    // marginRight: "calc((100% - 135%) / 2)",
+    width: "75%",
+    // maxWidth: "150%",
     marginTop: "10%",
     // padding: "1.2vh 0px 1.2vh 0px",
     backgroundColor: "#27252b",

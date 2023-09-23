@@ -1,5 +1,5 @@
-import React from "react";
-import { Container, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Button, Container, Grid, IconButton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Lottie from "lottie-react";
 import animationData from "./assets/overlay.json";
@@ -7,8 +7,13 @@ import theme from "../Theme";
 import PlayerList from "../components/PlayerList";
 import data from "./testData/mockPlayers.json";
 import { ourPalette } from "../Theme";
-import { motion } from "framer-motion";
+import { color, motion, useCycle } from "framer-motion";
+import * as IoIcon from "react-icons/io5";
 import "./PlayerView.css";
+import TransformImage from "../components/TransformImage";
+import { Link } from "react-router-dom";
+import dummy from "./assets/gen.gif";
+import { Typography } from "@mui/material";
 
 export const PlayerView = () => {
   return (

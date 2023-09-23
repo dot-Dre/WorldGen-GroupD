@@ -59,10 +59,12 @@ export const ourPalette = {
     pageGradient: "linear-gradient(90deg, rgba(20,5,46,1) 21%, rgba(0,0,0,1) 50%)",
 
     // The tab background gradient
-    tabGradient: "linear-gradient(rgba(20,5,46,1) 21%, rgba(0,0,0,1) 50%)",
+    tabGradient: "linear-gradient(rgba(52,41,78,1) 21%, rgba(36,11,70,1) 63%)",
 
     // the modal gradient
     modalGradient: "linear-gradient(rgba(2,0,36,1) 0%, rgba(222,207,242,1) 0%, rgba(20,14,24,1) 96%)",
+
+    sideButton: "#321e57",
 
     // These colors are the "map size" button border colors
     buttonBorders: {
