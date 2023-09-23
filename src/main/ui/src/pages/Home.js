@@ -22,7 +22,6 @@ import gen from "./assets/gen.gif";
  *
  * @returns This function returns the Home page component.
  */
-
 export const Home = () => {
   // Navigation hooks
   const navigateToGenerate = useNavigate();
