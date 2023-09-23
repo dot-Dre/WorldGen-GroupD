@@ -7,6 +7,7 @@ import {
   Box,
   Dialog,
   DialogTitle,
+  Slider,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
@@ -21,10 +22,9 @@ export const Generate = () => {
   const [infoText, setInfoText] = useState("");
   const [showPopup, setShowPopup] = useState(true); // State to control the visibility of the popup
 
-  // Selection functionality
+  // Selection functionality =================================================
   const [selectedTheme, setSelectedTheme] = useState("Graveyard");
   const [selectedSize, setSelectedSize] = useState("Medium");
-
   const [graveyardButtonColor, setGraveyardButtonColor] = useState(
     ourPalette.white
   );
@@ -34,12 +34,14 @@ export const Generate = () => {
   const [basementButtonColor, setBasementButtonColor] = useState(
     ourPalette.primary
   );
-
   const [smallButtonColor, setSmallButtonColor] = useState(ourPalette.primary);
-  const [mediumButtonColor, setMediumButtonColor] = useState(
-    ourPalette.white
-  );
+  const [mediumButtonColor, setMediumButtonColor] = useState(ourPalette.white);
   const [largeButtonColor, setLargeButtonColor] = useState(ourPalette.primary);
+  // ========================================================================
+
+  // Advanced Options selections, variables and handlers ====================
+  const [variance, setVariance] = useState(0.7)
+  const [roomNumber, setRoomNumber] = useState(15)
 
   const HandleSizeClick = (size) => {
     if (size.trim() === "Small".trim()) {
@@ -81,6 +83,7 @@ export const Generate = () => {
       setBasementButtonColor(ourPalette.white);
     }
   };
+  // ==============================================================================
 
   const handleGenerateClick = () => {
     // Ideally somee fetch requests
@@ -104,9 +107,9 @@ export const Generate = () => {
       }}
     >
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0.5 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        exit={{ opacity: 0.5 }}
       >
         <ThemeProvider theme={theme}>
           <Grid
@@ -119,7 +122,7 @@ export const Generate = () => {
               item
               xs={2}
               style={{
-                background: ourPalette.tabGradient,
+                background: ourPalette.pageGradient,
                 borderRight: "2px solid #080114",
               }}
             >
@@ -241,7 +244,7 @@ export const Generate = () => {
                           backgroundColor: ourPalette.blank,
                         }}
                         onClick={() => HandleSizeClick("Small")}
-                        onMouseOver={() => handleMouseOver("Small map size.")}
+                        onMouseOver={() => handleMouseOver("Small map size (7 rooms)")} // Please correct if wrong
                         onMouseOut={handleMouseOut}
                       >
                         S
@@ -259,7 +262,7 @@ export const Generate = () => {
                           backgroundColor: ourPalette.blank,
                         }}
                         onClick={() => HandleSizeClick("Medium")}
-                        onMouseOver={() => handleMouseOver("Medium map size.")}
+                        onMouseOver={() => handleMouseOver("Medium map size (15 rooms)")} // PLease correct if wrong
                         onMouseOut={handleMouseOut}
                       >
                         M
@@ -277,13 +280,98 @@ export const Generate = () => {
                           backgroundColor: ourPalette.blank,
                         }}
                         onClick={() => HandleSizeClick("Large")}
-                        onMouseOver={() => handleMouseOver("Large map size.")}
+                        onMouseOver={() => handleMouseOver("Large map size (30 rooms)")} // Please correct if wrong
                         onMouseOut={handleMouseOut}
                       >
                         L
                       </Button>
                     </Grid>
                   </Grid>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      marginTop: "9%",
+                      fontFamily: "monospace",
+                      fontWeight: "bold",
+                      color: ourPalette.secondary,
+                    }}
+                  >
+                    Advanced Options
+                  </Typography>
+                  <div>
+                    <p
+                      style={{
+                        fontFamily: "monospace",
+                        color: ourPalette.white,
+                      }}
+                    >
+                      Tile Variance
+                    </p>
+                    <Slider
+                      defaultValue={0.7}
+                      aria-label="Default"
+                      valueLabelDisplay="auto"
+                      min={0.0}
+                      max={1.0}
+                      step={0.01}
+                      onMouseOver={()=>{setInfoText("The variance of the dungeon's tileset")}} // Please change idk what it is yey
+                      onMouseOut={()=>{setInfoText("")}}
+                      onChangeCommitted={(e, value)=>{
+                        setVariance(value)
+                      }}
+                      sx={{
+                        "& .MuiSlider-thumb": {
+                          borderRadius: "1px",
+                          color: ourPalette.white,
+                          width: "10%",
+                          height: "40%",
+                        },
+                        "& .MuiSlider-valueLabel": {
+                          fontFamily: "monospace",
+                          backgroundColor: ourPalette.blank,
+                        },
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p
+                      style={{
+                        fontFamily: "monospace",
+                        color: ourPalette.white,
+                      }}
+                    >
+                      Room Number
+                    </p>
+                    <Slider
+                      defaultValue={15}
+                      aria-label="Default"
+                      valueLabelDisplay="auto"
+                      min={0}
+                      max={30}
+                      step={1}
+                      onMouseOver={()=>{setInfoText("The number of rooms in your dungeon")}} // Please change if needed
+                      onMouseOut={()=>{setInfoText("")}}
+                      onChangeCommitted={(e, value) => {
+                        setSelectedSize("")
+                        setSmallButtonColor(ourPalette.primary);
+                        setMediumButtonColor(ourPalette.primary);
+                        setLargeButtonColor(ourPalette.primary);
+                        setRoomNumber(value)
+                      }}
+                      sx={{
+                        "& .MuiSlider-thumb": {
+                          borderRadius: "1px",
+                          color: ourPalette.white,
+                          width: "10%",
+                          height: "40%",
+                        },
+                        "& .MuiSlider-valueLabel": {
+                          fontFamily: "monospace",
+                          backgroundColor: ourPalette.blank,
+                        },
+                      }}
+                    />
+                  </div>
                   <Box
                     mt={3}
                     p={2}
