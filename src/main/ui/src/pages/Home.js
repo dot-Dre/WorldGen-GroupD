@@ -27,7 +27,7 @@ import {
 } from "./HomeStyle";
 
 // import "./Home.css"; // No longer using this, using component style or sx props
-import logo from "./assets/logo.gif";
+import logo from "./assets/logo.png";
 import gen from "./assets/gen.gif";
 
 /**
