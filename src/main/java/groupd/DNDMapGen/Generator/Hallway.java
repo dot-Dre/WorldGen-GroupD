@@ -21,6 +21,28 @@ public class Hallway {
         return hallwayRooms;
     }
 
+    public Tile[][] getTiles(){
+        int xOffset = x();
+        int yOffset = y();
+        Tile[][] tiles = new Tile[height()][width()];
+
+        for(Room r: hallwayRooms){
+            Tile[][] roomTiles = r.getTiles();
+            for(int row = 0; row < r.height(); row++){
+                for(int col = 0; col < r.width(); col++){
+                    int x = r.x() - xOffset + col;
+                    int y = r.y() - yOffset + row;
+
+                    if(tiles[y][x] != FLOOR){
+                        tiles[y][x] = roomTiles[row][col];
+                    }
+                }
+            }
+        }
+
+        return tiles;
+    }
+
     public int x(){
         if(hallwayRooms.isEmpty()){
             return 0;

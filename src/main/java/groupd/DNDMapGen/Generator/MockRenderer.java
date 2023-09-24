@@ -58,7 +58,7 @@ public class MockRenderer {
         for(int row = 0; row < tiles.length; row++){
             for(int col = 0; col < tiles[row].length; col++){
                 if(tiles[row][col] == Tile.WALL){
-                    g.fillRect((col) * IMAGE_SCALE, (row) * IMAGE_SCALE, IMAGE_SCALE, IMAGE_SCALE);
+                    g.fillRect((col-minX) * IMAGE_SCALE, (row-minY) * IMAGE_SCALE, IMAGE_SCALE, IMAGE_SCALE);
                 }
             }
         }

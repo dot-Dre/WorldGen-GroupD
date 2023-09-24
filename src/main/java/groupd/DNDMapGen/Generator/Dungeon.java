@@ -9,8 +9,6 @@ public class Dungeon {
     private final Collection<Room> rooms;
     private final Collection<Hallway> hallways;
     private final MapTheme theme;
-    private final int minX;
-    private final int minY;
     private final int width;
     private final int height;
 
@@ -20,29 +18,21 @@ public class Dungeon {
         this.hallways = hallways;
 
         // Calculate the width and height of the dungeon
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
 
         for(Room room : rooms){
-            minX = Math.min(minX, room.x());
-            minY = Math.min(minY, room.y());
             maxX = Math.max(maxX, room.x() + room.width());
             maxY = Math.max(maxY, room.y() + room.height());
         }
 
         for(Hallway hallway : hallways){
-            minX = Math.min(minX, hallway.x());
-            minY = Math.min(minY, hallway.y());
             maxX = Math.max(maxX, hallway.x() + hallway.width());
             maxY = Math.max(maxY, hallway.y() + hallway.height());
         }
 
-        this.minX = minX;
-        this.minY = minY;
-        this.width = maxX - minX;
-        this.height = maxY - minY;
+        this.width = maxX;
+        this.height = maxY;
     }
 
     public MapTheme theme(){
@@ -79,8 +69,17 @@ public class Dungeon {
         addRoomTiles(tiles, rooms);
 
         // Place hallways
-        for(Hallway hallway : hallways){
-            addRoomTiles(tiles, hallway.getRooms());
+        for (Hallway hallway : hallways) {
+            Tile[][] hallwayTile = hallway.getTiles();
+            for(int row = 0; row < hallway.height(); row++){
+                for(int col = 0; col < hallway.width(); col++){
+                    int x = hallway.x() + col;
+                    int y = hallway.y() + row;
+                    if(hallwayTile[row][col] != null && tiles[y][x] != Tile.FLOOR) {
+                        tiles[y][x] = hallwayTile[row][col];
+                    }
+                }
+            }
         }
 
         return tiles;
@@ -88,13 +87,13 @@ public class Dungeon {
 
     private void addRoomTiles(Tile[][] tiles, Collection<Room> rooms) {
         for(Room room : rooms){
-            int x = room.x() - minX;  // Note the -minX
-            int y = room.y() - minY;  // Note the -minY
             Tile[][] roomTiles = room.getTiles();
             for(int row = 0; row < roomTiles.length; row++){
                 for(int col = 0; col < roomTiles[row].length; col++){
-                    if(tiles[y + row][x + col] != Tile.FLOOR){
-                        tiles[y + row][x + col] = roomTiles[row][col];
+                    int x = room.x() + col;
+                    int y = room.y() + row;
+                    if(tiles[y][x] != Tile.FLOOR){
+                        tiles[y][x] = roomTiles[row][col];
                     };
                 }
             }

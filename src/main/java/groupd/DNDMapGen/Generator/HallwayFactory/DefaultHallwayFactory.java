@@ -9,6 +9,13 @@ import java.util.*;
 public class DefaultHallwayFactory extends AbstractHallwayFactory {
 
     Map<Point, Room> roomsPoints;
+    private int hallwayWidth = 1;
+
+    public DefaultHallwayFactory(){}
+
+    public DefaultHallwayFactory(int maxWidth){
+        this.hallwayWidth = maxWidth;
+    }
 
     @Override
     public Collection<Hallway> generate(Collection<Room> rooms) {
@@ -34,6 +41,16 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
         return hallways;
     }
 
+    /**
+     * Connects two rooms through a hallway
+     * This can be done in 3 different ways:
+     *      - A horizontal hallway
+     *      - A vertical hallway
+     *      - A 'L' shaped hallway
+     *
+     * @param edge
+     * @return
+     */
     private Hallway createHallway(Edge edge) {
         Hallway hallway = new Hallway();
         Room r1 = roomsPoints.get(edge.p1());
