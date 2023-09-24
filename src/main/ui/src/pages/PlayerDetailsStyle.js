@@ -68,3 +68,23 @@ export const HoodPersonStyles = {
   width: "60%",
   height: "60%",
 };
+
+export const ErrorStyles = {
+  fontFamily: "monospace",
+  color: ourPalette.secondary,
+  fontWeight: "bold",
+  marginTop:"15%"
+}
+
+export const ErrorMessageStyles = {
+  fontFamily: "monospace",
+  color:ourPalette.white
+}
+
+export const ErrorButtonStyles = {
+
+}
+
+export const SkullError = {
+  marginLeft: "6%"
+}
