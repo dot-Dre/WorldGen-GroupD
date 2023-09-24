@@ -12,7 +12,7 @@ class MapPin extends React.Component {
         x: props.initialX || 0,
         y: props.initialY || 0,
       },
-      size: props.size || 35,
+      size: props.size || 40,
     };
   }
 

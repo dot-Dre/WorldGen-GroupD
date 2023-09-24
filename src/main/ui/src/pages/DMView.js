@@ -14,6 +14,19 @@ import { Typography, Dialog, DialogTitle } from "@mui/material";
 import PlayerIcon from "../components/PlayerIcon";
 import MapPin from "../components/MapPin";
 
+
+function calculateRandomPlayerPosition(centerX, centerY, radius) {
+  // Generate a random angle and distance within the radius
+  const randomAngle = Math.random() * 2 * Math.PI;
+  const randomDistance = Math.random() * radius;
+
+  // Calculate x and y positions based on random angle and distance
+  const x = centerX + (randomDistance * Math.cos(randomAngle));
+  const y = centerY + (randomDistance * Math.sin(randomAngle));
+
+  return { x, y };
+}
+
 function DMView() {
   const [show, setShow] = useState(true);
   const [showPopup, setShowPopup] = useState(true);
@@ -38,6 +51,17 @@ function DMView() {
     transition: "margin-left 0.1s ease",
     marginTop: "-100vh",
   };
+
+  // THESE ARE ALL HARD CODED NEED TO GET THEM FROM VARIABLES EVENTUALLY
+  const mapPinX = 400;
+  const mapPinY = 400;
+  const radius = 75; // Adjustable
+
+  // Map over data array and generate a random position for each player
+  const players = data.map((player) => ({
+  id: player.id,
+  position: calculateRandomPlayerPosition(mapPinX, mapPinY, radius),
+  }));
 
   return (
     <body
@@ -79,6 +103,9 @@ function DMView() {
             </div>
           </nav>
           <div style={tabImgStyle}>
+              {players.map((player) => (
+                <PlayerIcon key={player.id} initialX={player.position.x} initialY={player.position.y} />
+              ))}
             <MapPin initialX={400} initialY={400} size={40} />
             <img src={dummy} imgWidth={"70vw"} imgHeight={"90vh"}/>
           </div>

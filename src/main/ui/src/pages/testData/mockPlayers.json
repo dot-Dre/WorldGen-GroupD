@@ -5,8 +5,7 @@
     "y": -1,
     "name": "John",
     "role": "Assassin",
-    "status": "Alive",
-    "isPlaced": false
+    "status": "Alive"
   },
   {
     "id": 2,
@@ -14,8 +13,7 @@
     "y": -1,
     "name": "Sarah",
     "role": "Healer",
-    "status": "Lost Memory",
-    "isPlaced": false
+    "status": "Lost Memory"
   },
   {
     "id": 3,
@@ -23,8 +21,7 @@
     "y": -1,
     "name": "David",
     "role": "Wizard",
-    "status": "Alive",
-    "isPlaced": false
+    "status": "Alive"
   },
   {
     "id": 4,
@@ -32,8 +29,7 @@
     "y": -1,
     "name": "Emma",
     "role": "Rogue",
-    "status": "Imprisoned",
-    "isPlaced": false
+    "status": "Imprisoned"
   },
   {
     "id": 5,
@@ -41,8 +37,7 @@
     "y": -1,
     "name": "Michael",
     "role": "Cleric",
-    "status": "Poisoned",
-    "isPlaced": false
+    "status": "Poisoned"
   },
   {
     "id": 6,
@@ -50,8 +45,7 @@
     "y": -1,
     "name": "Sophia",
     "role": "Barbarian",
-    "status": "Asleep",
-    "isPlaced": false
+    "status": "Asleep"
   },
   {
     "id": 7,
@@ -59,8 +53,7 @@
     "y": -1,
     "name": "William",
     "role": "Sorcerer",
-    "status": "Alive",
-    "isPlaced": false
+    "status": "Alive"
   },
   {
     "id": 8,
@@ -68,8 +61,7 @@
     "y": -1,
     "name": "Olivia",
     "role": "Druid",
-    "status": "Dead",
-    "isPlaced": false
+    "status": "Dead"
   },
   {
     "id": 9,
@@ -77,8 +69,7 @@
     "y": -1,
     "name": "James",
     "role": "Monk",
-    "status": "Frozen",
-    "isPlaced": false
+    "status": "Frozen"
   },
   {
     "id": 10,
@@ -86,7 +77,6 @@
     "y": -1,
     "name": "Charlotte",
     "role": "Paladin",
-    "status": "Alive",
-    "isPlaced": false
+    "status": "Alive"
   }
 ]
