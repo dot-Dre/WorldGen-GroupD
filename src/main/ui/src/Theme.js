@@ -32,7 +32,7 @@ export const ourPalette = {
     primary: "#7711C6",
 
     // Light Green
-    secondary: "#92DF9B",
+    secondary: "#00eb98",
 
     // Red I think
     tertiary: "#A40D08",
@@ -56,10 +56,10 @@ export const ourPalette = {
     smooth:"#87868a",
 
     // The page background gradient
-    pageGradient: "linear-gradient(90deg, rgba(20,5,46,1) 21%, rgba(0,0,0,1) 50%)",
+    pageGradient: "linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(37,27,93,1) 20%, rgba(0,0,0,1) 46%)",
 
     // The tab background gradient
-    tabGradient: "linear-gradient(rgba(52,41,78,1) 21%, rgba(36,11,70,1) 63%)",
+    tabGradient: "linear-gradient(rgba(34,4,57,1) 8%, rgba(19,25,57,1) 29%, rgba(0,0,0,1) 100%)",
 
     // the modal gradient
     modalGradient: "linear-gradient(rgba(2,0,36,1) 0%, rgba(222,207,242,1) 0%, rgba(20,14,24,1) 96%)",

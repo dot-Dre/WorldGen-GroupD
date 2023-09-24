@@ -1,159 +1,140 @@
 import React, { useState } from "react";
 import { SplitScreen } from "../components/SplitScreen";
 import { ThemeProvider } from "@mui/material/styles";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Typography } from "@mui/material";
 import theme from "../Theme";
 import "./PlayerDetails.css";
-import lostEyes from "./assets/lostEyes.gif";
-import monsters from "./assets/monsters.gif";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setPlayerName } from "../slices/playerNameSlice";
 import { setPlayerRole } from "../slices/roleSlice";
 import { ourPalette } from "../Theme";
-import character from "./assets/hood.png"
+import character from "./assets/hood.png";
+import * as GiIcons from "react-icons/gi";
+import {
+  EnterYourNameStyles,
+  EnterYourRoleStyles,
+  ErrorButtonStyles,
+  ErrorMessageStyles,
+  ErrorStyles,
+  HoodPersonStyles,
+  InputNameTextFieldStyles,
+  InstructionStyles,
+  NameTextFieldStyles,
+  SkullError,
+  StartButtonStyles,
+  WhoAreYouStyles,
+} from "./PlayerDetailsStyle";
 
 function PlayerDetails() {
+  // Navigation hook
+  const navigateToPlayerView = useNavigate();
+  const navigateToHome = useNavigate();
+
+  // name and role variables
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
-
-  const navigateToPlayerView = useNavigate();
-
-  const dispatch = useDispatch();
-
-  // Function to handle button click
-  const handleAdventureStart = () => {
-    dispatch(setPlayerName(name))
-    dispatch(setPlayerRole(role))
-    navigateToPlayerView("/PlayerView")
-  };
-
   const isButtonDisabled = name.trim() === "" || role.trim() === "";
 
-  return (
-    <body style={{background:ourPalette.pageGradient}} className="PlayerDetails">
-      <motion.div
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        exit={{opacity: 0}}
-    >
-      <ThemeProvider theme={theme}>
-        <SplitScreen leftSpace={1} rightSpace={3}>
-          <div>
-            <h1 style={{ color: ourPalette.secondary, fontFamily: 'Monospace'}} className="title-text">
-              Who Are You?
-            </h1>
-            <h3 style={{ color: ourPalette.white }} className="help-text">
-              Before you enter the game, inscribe your name and role below.
-            </h3>
+  // Functions to handle button click, currently uses state code, but the second to last line in the function
+  // can be uncommented to use localStorage instead.
+  const dispatch = useDispatch();
+  const handleAdventureStart = () => {
+    // dispatch(setPlayerName(name));
+    // dispatch(setPlayerRole(role));
+    localStorage.setItem("playerName", name);
+    localStorage.setItem("playerRole", role);
+    navigateToPlayerView("/PlayerView");
+  };
 
-            <h4
-              style={{ color: ourPalette.white, marginTop: "9vh", marginLeft: "7vw", fontFamily: 'Monospace' }}
-            >
-              Enter your Name
-            </h4>
-            <TextField
-              sx={{
-                input: {
-                  color: ourPalette.white,
-                },
-                marginLeft: "7vw",
-                marginTop: "",
-              }}
-              InputProps={{
-                style: { color: ourPalette.white, fontFamily: 'Courier New, monospace', fontSize: '90%' }
-              }}
-              label="Name"
-              variant="filled"
-              color="secondary"
-              autoFocus={true}
-              className="text-field"
-              fullWidth={true}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <h4
-              style={{ color: ourPalette.white, marginTop: "4vh", marginLeft: "7vw", fontFamily: 'Monospace' }}
-            >
-              Declare your Role
-            </h4>
-            <TextField
-              sx={{
-                input: {
-                  color: "#ffffff",
-                },
-                marginLeft: "7vw",
-                marginTop: "1vh",
-              }}
-              InputProps={{
-                style: { color: ourPalette.white, fontFamily: 'Courier New, monospace', fontSize: '90%' }
-              }}
-              label="Role"
-              variant="filled"
-              color="secondary"
-              autoFocus={true}
-              className="text-field"
-              fullWidth={true}
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <Button
-              variant="outlined"
-              size="large"
-              style={{ marginLeft: "7vw", marginTop: "5vh" }}
-              onClick={handleAdventureStart}
-              disabled={isButtonDisabled}
-              sx={{
-                fontFamily: 'Monospace',
-                "&.Mui-disabled": {
-                  borderColor: ourPalette.disabled,
-                  color: ourPalette.disabled, // Text color in disabled state
-                },
-                "&:hover": {
-                  borderColor: ourPalette.primary,
-                  color: ourPalette.primary,
-                },
-              }}
-            >
-              Start Your Adventure
-            </Button>
-          </div>
-          <div>
-            {/* <img
-              src={monsters}
-              alt="crashed"
-              style={{
-                marginTop: "1vh",
-                marginLeft: "35%",
-                width: "60%",
-                height: "10%",
-              }}
-            />
-            <img
-              src={lostEyes}
-              alt="crashed"
-              style={{
-                marginTop: "-4vh",
-                marginLeft: "35%",
-                width: "60%",
-                height: "60vh",
-              }}
-            /> */}
-            <img
-              src={character}
-              alt="crashed"
-              style={{
-                marginLeft: "33vw",
-                marginTop:"7vh",
-                width: "60%",
-                height: "60%",
-              }}
-            />
-          </div>
-        </SplitScreen>
-      </ThemeProvider>
-    </motion.div>
+  var hasGameCode = localStorage.getItem("gameCode") != null;
+
+  return (
+    <body
+      style={{
+        background: ourPalette.pageGradient,
+        overflow: "hidden",
+        backgroundSize: "cover",
+        height: "100vh",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ThemeProvider theme={theme}>
+          {hasGameCode ? (
+            <SplitScreen leftSpace={1} rightSpace={3}>
+              <div>
+                <h1 style={WhoAreYouStyles}>Who Are You?</h1>
+                <h3 style={InstructionStyles}>
+                  Before you enter the game, inscribe your name and role below.
+                </h3>
+                <h4 style={EnterYourNameStyles}>Enter your Name</h4>
+                <TextField
+                  sx={NameTextFieldStyles}
+                  InputProps={InputNameTextFieldStyles}
+                  label="Name"
+                  variant="filled"
+                  color="secondary"
+                  autoFocus={true}
+                  fullWidth={true}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <h4 style={EnterYourRoleStyles}>Declare your Role</h4>
+                <TextField
+                  sx={NameTextFieldStyles}
+                  InputProps={InputNameTextFieldStyles}
+                  label="Role"
+                  variant="filled"
+                  color="secondary"
+                  autoFocus={true}
+                  fullWidth={true}
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                />
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleAdventureStart}
+                  disabled={isButtonDisabled}
+                  sx={StartButtonStyles}
+                >
+                  Start Your Adventure
+                </Button>
+              </div>
+              <div>
+                <img src={character} alt="crashed" style={HoodPersonStyles} />
+              </div>
+            </SplitScreen>
+          ) : (
+            <>
+              <center>
+                <Typography variant="h1" style={ErrorStyles}>
+                  Gamecode not found
+                  <GiIcons.GiDeathSkull style={SkullError} />
+                </Typography>
+                <p style={ErrorMessageStyles}>
+                  You don't appear to have a gamecode entered! Re-enter your
+                  game code by clicking the button below!
+                </p>
+                <Button
+                  variant="outlined"
+                  style={ErrorButtonStyles}
+                  onClick={() => {
+                    navigateToHome("/");
+                  }}
+                >
+                  Home
+                </Button>
+              </center>
+            </>
+          )}
+        </ThemeProvider>
+      </motion.div>
     </body>
   );
 }

@@ -8,6 +8,7 @@ import { FileParser } from "../util/FileParser";
 import { ourPalette } from "../Theme";
 
 import dragDrop from "./dragdrop.png";
+import * as BiIcons from "react-icons/bs";
 import LinearProgress from "@mui/material/LinearProgress";
 import "./DragDrop.css";
 
@@ -71,7 +72,7 @@ export const DragDrop = (props) => {
     <Box
       sx={{
         position: "absolute",
-        backgroundImage: ourPalette.modalGradient,
+        backgroundImage: ourPalette.tabGradient,
         borderRadius: "2px",
         top: "50%",
         left: "50%",
@@ -93,8 +94,9 @@ export const DragDrop = (props) => {
             onDrop={onDrop}
           >
             <div className="drop-file-input__label">
-              <img src={dragDrop} alt="" className="dd-image" />
-              <h3 style={{ color: "white" }}>{displayMessage}</h3>
+              {/* <img src={dragDrop} alt="" className="dd-image" /> */}
+              <BiIcons.BsFiletypeJson style={{width:"100%", height:"100%", color:ourPalette.white}}/>
+              <h3 style={{ color: "white", paddingTop:"10%", fontFamily:"monospace" }}>{displayMessage}</h3>
             </div>
             <input type="file" value="" onChange={onFileDrop} />
           </div>

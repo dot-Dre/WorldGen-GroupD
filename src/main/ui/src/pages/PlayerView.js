@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 import { Button, Container, Grid, IconButton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import Lottie from "lottie-react";
-import animationData from "./assets/overlay.json";
 import theme from "../Theme";
 import PlayerList from "../components/PlayerList";
 import data from "./testData/mockPlayers.json";
 import { ourPalette } from "../Theme";
-import { color, motion, useCycle } from "framer-motion";
+import { motion, useCycle } from "framer-motion";
 import * as IoIcon from "react-icons/io5";
 import "./PlayerView.css";
 import TransformImage from "../components/TransformImage";
-import { Link } from "react-router-dom";
 import dummy from "./assets/gen.gif";
 import { Typography } from "@mui/material";
 
 function PlayerView() {
   const [show, setShow] = useState(true);
-  const [slide, setSlide] = useCycle(2, 1);
 
   const reveal = () => {
     setShow(!show);
-    setSlide();
   };
 
   const tabStyle = {
