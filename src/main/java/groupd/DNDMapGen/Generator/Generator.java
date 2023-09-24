@@ -84,6 +84,6 @@ public class Generator {
     public static void main(String[] args) {
         Generator gen = new Generator(MapSize.LARGE, MapTheme.NECROMANCER_DUNGEON);
         Dungeon dungeon = gen.build();
-        MockRenderer.render(dungeon, "./test.png");
+        MockRenderer.render(dungeon);
     }
 }

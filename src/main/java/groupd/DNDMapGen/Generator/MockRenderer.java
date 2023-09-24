@@ -9,7 +9,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Collection;
+import java.io.ByteArrayOutputStream;
 
 public class MockRenderer {
 
@@ -21,7 +23,7 @@ public class MockRenderer {
     /**
      * Render the map to a file at a certain scale
      */
-    public static void render(Dungeon dungeon, String outputPath) {
+    public static byte[] render(Dungeon dungeon) {
         Collection<Room> rooms = dungeon.getRooms();
         Collection<Hallway> hallways = dungeon.getHallways();
 
@@ -32,44 +34,48 @@ public class MockRenderer {
         int width = maxX - minX + 1;
         int height = maxY - minY + 1;
 
-        BufferedImage image = new BufferedImage(width* IMAGE_SCALE, height* IMAGE_SCALE, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(width * IMAGE_SCALE, height * IMAGE_SCALE, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
 
         g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, width* IMAGE_SCALE, height* IMAGE_SCALE);
-
+        g.fillRect(0, 0, width * IMAGE_SCALE, height * IMAGE_SCALE);
 
         // Draw base rooms
         g.setColor(BASE_ROOM_COLOR);
         rooms.forEach(room -> {
-            g.fillRect((room.x() - minX) * IMAGE_SCALE , (room.y() - minY)* IMAGE_SCALE, (room.width() - 1)* IMAGE_SCALE, (room.height() - 1)* IMAGE_SCALE);
+            g.fillRect((room.x() - minX) * IMAGE_SCALE, (room.y() - minY) * IMAGE_SCALE,
+                    (room.width() - 1) * IMAGE_SCALE, (room.height() - 1) * IMAGE_SCALE);
         });
 
         g.setColor(HALLWAY_COLOR);
-        for(Hallway h: hallways){
+        for (Hallway h : hallways) {
             Collection<Room> hallwayRooms = h.getRooms();
             hallwayRooms.forEach(room -> {
-                g.fillRect((room.x() - minX) * IMAGE_SCALE, (room.y() - minY) * IMAGE_SCALE, (room.width())* IMAGE_SCALE, (room.height())* IMAGE_SCALE);
+                g.fillRect((room.x() - minX) * IMAGE_SCALE, (room.y() - minY) * IMAGE_SCALE,
+                        (room.width()) * IMAGE_SCALE, (room.height()) * IMAGE_SCALE);
             });
         }
 
         g.setColor(Color.BLUE);
         Tile[][] tiles = dungeon.getTiles();
-        for(int row = 0; row < tiles.length; row++){
-            for(int col = 0; col < tiles[row].length; col++){
-                if(tiles[row][col] == Tile.WALL){
-                    g.fillRect((col-minX) * IMAGE_SCALE, (row-minY) * IMAGE_SCALE, IMAGE_SCALE, IMAGE_SCALE);
+        for (int row = 0; row < tiles.length; row++) {
+            for (int col = 0; col < tiles[row].length; col++) {
+                if (tiles[row][col] == Tile.WALL) {
+                    g.fillRect((col - minX) * IMAGE_SCALE, (row - minY) * IMAGE_SCALE, IMAGE_SCALE, IMAGE_SCALE);
                 }
             }
         }
 
-        // Save image
+        // Convert the image to a byte array
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            javax.imageio.ImageIO.write(image, "png", new java.io.File(outputPath));
-        } catch (java.io.IOException e) {
-            System.out.println("Failed to save image.");
+            javax.imageio.ImageIO.write(image, "png", byteArrayOutputStream);
+        } catch (IOException e) {
+            System.out.println("Failed to convert image to byte array.");
+            return null;
         }
 
+        return byteArrayOutputStream.toByteArray();
     }
 
 }
