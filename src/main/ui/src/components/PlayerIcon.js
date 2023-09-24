@@ -1,7 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 import "./DraggableIcon.css";
-import * as RiIcon from "react-icons/ri";
+import * as FaIcon from "react-icons/fa";
 
 class PlayerIcon extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class PlayerIcon extends React.Component {
         y: props.initialY || 0,
       },
       size: props.size || 40,
+      color: this.getRandomColor(),
     };
   }
 
@@ -39,7 +40,7 @@ class PlayerIcon extends React.Component {
   };
 
   render() {
-    const { id, position, size } = this.state;
+    const { id, position, size, color } = this.state;
     return (
       <Draggable onDrag={this.handleDrag} position={position}>
         <div className="draggable-wrapper">
@@ -48,7 +49,7 @@ class PlayerIcon extends React.Component {
           <strong>x: {position.x.toFixed(0)}</strong>
           <strong> y: {position.y.toFixed(0)}</strong>
         </div> */}
-          <RiIcon.RiMapPinFill size={size} color={this.getRandomColor()} />
+          <FaIcon.FaFeatherAlt size={size} color={color} />
         </div>
       </Draggable>
     );

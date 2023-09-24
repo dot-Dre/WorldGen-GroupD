@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Button, Container, Grid, IconButton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
@@ -30,6 +30,10 @@ function DMView() {
   const [show, setShow] = useState(true);
   const [showPopup, setShowPopup] = useState(true);
 
+  const mapPinX = 400;
+  const mapPinY = 400;
+  const radius = 75;
+
   const reveal = () => {
     setShow(!show);
   };
@@ -50,11 +54,6 @@ function DMView() {
     transition: "margin-left 0.1s ease",
     marginTop: "-100vh",
   };
-
-  // THESE ARE ALL HARD CODED NEED TO GET THEM FROM VARIABLES EVENTUALLY
-  const mapPinX = 400;
-  const mapPinY = 400;
-  const radius = 75; // Adjustable
 
   // Map over data array and generate a random position for each player
   const players = data.map((player) => ({
@@ -100,6 +99,7 @@ function DMView() {
             </div>
           </nav>
           <div style={tabImgStyle}>
+            <MapPin initialX={mapPinX} initialY={mapPinY} size={40} />
             {players.map((player) => (
               <PlayerIcon
                 key={player.id}
@@ -107,7 +107,6 @@ function DMView() {
                 initialY={player.position.y}
               />
             ))}
-            <MapPin initialX={400} initialY={400} size={40} />
             <img src={dummy} imgWidth={"70vw"} imgHeight={"90vh"} />
           </div>
         </ThemeProvider>

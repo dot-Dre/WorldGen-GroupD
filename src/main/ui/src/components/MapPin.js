@@ -13,25 +13,29 @@ class MapPin extends React.Component {
         y: props.initialY || 0,
       },
       size: props.size || 40,
+      color: ourPalette.tertiary,
     };
   }
 
   handleDrag = (_e, d) => {
     const { x, y } = this.state.position;
+    const newX = x + d.deltaX;
+    const newY = y + d.deltaY;
+
     this.setState({
       position: {
-        x: x + d.deltaX,
-        y: y + d.deltaY,
+        x: newX,
+        y: newY,
       },
     });
   };
 
   render() {
-    const { position, size } = this.state;
+    const { position, size, color } = this.state;
     return (
       <Draggable onDrag={this.handleDrag} position={position}>
         <div className="draggable-wrapper">
-          <RiIcon.RiMapPinFill size={size} color={ourPalette.tertiary} />
+          <RiIcon.RiMapPinFill size={size} color={color} />
         </div>
       </Draggable>
     );
