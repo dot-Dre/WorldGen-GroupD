@@ -22,7 +22,7 @@ class MapPin extends React.Component {
       position: {
         x: x + d.deltaX,
         y: y + d.deltaY,
-      }
+      },
     });
   };
 
@@ -30,10 +30,10 @@ class MapPin extends React.Component {
     const { position, size } = this.state;
     return (
       <Draggable onDrag={this.handleDrag} position={position}>
-      <div className="draggable-wrapper">
-        <RiIcon.RiMapPinFill size={size} color={ourPalette.tertiary} />
-      </div>
-    </Draggable>
+        <div className="draggable-wrapper">
+          <RiIcon.RiMapPinFill size={size} color={ourPalette.tertiary} />
+        </div>
+      </Draggable>
     );
   }
 }

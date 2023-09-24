@@ -27,14 +27,14 @@ class PlayerIcon extends React.Component {
 
     return color;
   }
-  
+
   handleDrag = (_e, d) => {
     const { x, y } = this.state.position;
     this.setState({
       position: {
         x: x + d.deltaX,
         y: y + d.deltaY,
-      }
+      },
     });
   };
 
@@ -42,15 +42,15 @@ class PlayerIcon extends React.Component {
     const { id, position, size } = this.state;
     return (
       <Draggable onDrag={this.handleDrag} position={position}>
-      <div className="draggable-wrapper">
-        {/* <p>Drag position for ID {id}:</p>
+        <div className="draggable-wrapper">
+          {/* <p>Drag position for ID {id}:</p>
         <div>
           <strong>x: {position.x.toFixed(0)}</strong>
           <strong> y: {position.y.toFixed(0)}</strong>
         </div> */}
-        <RiIcon.RiMapPinFill size={size} color={this.getRandomColor()} />
-      </div>
-    </Draggable>
+          <RiIcon.RiMapPinFill size={size} color={this.getRandomColor()} />
+        </div>
+      </Draggable>
     );
   }
 }
