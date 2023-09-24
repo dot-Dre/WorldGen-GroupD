@@ -90,7 +90,12 @@ export const Generate = () => {
   // ==============================================================================
 
   const handleGenerateClick = () => {
-    MapRequest()
+    const request = {
+      theme:selectedTheme,
+      size:selectedSize
+    };
+
+    MapRequest(request)
       .then((imageUrl) => setDisplayedImage(imageUrl))
       .catch((error) => {
         console.error("Error:", error);
