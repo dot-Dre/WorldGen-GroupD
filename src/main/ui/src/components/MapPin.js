@@ -1,27 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import Draggable from "react-draggable";
+import { ourPalette } from "../Theme";
 import "./DraggableIcon.css";
-import * as FaIcon from "react-icons/fa6";
 import * as RiIcon from "react-icons/ri";
 
-const MapPin = ({ initialX, initialY }) => {
-  const [position, setPosition] = useState({ x: initialX, y: initialY });
+class MapPin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      position: {
+        x: props.initialX || 0,
+        y: props.initialY || 0,
+      },
+      size: props.size || 35,
+    };
+  }
 
-  const handleDrag = (_e, d) => {
-    setPosition({
-      x: position.x + d.deltaX,
-      y: position.y + d.deltaY,
+  handleDrag = (_e, d) => {
+    const { x, y } = this.state.position;
+    this.setState({
+      position: {
+        x: x + d.deltaX,
+        y: y + d.deltaY,
+      }
     });
   };
 
-  return (
-    <Draggable onDrag={handleDrag} position={position}>
+  render() {
+    const { position, size } = this.state;
+    return (
+      <Draggable onDrag={this.handleDrag} position={position}>
       <div className="draggable-wrapper">
-        <FaIcon.FaFeatherPointed />
-        {/* <RiIcon.RiMapPinFill /> */}
+        <RiIcon.RiMapPinFill size={size} color={ourPalette.tertiary} />
       </div>
     </Draggable>
-  );
-};
+    );
+  }
+}
 
 export default MapPin;

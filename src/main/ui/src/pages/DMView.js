@@ -17,20 +17,9 @@ import MapPin from "../components/MapPin";
 function DMView() {
   const [show, setShow] = useState(true);
   const [showPopup, setShowPopup] = useState(true);
-  const [pinPlaced, setPinPlaced] = useState(false);
-  const [pinPosition, setPinPosition] = useState({ x: 0, y: 0 });
 
   const reveal = () => {
     setShow(!show);
-  };
-
-  const handleMapClick = (e) => {
-    if (!pinPlaced) {
-      const x = e.clientX;
-      const y = e.clientY;
-      setPinPosition({ x, y });
-      setPinPlaced(true);
-    }
   };
 
   const tabStyle = {
@@ -53,7 +42,6 @@ function DMView() {
   return (
     <body
       style={{ background: ourPalette.black, overflow: "hidden" }}
-      onClick={handleMapClick}
     >
       <motion.div
         initial={{ opacity: 0 }}
@@ -91,16 +79,14 @@ function DMView() {
             </div>
           </nav>
           <div style={tabImgStyle}>
-            {/* <TransformImage img={dummy} imgWidth={"70vw"} imgHeight={"90vh"} /> */}
+            <MapPin initialX={400} initialY={400} size={40} />
+            <img src={dummy} imgWidth={"70vw"} imgHeight={"90vh"}/>
           </div>
-          {pinPlaced && (
-            <MapPin initialX={pinPosition.x} initialY={pinPosition.y} />
-          )}
         </ThemeProvider>
       </motion.div>
       <Dialog open={showPopup} onClose={() => setShowPopup(false)}>
         <DialogTitle>
-          Click anywhere on the map to select a starting area
+          Dragging the Pin will change where players spawn in
         </DialogTitle>
       </Dialog>
     </body>

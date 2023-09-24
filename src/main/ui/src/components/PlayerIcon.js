@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import Draggable from "react-draggable";
 import "./DraggableIcon.css";
 
-const PlayerIcon = ({ id, initialX, initialY }) => {
-  const [position, setPosition] = useState({ x: initialX, y: initialY });
+class PlayerIcon extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: props.id || -1,
+      position: {
+        x: props.initialX || 0,
+        y: props.initialY || 0,
+      },
+    };
+  }
 
-  const handleDrag = (_e, d) => {
-    setPosition({
-      x: position.x + d.deltaX,
-      y: position.y + d.deltaY,
+  handleDrag = (_e, d) => {
+    const { x, y } = this.state.position;
+    this.setState({
+      position: {
+        x: x + d.deltaX,
+        y: y + d.deltaY,
+      }
     });
   };
 
-  return (
-    <Draggable onDrag={handleDrag} position={position}>
+  render() {
+    const { id, position } = this.state;
+    return (
+      <Draggable onDrag={this.handleDrag} position={position}>
       <div className="draggable-wrapper">
         <p>Drag position for ID {id}:</p>
         <div>
@@ -22,7 +36,8 @@ const PlayerIcon = ({ id, initialX, initialY }) => {
         </div>
       </div>
     </Draggable>
-  );
-};
+    );
+  }
+}
 
 export default PlayerIcon;
