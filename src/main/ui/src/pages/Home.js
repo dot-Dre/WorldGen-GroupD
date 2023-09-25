@@ -5,10 +5,13 @@ import { TextField, Button, Typography, Modal } from "@mui/material";
 import { SplitScreen } from "../components/SplitScreen";
 import { DragDrop } from "../components/DragDrop";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "../Theme";
+import theme, { ourPalette } from "../Theme";
 import { motion } from "framer-motion";
 import * as BiIcons from "react-icons/bi";
 import { Divider } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setMap } from "../slices/mapSlice";
+import { MapRequest } from "../components/MapRequest";
 
 import {
   HomeBody,
@@ -30,9 +33,13 @@ import {
 import "./Home.css";
 import logo from "./assets/logo.png";
 import gen from "./assets/gen.gif";
+import { RandomMapGenerate } from "../components/RandomMapGenerate";
 
 export const Home = () => {
   const navigateToGenerate = useNavigate();
+  const navigateToMapView = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [loadButtonColor, setLoadButtonColor] = useState("primary");
   const [createButtonColor, setCreateButtonColor] = useState("primary");
@@ -57,6 +64,33 @@ export const Home = () => {
   };
 
   const gameCodeSubmit = () => localStorage.setItem("gameCode", gameCode);
+
+  const RandomMapGenerate = () => {
+    // Define possible values for theme and size
+    const themes = ["Basement", "Mansion", "Graveyard"];
+    const sizes = ["Small", "Medium", "Large"];
+
+    // Randomly select a theme and size
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+
+    const request = {
+      theme: randomTheme,
+      size: randomSize
+    };
+
+    MapRequest(request)
+      .then((blob) => {
+        const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
+        // setDisplayedImage(imageUrl)
+        dispatch(setMap(imageUrl));
+        navigateToMapView("/MapView");
+      })
+      .catch((error) => {
+        alert('Error: ' + error.message);
+        console.error("Error:", error);
+      });
+  };
 
   return (
       <body style={HomeBody}>
@@ -172,23 +206,23 @@ export const Home = () => {
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
                       position: 'absolute',
-                      background: 'white',
+                      background: ourPalette.tabGradient,
                       padding: '20px',
                       boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.3)',
-                      borderRadius: '10px'
+                      borderRadius: '2px'
                     }}
                 >
                   <Button
                       variant="outlined"
                       style={{ marginBottom: '10px' }}
                       onClick={() => {
-                        console.log("Quick generate logic goes here");
+                        RandomMapGenerate();
                         setGenerateModalOpen(false);
                       }}
                   >
                     Quick Generate
                   </Button>
-                  <Typography variant="body2" style={{ marginBottom: '15px' }}>
+                  <Typography variant="body2" style={{ marginBottom: '15px', fontFamily: "monospace",color:ourPalette.white }}>
                     Generate a map with a press of a button, instantly dive into a new DnD adventure!
                   </Typography>
 
@@ -196,7 +230,7 @@ export const Home = () => {
 
                   <Button
                       variant="outlined"
-                      style={{ marginBottom: '10px' }}
+                      style={{ marginBottom: '10px', borderRadius: '2px' }}
                       onClick={() => {
                         navigateToGenerate("/Generate");
                         setGenerateModalOpen(false);
@@ -204,7 +238,7 @@ export const Home = () => {
                   >
                     Custom Generate
                   </Button>
-                  <Typography variant="body2">
+                  <Typography variant="body2" style={{fontFamily: "monospace" , color:ourPalette.white}}>
                     Customize your story! Select map size and dungeon theme to create a dungeon that's tailored for the story you want to tell!
                   </Typography>
                 </div>
