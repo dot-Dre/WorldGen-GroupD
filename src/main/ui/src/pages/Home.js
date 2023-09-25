@@ -37,6 +37,7 @@ import gen from "./assets/gen.gif";
 export const Home = () => {
   const navigateToGenerate = useNavigate();
   const navigateToMapView = useNavigate();
+  const naviagetToDetails = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -62,7 +63,10 @@ export const Home = () => {
     setInputError(inputValue.length !== 9 || !/^\d+$/.test(inputValue));
   };
 
-  const gameCodeSubmit = () => localStorage.setItem("gameCode", gameCode);
+  const gameCodeSubmit = () => {
+    localStorage.setItem("gameCode", gameCode);
+    naviagetToDetails("/PlayerDetails")
+  }
 
   const RandomMapGenerate = () => {
     // Define possible values for theme and size

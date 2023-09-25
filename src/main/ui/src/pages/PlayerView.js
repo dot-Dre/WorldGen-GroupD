@@ -66,7 +66,7 @@ function PlayerView() {
               Game ID:
             </Typography>
             <div>
-              <PlayerList initialData={data} gameID={"234-900-001"} />
+              <PlayerList initialData={data} gameID={localStorage.getItem("gameCode")} />
             </div>
           </nav>
           <div style={tabImgStyle}>
