@@ -46,5 +46,4 @@ public class Texture {
     public String toString() {
         return "Texture{" + "Name: " + name + "path=" + path + ", width=" + width + ", height=" + height + '}';
     }
-
 }

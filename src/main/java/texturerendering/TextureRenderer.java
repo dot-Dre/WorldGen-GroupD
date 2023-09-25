@@ -8,10 +8,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 public class TextureRenderer {
 
     private HashMap<String, Texture> textureMap;
+    Random random = new Random();
 
     /**
      * Creates a new TextureRenderer.
@@ -25,8 +27,6 @@ public class TextureRenderer {
         initializeTextures();
         renderTextures(dungeon, 1);
         renderTextures(dungeon, 2);
-        renderTextures(dungeon, 3);
-        renderTextures(dungeon, 4);
     }
 
     /**
@@ -77,14 +77,13 @@ public class TextureRenderer {
                 Tile tile = tiles[y][x];
                 Texture texture;
                 // Assign the texture based on the tile type
-                if (tile == Tile.EMPTY) {
-                    texture = textureMap.get("wall_topinner");
+                if (tile == Tile.WALL) {
+                    texture = determineWallTexture(tiles, x, y);
                 } else if (tile == Tile.FLOOR) {
-                    texture = textureMap.get("floor_clean");
-                } else if (tile == Tile.WALL) {
-                    texture = textureMap.get("wall_top");
+                    texture = determineFloorTexture(tiles, x, y);
+
                 } else {
-                    continue;
+                    texture = textureMap.get("empty_tile");
                 }
                 BufferedImage tileImage = texture.getImage();
                 image.getGraphics().drawImage(tileImage, x * tileWidth, y * tileHeight, tileWidth, tileHeight, null);
@@ -97,6 +96,103 @@ public class TextureRenderer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Texture determineWallTexture(Tile[][] tiles, int x, int y) {
+        // Corners
+        if (isTopLeftCorner(tiles, x, y)) return textureMap.get("wall_topleft");
+        if (isTopRightCorner(tiles, x, y)) return textureMap.get("wall_topright");
+        if (isBottomLeftCorner(tiles, x, y)) return textureMap.get("wall_bottomleft");
+        if (isBottomRightCorner(tiles, x, y)) return textureMap.get("wall_bottomright");
+
+        // Edges
+        if (isTopEdge(tiles, x, y)) return textureMap.get("wall_top");
+        if (isBottomEdge(tiles, x, y)) return textureMap.get("wall_bottom");
+        if (isLeftEdge(tiles, x, y)) return textureMap.get(random.nextInt() % 5 == 0 ? "wall_left1" : "wall_left2");
+        if (isRightEdge(tiles, x, y)) return textureMap.get(random.nextInt()% 5 == 0 ? "wall_right2" : "wall_right1");
+
+        // Default wall texture
+        return textureMap.get("wall_topinner");
+    }
+
+    private Texture determineFloorTexture(Tile[][] tiles, int x, int y) {
+        // Corners
+        if (isTopLeftCornerFloor(tiles, x, y)) return textureMap.get("floor_topleft");
+        if (isTopRightCornerFloor(tiles, x, y)) return textureMap.get("floor_half_top");
+        if (isBottomLeftCornerFloor(tiles, x, y)) return textureMap.get("floor_half");
+        if (isBottomRightCornerFloor(tiles, x, y)) return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
+
+        // Edges
+        if (isTopEdgeFloor(tiles, x, y)) return textureMap.get("floor_half_top");
+        if (isBottomEdgeFloor(tiles, x, y)) return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
+        if (isLeftEdgeFloor(tiles, x, y)) return textureMap.get("floor_half");
+        if (isRightEdgeFloor(tiles, x, y)) return textureMap.get(random.nextInt() % 10 == 0 ? "floor_cracked" : "floor_clean");
+
+        // Default floor texture
+        return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
+    }
+
+    // Helper methods to identify specific positions for floors
+
+    private boolean isTopLeftCornerFloor(Tile[][] tiles, int x, int y) {
+        return y > 0 && x > 0 && tiles[y - 1][x] != Tile.FLOOR && tiles[y][x - 1] != Tile.FLOOR;
+    }
+    private boolean isTopRightCornerFloor(Tile[][] tiles, int x, int y) {
+        return y > 0 && x < tiles[0].length - 1 && tiles[y - 1][x] != Tile.FLOOR && tiles[y][x + 1] != Tile.FLOOR;
+    }
+    private boolean isBottomLeftCornerFloor(Tile[][] tiles, int x, int y) {
+        return y < tiles.length - 1 && x > 0 && tiles[y + 1][x] != Tile.FLOOR && tiles[y][x - 1] != Tile.FLOOR;
+    }
+    private boolean isBottomRightCornerFloor(Tile[][] tiles, int x, int y) {
+        return y < tiles.length - 1 && x < tiles[0].length - 1 && tiles[y + 1][x] != Tile.FLOOR && tiles[y][x + 1] != Tile.FLOOR;
+    }
+    private boolean isTopEdgeFloor(Tile[][] tiles, int x, int y) {
+        return y > 0 && tiles[y - 1][x] != Tile.FLOOR;
+    }
+
+    private boolean isBottomEdgeFloor(Tile[][] tiles, int x, int y) {
+        return y < tiles.length - 1 && tiles[y + 1][x] != Tile.FLOOR;
+    }
+
+    private boolean isLeftEdgeFloor(Tile[][] tiles, int x, int y) {
+        return x > 0 && tiles[y][x - 1] != Tile.FLOOR;
+    }
+
+    private boolean isRightEdgeFloor(Tile[][] tiles, int x, int y) {
+        return x < tiles[0].length - 1 && tiles[y][x + 1] != Tile.FLOOR;
+    }
+
+    // Helper methods to identify specific positions for walls
+    private boolean isTopLeftCorner(Tile[][] tiles, int x, int y) {
+        return y > 0 && x > 0 && tiles[y - 1][x] == Tile.EMPTY && tiles[y][x - 1] == Tile.EMPTY;
+    }
+
+    private boolean isTopRightCorner(Tile[][] tiles, int x, int y) {
+        return y > 0 && x < tiles[0].length - 1 && tiles[y - 1][x] == Tile.EMPTY && tiles[y][x + 1] == Tile.EMPTY;
+    }
+
+    private boolean isBottomLeftCorner(Tile[][] tiles, int x, int y) {
+        return y < tiles.length - 1 && x > 0 && tiles[y + 1][x] == Tile.EMPTY && tiles[y][x - 1] == Tile.EMPTY;
+    }
+
+    private boolean isBottomRightCorner(Tile[][] tiles, int x, int y) {
+        return y < tiles.length - 1 && x < tiles[0].length - 1 && tiles[y + 1][x] == Tile.EMPTY && tiles[y][x + 1] == Tile.EMPTY;
+    }
+
+    private boolean isTopEdge(Tile[][] tiles, int x, int y) {
+        return y > 0 && tiles[y - 1][x] == Tile.EMPTY;
+    }
+
+    private boolean isBottomEdge(Tile[][] tiles, int x, int y) {
+        return y < tiles.length - 1 && tiles[y + 1][x] == Tile.EMPTY;
+    }
+
+    private boolean isLeftEdge(Tile[][] tiles, int x, int y) {
+        return x > 0 && tiles[y][x - 1] == Tile.EMPTY;
+    }
+
+    private boolean isRightEdge(Tile[][] tiles, int x, int y) {
+        return x < tiles[0].length - 1 && tiles[y][x + 1] == Tile.EMPTY;
     }
 
     /**
