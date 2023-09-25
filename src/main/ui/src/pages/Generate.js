@@ -12,15 +12,22 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
 import { ourPalette } from "../Theme";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import TransformImage from "../components/TransformImage";
 import gen from "./assets/gen.gif";
 import * as GiIcon from "react-icons/gi";
 import * as FaIcon from "react-icons/fa";
 
+import { useDispatch } from "react-redux";
+import { setMap } from "../slices/mapSlice";
 import { MapRequest } from "../components/MapRequest";
 
 export const Generate = () => {
+
+  const navigateToMapView = useNavigate();
+  const dispatch = useDispatch();
+
   const [infoText, setInfoText] = useState("");
   const [showPopup, setShowPopup] = useState(true); // State to control the visibility of the popup
 
@@ -91,13 +98,20 @@ export const Generate = () => {
 
   const handleGenerateClick = () => {
     const request = {
-      theme:selectedTheme,
-      size:selectedSize
+      theme: selectedTheme,
+      size: selectedSize
     };
 
     MapRequest(request)
-      .then((imageUrl) => setDisplayedImage(imageUrl))
+      .then((blob) => {
+        const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
+        // localStorage.setItem("imgUrl", blob)
+        setDisplayedImage(imageUrl)
+        dispatch(setMap(imageUrl));
+        navigateToMapView("/MapView");
+      })
       .catch((error) => {
+        alert('Error: ' + error.message);
         console.error("Error:", error);
       });
   };
