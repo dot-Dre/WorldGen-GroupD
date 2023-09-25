@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 function MapView() {
   const [show, setShow] = useState(true);
-  const displayMap = useSelector((state) => state.mapState.map)
+  const [displayMap, setDisplayMap] = useState(useSelector((state) => state.mapState.map));
 
   const SaveMap = () => {
     const imageUrl = displayMap; // Assuming 'displayMap' contains the Blob URL
@@ -111,7 +111,7 @@ function MapView() {
   const ControlPanel = () => {
     const navigateToGenerate = useNavigate();
     const [infoText, setInfoText] = useState(
-      "Generation details will appear here"
+      "Map attributes will appear here"
     );
 
     const handleRegenerateClick = () => {
@@ -146,7 +146,7 @@ function MapView() {
             color: ourPalette.white,
           }}
         >
-          Generation Details
+          Map Details
         </Typography>
         <TextField
           // fullWidth
@@ -235,25 +235,25 @@ function MapView() {
           Not Happy?
         </Typography>
         <Button
-          style={{
-            marginLeft: "12%",
-            marginTop: "5%",
-            width: "70%",
-            backgroundColor: ourPalette.blank,
-            borderRadius: "2px",
-            borderColor: ourPalette.secondary,
-            color: ourPalette.secondary,
-          }}
+        variant="outlined"
+          style={{marginLeft: "12%",
+          marginTop: "5%",
+          width: "70%",
+          backgroundColor: ourPalette.blank,
+          borderRadius: "2px",
+          borderColor: ourPalette.secondary,
+          color: ourPalette.secondary,}}
           onClick={handleRegenerateClick}
         >
           Regenerate
         </Button>
       </>
+
     );
   };
 
   return (
-    <body style={{ backgroundColor: ourPalette.black, overflow: "hidden" }}>
+    <body style={{ background: ourPalette.black, overflow: "hidden", height:"100vh" }}>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -271,7 +271,7 @@ function MapView() {
             </div>
           </nav>
           <div style={tabImgStyle}>
-            <TransformImage img={displayMap} imgWidth={"70vw"} imgHeight={"100vh"} />
+            <TransformImage img={displayMap} imgWidth={"50vw"} imgHeight={"80vh"} left={"10vw"} top={"10vh"} />
           </div>
           { !show ? <SpeedDial
             ariaLabel="SpeedDial basic example"

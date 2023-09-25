@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 import { setFile } from "../slices/fileSlice";
 import { FileParser } from "../util/FileParser";
 import { ourPalette } from "../Theme";
-
 import dragDrop from "./dragdrop.png";
 import * as BiIcons from "react-icons/bs";
 import LinearProgress from "@mui/material/LinearProgress";
 import "./DragDrop.css";
+import { setMap } from "../slices/mapSlice"
 
 export const DragDrop = (props) => {
   const wrapperRef = useRef(null);
@@ -27,11 +27,18 @@ export const DragDrop = (props) => {
   const [barColor, setBarColor] = useState("secondary");
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [fileLoaded, setFileLoaded] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleButtonClicked = () => {
-    navigateToView("/DMView");
+    if (!fileLoaded) {
+      setBarColor("tertiary");
+      setDisplayMessage("Please drop a .json");
+      setButtonDisabled(false);
+    } else {
+      navigateToView("/MapView");
+    }
   };
 
   const onFileDrop = (e) => {
@@ -45,9 +52,13 @@ export const DragDrop = (props) => {
           try {
             const fileContent = event.target.result;
             const parsedContent = JSON.parse(fileContent);
+
+            dispatch(setMap(parsedContent.map))
+
             console.log(parsedContent);
-            dispatch(setFile(parsedContent));
+            // dispatch(setFile(parsedContent));
             setBarColor("secondary");
+            setFileLoaded(true)
             setDisplayMessage("Good to go!");
             setProgress(100);
             setButtonDisabled(false);
@@ -73,7 +84,7 @@ export const DragDrop = (props) => {
       sx={{
         position: "absolute",
         backgroundImage: ourPalette.tabGradient,
-        borderRadius: "2px",
+        borderRadius: "5px",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
@@ -95,7 +106,7 @@ export const DragDrop = (props) => {
           >
             <div className="drop-file-input__label">
               {/* <img src={dragDrop} alt="" className="dd-image" /> */}
-              <BiIcons.BsFiletypeJson style={{width:"100%", height:"100%", color:ourPalette.white}}/>
+              <BiIcons.BsFiletypeJson style={{width:"20vw", height:"20vh", marginTop:"10vh", color:ourPalette.white}}/>
               <h3 style={{ color: "white", paddingTop:"10%", fontFamily:"monospace" }}>{displayMessage}</h3>
             </div>
             <input type="file" value="" onChange={onFileDrop} />

@@ -33,7 +33,6 @@ import {
 import "./Home.css";
 import logo from "./assets/logo.png";
 import gen from "./assets/gen.gif";
-import { RandomMapGenerate } from "../components/RandomMapGenerate";
 
 export const Home = () => {
   const navigateToGenerate = useNavigate();
