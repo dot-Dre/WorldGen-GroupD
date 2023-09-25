@@ -9,7 +9,7 @@ import java.util.*;
 public class DefaultHallwayFactory extends AbstractHallwayFactory {
 
     Map<Point, Room> roomsPoints;
-    private int hallwayWidth = 1;
+    private int hallwayWidth = 5;
 
     public DefaultHallwayFactory(){}
 
@@ -56,53 +56,132 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
         Room r1 = roomsPoints.get(edge.p1());
         Room r2 = roomsPoints.get(edge.p2());
 
-        // Calculate midpoints
-        int minX = Math.min(r1.centerX(), r2.centerX());
-        int minY = Math.min(r1.centerY(), r2.centerY());
+        int horizontalOverlap = calculateHorizontalOverlap(r1, r2);
+        int verticalOverlap = calculateVerticalOverlap(r1, r2);
 
-        // Check if midpoints are within the y-boundaries of either room for a horizontal line
-        boolean isMidPointYInR1 = minY >= r1.y() && minY <= (r1.y() + r1.height());
-        boolean isMidPointYInR2 = minY >= r2.y() && minY <= (r2.y() + r2.height());
 
-        // Check if midpoints are within the x-boundaries of either room for a vertical line
-        boolean isMidPointXInR1 = minX >= r1.x() && minX <= (r1.x() + r1.width());
-        boolean isMidPointXInR2 = minX >= r2.x() && minX <= (r2.x() + r2.width());
-
-        if (isMidPointYInR1 && isMidPointYInR2) {
-            // Create a horizontal line from minY
-            hallway.addRoom(
-                    new Room(Math.min(r1.centerX(), r2.centerX()), minY,
-                            Math.abs(r1.centerX() - r2.centerX()), 1)
-            );
-        } else if (isMidPointXInR1 && isMidPointXInR2) {
-            // Create a vertical line from minX
-            hallway.addRoom(
-                    new Room(minX, Math.min(r1.centerY(), r2.centerY()),
-                            1, Math.abs(r1.centerY() - r2.centerY()))
-            );
-        } else {
-            // Create a horizontal line
-            hallway.addRoom(
-                    new Room(Math.min(r1.centerX(), r2.centerX()),
-                            minY, Math.abs(r1.centerX() - r2.centerX()), 1)
-            );
-
-            Room topRoom = r1.centerY() < r2.centerY() ? r1 : r2;
-            Room bottomRoom = r1.centerY() < r2.centerY() ? r2 : r1;
-            boolean topOnLeft = topRoom.centerX() == minX;
-
-            // Create a vertical line
-            if (topOnLeft) {
-                hallway.addRoom(
-                        new Room(bottomRoom.centerX(), topRoom.centerY(),
-                                1, Math.abs(r1.centerY() - r2.centerY())));
-            } else {
-                hallway.addRoom(new Room(minX, minY, 1, Math.abs(r1.centerY() - r2.centerY())));
+        if(horizontalOverlap >= 3){
+            Room newHallway = createVerticalHallway(r1, r2, horizontalOverlap);
+            hallway.addRoom(newHallway);
+        }else if(verticalOverlap >= 3){
+            Room newHorizontalHallway = createHorizontalHallway(r1, r2, verticalOverlap);
+            hallway.addRoom(newHorizontalHallway);
+        }else{
+            for(Room r: createLHallway(r1, r2)){
+                hallway.addRoom(r);
             }
         }
+
 
         return hallway;
     }
 
+    private List<Room> createLHallway(Room r1, Room r2) {
+        boolean r2LeftOfR1 = r2.centerX() < r1.centerX();
+        boolean r2AboveR1 = r2.centerY() < r1.centerY();
+
+        Room leftRoom = r2LeftOfR1 ? r2 : r1;
+        Room rightRoom = r2LeftOfR1 ? r1 : r2;
+        Room topRoom = r2AboveR1 ? r2 : r1;
+        Room bottomRoom = r2AboveR1 ? r1 : r2;
+        int x = bottomRoom.x();
+        int y = topRoom.y();
+        int width = bottomRoom.width()-1;
+        int height = topRoom.height()-1;
+
+        if(topRoom == leftRoom){
+            if(bottomRoom.x() - topRoom.x() + topRoom.width() - 1 < 0){
+                x = topRoom.x() + topRoom.width() - 1;
+            }
+        }else{
+            if(topRoom.x() < bottomRoom.x() + bottomRoom.width() - 1){
+                width = topRoom.x() - x;
+            }
+        }
+
+        if(topRoom.y() + topRoom.height() - 1 > bottomRoom.y()){
+            height = bottomRoom.y() - y;
+        }
+
+        Room midRoom = new Room(x, y, width, height);
+
+        int yOverlap = calculateVerticalOverlap(midRoom, topRoom);
+        int xOverlap = calculateHorizontalOverlap(midRoom, bottomRoom);
+
+        Room horizontalHallway = createHorizontalHallway(midRoom, topRoom, yOverlap);
+        Room verticalHallway = createVerticalHallway(midRoom, bottomRoom, xOverlap);
+
+//        int horizontalLength = horizontalHallway.width() + (midRoom.x() - (verticalHallway.x() + verticalHallway.width()));
+//        int verticalLength = verticalHallway.height() + (midRoom.y() - (horizontalHallway.y() + horizontalHallway.height()));
+//
+//        horizontalHallway = new Room(horizontalHallway.x(), horizontalHallway.y(), horizontalLength, horizontalHallway.height());
+//        verticalHallway = new Room(verticalHallway.x(), verticalHallway.y(), verticalHallway.width(), verticalLength);
+
+        return List.of(horizontalHallway, verticalHallway);
+    }
+
+    private Room createVerticalHallway(Room r1, Room r2, int width) {
+        boolean r2AboveR1 = r2.y() + r2.height() - 1 < r1.y();
+        Room topRoom = r2AboveR1 ? r2 : r1;
+        Room bottomRoom = r2AboveR1 ? r1 : r2;
+
+        int maxLeftSide = Math.max(r1.x(), r2.x());
+        int minRightSide = Math.min(r1.x() + r1.width(), r2.x() + r2.width());
+        int xRange = minRightSide - maxLeftSide;
+        int x = maxLeftSide + (xRange - width)/2;
+
+        int y = topRoom.y() + topRoom.height() - 1;
+        int height = bottomRoom.y() - y;
+
+        return new Room(x, y, width, height);
+    }
+
+
+    private int calculateHorizontalOverlap(Room r1, Room r2) {
+        if(r1.x() <= r2.x() && r1.x() + r1.width() >= r2.x() + r2.width()){
+            // r2 is completely within r1
+            return Math.min(r2.width(), hallwayWidth);
+        } else if(r2.x() <= r1.x() && r2.x() + r2.width() >= r1.x() + r1.width()){
+            // r1 is completely within r2
+            return Math.min(r1.width(), hallwayWidth);
+        } else {
+            // General case
+            int minRightSide = Math.min(r1.x() + r1.width(), r2.x() + r2.width());
+            int maxLeftSide = Math.max(r1.x(), r2.x());
+            return Math.min(minRightSide - maxLeftSide -1, hallwayWidth);
+        }
+    }
+
+
+    private Room createHorizontalHallway(Room r1, Room r2, int height) {
+        boolean r2LeftOfR1 = r2.x() + r2.width() - 1 < r1.x();
+        Room leftRoom = r2LeftOfR1 ? r2 : r1;
+        Room rightRoom = r2LeftOfR1 ? r1 : r2;
+
+        int maxTopSide = Math.max(r1.y(), r2.y());
+        int minBottomSide = Math.min(r1.y() + r1.height(), r2.y() + r2.height());
+        int yRange = minBottomSide - maxTopSide;
+        int y = maxTopSide + (yRange - height) / 2;
+
+        int x = leftRoom.x() + leftRoom.width() - 1;
+        int width = rightRoom.x() - x;
+
+        return new Room(x, y, width, height);
+    }
+
+    private int calculateVerticalOverlap(Room r1, Room r2) {
+        if (r1.y() <= r2.y() && r1.y() + r1.height() >= r2.y() + r2.height()) {
+            // r2 is completely within r1
+            return Math.min(r2.height(), hallwayWidth);
+        } else if (r2.y() <= r1.y() && r2.y() + r2.height() >= r1.y() + r1.height()) {
+            // r1 is completely within r2
+            return Math.min(r1.height(), hallwayWidth);
+        } else {
+            // General case
+            int minBottomSide = Math.min(r1.y() + r1.height(), r2.y() + r2.height());
+            int maxTopSide = Math.max(r1.y(), r2.y());
+            return Math.min(minBottomSide - maxTopSide - 1, hallwayWidth);
+        }
+    }
 
 }
