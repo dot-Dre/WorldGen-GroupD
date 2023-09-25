@@ -44,9 +44,9 @@ function PlayerView() {
         exit={{ opacity: 0 }}
       >
         <ThemeProvider theme={theme}>
-          <nav style={{ backgroundColor: ourPalette.blank, height:"3vh" }}>
+          <nav style={{ backgroundColor: ourPalette.blank, height: "3vh" }}>
             <Button onClick={reveal}>
-              {show ? <IoIcon.IoCaretBack/> : <IoIcon.IoCaretForward/>}
+              {show ? <IoIcon.IoCaretBack /> : <IoIcon.IoCaretForward />}
             </Button>
           </nav>
           <nav style={tabStyle}>
@@ -66,7 +66,7 @@ function PlayerView() {
               Game ID:
             </Typography>
             <div>
-              <PlayerList initialData={data} gameID={"234-900-001"} />
+              <PlayerList initialData={data} gameID={localStorage.getItem("gameCode")} />
             </div>
           </nav>
           <div style={tabImgStyle}>

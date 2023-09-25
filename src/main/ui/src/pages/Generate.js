@@ -12,15 +12,26 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
 import { ourPalette } from "../Theme";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import TransformImage from "../components/TransformImage";
 import gen from "./assets/gen.gif";
 import * as GiIcon from "react-icons/gi";
 import * as FaIcon from "react-icons/fa";
 
+import { useDispatch } from "react-redux";
+import { setMap } from "../slices/mapSlice";
+import { MapRequest } from "../components/MapRequest";
+
 export const Generate = () => {
+
+  const navigateToMapView = useNavigate();
+  const dispatch = useDispatch();
+
   const [infoText, setInfoText] = useState("");
   const [showPopup, setShowPopup] = useState(true); // State to control the visibility of the popup
+
+  const [imgDisplay, setDisplayedImage] = useState(gen);
 
   // Selection functionality =================================================
   const [selectedTheme, setSelectedTheme] = useState("Graveyard");
@@ -40,8 +51,8 @@ export const Generate = () => {
   // ========================================================================
 
   // Advanced Options selections, variables and handlers ====================
-  const [variance, setVariance] = useState(0.7)
-  const [roomNumber, setRoomNumber] = useState(15)
+  const [variance, setVariance] = useState(0.7);
+  const [roomNumber, setRoomNumber] = useState(15);
 
   const HandleSizeClick = (size) => {
     if (size.trim() === "Small".trim()) {
@@ -86,7 +97,23 @@ export const Generate = () => {
   // ==============================================================================
 
   const handleGenerateClick = () => {
-    // Ideally somee fetch requests
+    const request = {
+      theme: selectedTheme,
+      size: selectedSize
+    };
+
+    MapRequest(request)
+      .then((blob) => {
+        const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
+        // localStorage.setItem("imgUrl", blob)
+        setDisplayedImage(imageUrl)
+        dispatch(setMap(imageUrl));
+        navigateToMapView("/MapView");
+      })
+      .catch((error) => {
+        alert('Error: ' + error.message);
+        console.error("Error:", error);
+      });
   };
 
   const handleMouseOver = (text) => {
@@ -244,7 +271,9 @@ export const Generate = () => {
                           backgroundColor: ourPalette.blank,
                         }}
                         onClick={() => HandleSizeClick("Small")}
-                        onMouseOver={() => handleMouseOver("Small map size (7 rooms)")} // Please correct if wrong
+                        onMouseOver={() =>
+                          handleMouseOver("Small map size (7 rooms)")
+                        } // Please correct if wrong
                         onMouseOut={handleMouseOut}
                       >
                         S
@@ -262,7 +291,9 @@ export const Generate = () => {
                           backgroundColor: ourPalette.blank,
                         }}
                         onClick={() => HandleSizeClick("Medium")}
-                        onMouseOver={() => handleMouseOver("Medium map size (15 rooms)")} // PLease correct if wrong
+                        onMouseOver={() =>
+                          handleMouseOver("Medium map size (15 rooms)")
+                        } // PLease correct if wrong
                         onMouseOut={handleMouseOut}
                       >
                         M
@@ -280,7 +311,9 @@ export const Generate = () => {
                           backgroundColor: ourPalette.blank,
                         }}
                         onClick={() => HandleSizeClick("Large")}
-                        onMouseOver={() => handleMouseOver("Large map size (30 rooms)")} // Please correct if wrong
+                        onMouseOver={() =>
+                          handleMouseOver("Large map size (30 rooms)")
+                        } // Please correct if wrong
                         onMouseOut={handleMouseOut}
                       >
                         L
@@ -314,10 +347,14 @@ export const Generate = () => {
                       min={0.0}
                       max={1.0}
                       step={0.01}
-                      onMouseOver={()=>{setInfoText("The variance of the dungeon's tileset")}} // Please change idk what it is yey
-                      onMouseOut={()=>{setInfoText("")}}
-                      onChangeCommitted={(e, value)=>{
-                        setVariance(value)
+                      onMouseOver={() => {
+                        setInfoText("The variance of the dungeon's tileset");
+                      }} // Please change idk what it is yey
+                      onMouseOut={() => {
+                        setInfoText("");
+                      }}
+                      onChangeCommitted={(e, value) => {
+                        setVariance(value);
                       }}
                       sx={{
                         "& .MuiSlider-thumb": {
@@ -349,14 +386,18 @@ export const Generate = () => {
                       min={0}
                       max={30}
                       step={1}
-                      onMouseOver={()=>{setInfoText("The number of rooms in your dungeon")}} // Please change if needed
-                      onMouseOut={()=>{setInfoText("")}}
+                      onMouseOver={() => {
+                        setInfoText("The number of rooms in your dungeon");
+                      }} // Please change if needed
+                      onMouseOut={() => {
+                        setInfoText("");
+                      }}
                       onChangeCommitted={(e, value) => {
-                        setSelectedSize("")
+                        setSelectedSize("");
                         setSmallButtonColor(ourPalette.primary);
                         setMediumButtonColor(ourPalette.primary);
                         setLargeButtonColor(ourPalette.primary);
-                        setRoomNumber(value)
+                        setRoomNumber(value);
                       }}
                       sx={{
                         "& .MuiSlider-thumb": {
@@ -427,7 +468,7 @@ export const Generate = () => {
                 style={{ width: "100%", height: "100vh", position: "relative" }}
               >
                 <TransformImage
-                  img={gen}
+                  img={imgDisplay}
                   imgHeight={"120vh"}
                   imgWidth={"90vw"}
                   left={"-5vw"}
