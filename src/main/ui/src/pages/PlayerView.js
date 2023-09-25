@@ -44,9 +44,9 @@ function PlayerView() {
         exit={{ opacity: 0 }}
       >
         <ThemeProvider theme={theme}>
-          <nav style={{ backgroundColor: ourPalette.blank, height:"3vh" }}>
+          <nav style={{ backgroundColor: ourPalette.blank, height: "3vh" }}>
             <Button onClick={reveal}>
-              {show ? <IoIcon.IoCaretBack/> : <IoIcon.IoCaretForward/>}
+              {show ? <IoIcon.IoCaretBack /> : <IoIcon.IoCaretForward />}
             </Button>
           </nav>
           <nav style={tabStyle}>
