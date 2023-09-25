@@ -13,6 +13,7 @@ import dummy from "./assets/testMap.png";
 import { Typography, Dialog, DialogTitle } from "@mui/material";
 import PlayerIcon from "../components/PlayerIcon";
 import MapPin from "../components/MapPin";
+import ControlPanel from "../components/ControlPanel";
 
 function calculateRandomPlayerPosition(centerX, centerY, radius) {
   // Generate a random angle and distance within the radius
@@ -69,6 +70,7 @@ function DMView() {
         exit={{ opacity: 0 }}
       >
         <ThemeProvider theme={theme}>
+          <ControlPanel />
           <nav style={{ backgroundColor: ourPalette.blank, height: "3vh" }}>
             <Button onClick={reveal}>
               {show ? <IoIcon.IoCaretBack /> : <IoIcon.IoCaretForward />}
@@ -99,7 +101,6 @@ function DMView() {
             </div>
           </nav>
           <div style={tabImgStyle}>
-            <MapPin initialX={mapPinX} initialY={mapPinY} size={40} />
             {players.map((player) => (
               <PlayerIcon
                 key={player.id}
@@ -107,6 +108,7 @@ function DMView() {
                 initialY={player.position.y}
               />
             ))}
+            <MapPin initialX={mapPinX} initialY={mapPinY} size={40} />
             <img src={dummy} imgWidth={"70vw"} imgHeight={"90vh"} />
           </div>
         </ThemeProvider>
