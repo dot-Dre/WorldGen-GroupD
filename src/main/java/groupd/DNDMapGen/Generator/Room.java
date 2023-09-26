@@ -88,4 +88,17 @@ public class Room {
         }
         return copy;
     }
+
+    public void setTiles(Tile[][] tiles){
+        if(tiles.length != height || tiles[0].length != width){
+            return;
+        }
+
+        for(int row = 0; row < height; row++){
+            for(int col = 0; col < width; col++){
+                this.tiles[row][col] = tiles[row][col];
+            }
+        }
+
+    }
 }
