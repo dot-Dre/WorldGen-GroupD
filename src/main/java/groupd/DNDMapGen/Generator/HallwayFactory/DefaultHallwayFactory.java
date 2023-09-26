@@ -90,7 +90,7 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
         int height = topRoom.height()-1;
 
         if(topRoom == leftRoom){
-            if(bottomRoom.x() - topRoom.x() + topRoom.width() - 1 < 0){
+            if(topRoom.x() + topRoom.width() - 1 > bottomRoom.x()){
                 x = topRoom.x() + topRoom.width() - 1;
             }
         }else{
@@ -104,24 +104,38 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
         }
 
         Room midRoom = new Room(x, y, width, height);
-
         int yOverlap = calculateVerticalOverlap(midRoom, topRoom);
         int xOverlap = calculateHorizontalOverlap(midRoom, bottomRoom);
 
-        Room horizontalHallway = createHorizontalHallway(midRoom, topRoom, yOverlap);
-        Room verticalHallway = createVerticalHallway(midRoom, bottomRoom, xOverlap);
+        // Vertical hallway
+        int maxLeftSide = Math.max(midRoom.x(), bottomRoom.x());
+        int minRightSide = Math.min(midRoom.x() + midRoom.width(), bottomRoom.x() + bottomRoom.width());
+        int xRange = minRightSide - maxLeftSide;
+        x = maxLeftSide + (xRange - xOverlap)/2;
 
-//        int horizontalLength = horizontalHallway.width() + (midRoom.x() - (verticalHallway.x() + verticalHallway.width()));
-//        int verticalLength = verticalHallway.height() + (midRoom.y() - (horizontalHallway.y() + horizontalHallway.height()));
-//
-//        horizontalHallway = new Room(horizontalHallway.x(), horizontalHallway.y(), horizontalLength, horizontalHallway.height());
-//        verticalHallway = new Room(verticalHallway.x(), verticalHallway.y(), verticalHallway.width(), verticalLength);
+        // Horizontal hallway
+        int maxTopSide = Math.max(midRoom.y(), topRoom.y());
+        int minBottomSide = Math.min(midRoom.y() + midRoom.height(), topRoom.y() + topRoom.height());
+        int yRange = minBottomSide - maxTopSide;
+        y = maxTopSide + (yRange - yOverlap) / 2;
+
+        Room horizontalHallway;
+        height = bottomRoom.y() - y;
+        if(topRoom == rightRoom){
+            width = topRoom.x() - x;
+            horizontalHallway = new Room(x, y, width+2, yOverlap);
+        }else{
+            width = x - topRoom.x() - topRoom.width() + 1;
+            horizontalHallway = new Room(topRoom.x() + topRoom.width()-2, y, width + yOverlap, yOverlap);
+        }
+
+        Room verticalHallway = new Room(x, y, xOverlap, height+2);
 
         return List.of(horizontalHallway, verticalHallway);
     }
 
     private Room createVerticalHallway(Room r1, Room r2, int width) {
-        boolean r2AboveR1 = r2.y() + r2.height() - 1 < r1.y();
+        boolean r2AboveR1 = r2.centerY() < r1.centerY();
         Room topRoom = r2AboveR1 ? r2 : r1;
         Room bottomRoom = r2AboveR1 ? r1 : r2;
 
@@ -130,8 +144,8 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
         int xRange = minRightSide - maxLeftSide;
         int x = maxLeftSide + (xRange - width)/2;
 
-        int y = topRoom.y() + topRoom.height() - 1;
-        int height = bottomRoom.y() - y;
+        int y = topRoom.y() + topRoom.height() - 2;
+        int height = bottomRoom.y() - y + 2;
 
         return new Room(x, y, width, height);
     }
@@ -154,7 +168,7 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
 
 
     private Room createHorizontalHallway(Room r1, Room r2, int height) {
-        boolean r2LeftOfR1 = r2.x() + r2.width() - 1 < r1.x();
+        boolean r2LeftOfR1 = r2.centerX() < r1.centerX();
         Room leftRoom = r2LeftOfR1 ? r2 : r1;
         Room rightRoom = r2LeftOfR1 ? r1 : r2;
 
@@ -163,8 +177,8 @@ public class DefaultHallwayFactory extends AbstractHallwayFactory {
         int yRange = minBottomSide - maxTopSide;
         int y = maxTopSide + (yRange - height) / 2;
 
-        int x = leftRoom.x() + leftRoom.width() - 1;
-        int width = rightRoom.x() - x;
+        int x = leftRoom.x() + leftRoom.width() - 2;
+        int width = rightRoom.x() - x + 2;
 
         return new Room(x, y, width, height);
     }
