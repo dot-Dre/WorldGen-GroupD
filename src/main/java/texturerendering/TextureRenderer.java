@@ -98,23 +98,56 @@ public class TextureRenderer {
         }
     }
 
+    /**
+     * Finds the correct texture to place at the given position. The texture is determined by
+     * checking the surrounding tiles and comparing them to the tile at the given position.
+     * @param tiles The tiles of the dungeon.
+     * @param x     The x position of the tile.
+     * @param y     The y position of the tile.
+     * @return The texture to place at the given position.
+     */
     private Texture determineWallTexture(Tile[][] tiles, int x, int y) {
+
         // Corners
-        if (isTopLeftCorner(tiles, x, y)) return textureMap.get("wall_topleft");
-        if (isTopRightCorner(tiles, x, y)) return textureMap.get("wall_topright");
+        if (isTopLeftCorner(tiles, x, y)) return textureMap.get("wall_topleft_tall");
+        if (isTopRightCorner(tiles, x, y)) return textureMap.get("wall_topright_tall");
         if (isBottomLeftCorner(tiles, x, y)) return textureMap.get("wall_bottomleft");
         if (isBottomRightCorner(tiles, x, y)) return textureMap.get("wall_bottomright");
 
         // Edges
-        if (isTopEdge(tiles, x, y)) return textureMap.get("wall_top");
+        if (isTopEdge(tiles, x, y)) return textureMap.get("wall_top_inner");
         if (isBottomEdge(tiles, x, y)) return textureMap.get("wall_bottom");
         if (isLeftEdge(tiles, x, y)) return textureMap.get(random.nextInt() % 5 == 0 ? "wall_left1" : "wall_left2");
         if (isRightEdge(tiles, x, y)) return textureMap.get(random.nextInt()% 5 == 0 ? "wall_right2" : "wall_right1");
+
+        // Check for adjacent room walls and set texture accordingly
+        if (isAdjacentToAnotherRoomWall(tiles, x, y, "top")) {
+
+            return textureMap.get("wall_top_inner");
+        }
+        if (isAdjacentToAnotherRoomWall(tiles, x, y, "bottom")) {
+            return textureMap.get("wall_bottom");
+        }
+        if (isAdjacentToAnotherRoomWall(tiles, x, y, "right")) {
+            return textureMap.get("wall_right2");
+        }
+        if (isAdjacentToAnotherRoomWall(tiles, x, y, "left")) {
+            return textureMap.get("wall_left1");
+        }
 
         // Default wall texture
         return textureMap.get("wall_topinner");
     }
 
+
+    /**
+     * Finds the correct texture to place at the given position. The texture is determined by
+     * checking the surrounding tiles and comparing them to the tile at the given position.
+     * @param tiles The tiles of the dungeon.
+     * @param x     The x position of the tile.
+     * @param y     The y position of the tile.
+     * @return The texture to place at the given position.
+     */
     private Texture determineFloorTexture(Tile[][] tiles, int x, int y) {
         // Corners
         if (isTopLeftCornerFloor(tiles, x, y)) return textureMap.get("floor_topleft");
@@ -132,8 +165,27 @@ public class TextureRenderer {
         return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
     }
 
-    // Helper methods to identify specific positions for floors
+    // Helper method to check if a wall tile is adjacent to another room's wall
+    private boolean isAdjacentToAnotherRoomWall(Tile[][] tiles, int x, int y, String direction) {
+        int newX = x;
+        int newY = y;
 
+        switch (direction) {
+            case "top" -> newY = y - 1;
+            case "bottom" -> newY = y + 1;
+            case "left" -> newX = x - 1;
+            case "right" -> newX = x + 1;
+        }
+
+        // Check bounds
+        if (newX >= 0 && newX < tiles[0].length && newY >= 0 && newY < tiles.length) {
+            Tile neighbor = tiles[newY][newX];
+            return neighbor == Tile.WALL;
+        }
+        return false;
+    }
+
+    // Helper methods to identify specific positions for floors
     private boolean isTopLeftCornerFloor(Tile[][] tiles, int x, int y) {
         return y > 0 && x > 0 && tiles[y - 1][x] != Tile.FLOOR && tiles[y][x - 1] != Tile.FLOOR;
     }
