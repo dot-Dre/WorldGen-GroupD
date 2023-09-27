@@ -153,13 +153,16 @@ public class TextureRenderer {
         if (isTopLeftCornerFloor(tiles, x, y)) return textureMap.get("floor_topleft");
         if (isTopRightCornerFloor(tiles, x, y)) return textureMap.get("floor_half_top");
         if (isBottomLeftCornerFloor(tiles, x, y)) return textureMap.get("floor_half");
-        if (isBottomRightCornerFloor(tiles, x, y)) return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
+        if (isBottomRightCornerFloor(tiles, x, y))
+            return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
 
         // Edges
         if (isTopEdgeFloor(tiles, x, y)) return textureMap.get("floor_half_top");
-        if (isBottomEdgeFloor(tiles, x, y)) return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
+        if (isBottomEdgeFloor(tiles, x, y))
+            return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
         if (isLeftEdgeFloor(tiles, x, y)) return textureMap.get("floor_half");
-        if (isRightEdgeFloor(tiles, x, y)) return textureMap.get(random.nextInt() % 10 == 0 ? "floor_cracked" : "floor_clean");
+        if (isRightEdgeFloor(tiles, x, y))
+            return textureMap.get(random.nextInt() % 10 == 0 ? "floor_cracked" : "floor_clean");
 
         // Default floor texture
         return textureMap.get(random.nextInt() % 10 == 0 ? "floor_dirty" : "floor_clean");
@@ -189,15 +192,19 @@ public class TextureRenderer {
     private boolean isTopLeftCornerFloor(Tile[][] tiles, int x, int y) {
         return y > 0 && x > 0 && tiles[y - 1][x] != Tile.FLOOR && tiles[y][x - 1] != Tile.FLOOR;
     }
+
     private boolean isTopRightCornerFloor(Tile[][] tiles, int x, int y) {
         return y > 0 && x < tiles[0].length - 1 && tiles[y - 1][x] != Tile.FLOOR && tiles[y][x + 1] != Tile.FLOOR;
     }
+
     private boolean isBottomLeftCornerFloor(Tile[][] tiles, int x, int y) {
         return y < tiles.length - 1 && x > 0 && tiles[y + 1][x] != Tile.FLOOR && tiles[y][x - 1] != Tile.FLOOR;
     }
+
     private boolean isBottomRightCornerFloor(Tile[][] tiles, int x, int y) {
         return y < tiles.length - 1 && x < tiles[0].length - 1 && tiles[y + 1][x] != Tile.FLOOR && tiles[y][x + 1] != Tile.FLOOR;
     }
+
     private boolean isTopEdgeFloor(Tile[][] tiles, int x, int y) {
         return y > 0 && tiles[y - 1][x] != Tile.FLOOR;
     }
