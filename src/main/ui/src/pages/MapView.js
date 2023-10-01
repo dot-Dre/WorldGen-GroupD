@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Typography,
-  TextField,
-} from "@mui/material";
+import { Button, Typography, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { ourPalette } from "../Theme";
 import TransformImage from "../components/TransformImage";
@@ -15,12 +11,15 @@ import dummy from "./assets/test.png";
 import SpeedDial from "@mui/material/SpeedDial";
 import { SpeedDialAction } from "@mui/material";
 import { MapRequest } from "../components/MapRequest";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useReactToPrint } from 'react-to-print';
 
 function MapView() {
   const [show, setShow] = useState(true);
-  const [displayMap, setDisplayMap] = useState(useSelector((state) => state.mapState.map));
+  const [displayMap, setDisplayMap] = useState(
+    useSelector((state) => state.mapState.map)
+  );
 
   const SaveMap = () => {
     const imageUrl = displayMap; // Assuming 'displayMap' contains the Blob URL
@@ -38,7 +37,7 @@ function MapView() {
           reader.readAsDataURL(blob);
         });
       } catch (error) {
-        console.error('Error encoding image to base64:', error);
+        console.error("Error encoding image to base64:", error);
         throw error;
       }
     };
@@ -53,16 +52,16 @@ function MapView() {
 
         // Create a JSON blob
         const jsonBlob = new Blob([JSON.stringify(jsonObject)], {
-          type: 'application/json',
+          type: "application/json",
         });
 
         // Create a temporary URL for the blob
         const jsonBlobUrl = URL.createObjectURL(jsonBlob);
 
         // Create an anchor element for downloading
-        const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement("a");
         downloadLink.href = jsonBlobUrl;
-        downloadLink.download = 'map.json';
+        downloadLink.download = "map.json";
 
         // Trigger the download
         downloadLink.click();
@@ -70,26 +69,53 @@ function MapView() {
         // Clean up
         URL.revokeObjectURL(jsonBlobUrl);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
-    createAndDownloadJson()
+    createAndDownloadJson();
   };
 
   const reveal = () => {
     setShow(!show);
   };
 
+  const handlePrint = () => {
+    const imageWindow = window.open('', '', 'width=600,height=400,menubar=no,toolbar=no,location=no');
+    const printableContent = `
+      <html>
+        <head>
+          <style>
+            body {
+              background-color: ${ourPalette.mapBackground};
+            }
+          </style>
+        </head>
+        <body>
+          <img src="${displayMap}" alt="Your Image" />
+        </body>
+      </html>
+    `;
+    imageWindow.document.write(printableContent);
+    imageWindow.document.close();
+    imageWindow.print();
+  };
+  
   const actions = [
     {
       icon: <BiIcon.BiSolidSave />,
       name: "Save your dungeon as a .json file!",
       onClick: () => {
-        SaveMap()
+        SaveMap();
       },
     },
-    { icon: <BiIcon.BiSolidPrinter />, name: "Print your map!" },
-    { icon: <BiIcon.BiShareAlt />, name: "Share your map using a link!" },
+    {
+      icon: <BiIcon.BiSolidPrinter />,
+      name: "Print your map!",
+      onClick: () => {
+        handlePrint();
+      },
+    },
+    // { icon: <BiIcon.BiShareAlt />, name: "Share your map using a link!" },
   ];
 
   const tabStyle = {
@@ -103,19 +129,19 @@ function MapView() {
 
   const tabImgStyle = {
     // position: "absolute",
-    marginLeft: show ? "20vw" : "15vw",
+    marginLeft: show ? "25vw" : "15vw",
+    width: "150vw",
+    height: "150vh",
     transition: "margin-left 0.1s ease",
-    marginTop: "-100vh",
+    marginTop: "-92vh",
   };
 
   const ControlPanel = () => {
     const navigateToGenerate = useNavigate();
-    const [infoText, setInfoText] = useState(
-      "Map attributes will appear here"
-    );
+    const [infoText, setInfoText] = useState("Map attributes will appear here");
 
     const handleRegenerateClick = () => {
-      navigateToGenerate("/Generate")
+      navigateToGenerate("/Generate");
     };
 
     const handleBeginGame = () => {
@@ -235,25 +261,32 @@ function MapView() {
           Not Happy?
         </Typography>
         <Button
-        variant="outlined"
-          style={{marginLeft: "12%",
-          marginTop: "5%",
-          width: "70%",
-          backgroundColor: ourPalette.blank,
-          borderRadius: "2px",
-          borderColor: ourPalette.secondary,
-          color: ourPalette.secondary,}}
+          variant="outlined"
+          style={{
+            marginLeft: "12%",
+            marginTop: "5%",
+            width: "70%",
+            backgroundColor: ourPalette.blank,
+            borderRadius: "2px",
+            borderColor: ourPalette.secondary,
+            color: ourPalette.secondary,
+          }}
           onClick={handleRegenerateClick}
         >
           Regenerate
         </Button>
       </>
-
     );
   };
 
   return (
-    <body style={{ background: ourPalette.black, overflow: "hidden", height:"100vh" }}>
+    <body
+      style={{
+        background: ourPalette.mapBackground,
+        overflow: "hidden",
+        height: "100vh",
+      }}
+    >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -270,32 +303,42 @@ function MapView() {
               <ControlPanel />
             </div>
           </nav>
-          <div style={tabImgStyle}>
-            <TransformImage img={displayMap} imgWidth={"50vw"} imgHeight={"80vh"} left={"10vw"} top={"10vh"} />
+          <div style={tabImgStyle} id="printable">
+            <TransformImage
+              img={displayMap}
+              imgWidth={"65vw"}
+              imgHeight={"80vh"}
+              left={0}
+              top={0}
+            />
           </div>
-          { !show ? <SpeedDial
-            ariaLabel="SpeedDial basic example"
-            direction="up"
-            FabProps={{
-              style: {
-                width: "50px",
-                height: "50px",
-                borderRadius: "0%",
-                backgroundColor: ourPalette.primary,
-              },
-            }}
-            sx={{ position: 'absolute', bottom: 16, right: 16 }}
-            icon={<BiIcon.BiDownload />}
-          >
-            {actions.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-                onClick={action.onClick}
-              />
-            ))}
-          </SpeedDial> : <></>}
+          {!show ? (
+            <SpeedDial
+              ariaLabel="SpeedDial basic example"
+              direction="up"
+              FabProps={{
+                style: {
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "0%",
+                  backgroundColor: ourPalette.primary,
+                },
+              }}
+              sx={{ position: "absolute", bottom: 16, right: 16 }}
+              icon={<BiIcon.BiDownload />}
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  key={action.name}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  onClick={action.onClick}
+                />
+              ))}
+            </SpeedDial>
+          ) : (
+            <></>
+          )}
         </ThemeProvider>
       </motion.div>
     </body>

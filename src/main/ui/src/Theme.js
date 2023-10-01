@@ -66,6 +66,8 @@ export const ourPalette = {
 
     sideButton: "#321e57",
 
+    mapBackground: "#261f33",
+
     // These colors are the "map size" button border colors
     buttonBorders: {
         light: "#f2f207", // s

@@ -24,7 +24,6 @@ import { setMap } from "../slices/mapSlice";
 import { MapRequest } from "../components/MapRequest";
 
 export const Generate = () => {
-
   const navigateToMapView = useNavigate();
   const dispatch = useDispatch();
 
@@ -96,24 +95,30 @@ export const Generate = () => {
   };
   // ==============================================================================
 
+  const [isGenerating, setIsGenerating] = useState(false);
+
   const handleGenerateClick = () => {
+    setIsGenerating(true);
+
     const request = {
       theme: selectedTheme,
-      size: selectedSize
+      size: selectedSize,
     };
 
     MapRequest(request)
       .then((blob) => {
         const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
         // localStorage.setItem("imgUrl", blob)
-        setDisplayedImage(imageUrl)
+        setDisplayedImage(imageUrl);
         dispatch(setMap(imageUrl));
         navigateToMapView("/MapView");
       })
       .catch((error) => {
-        alert('Error: ' + error.message);
+        alert("Error: " + error.message);
         console.error("Error:", error);
+        setIsGenerating(false);
       });
+
   };
 
   const handleMouseOver = (text) => {
@@ -476,6 +481,9 @@ export const Generate = () => {
                 {/* Popup */}
                 <Dialog open={showPopup} onClose={() => setShowPopup(false)}>
                   <DialogTitle>Please select a Theme and Map size</DialogTitle>
+                </Dialog>
+                <Dialog open={isGenerating} style={{borderRadius:"2px"}}>
+                  <DialogTitle style={{background:ourPalette.blank}}><Typography variant="h5" style={{fontFamily:"monospace", color:ourPalette.white}}>Generating . . .</Typography></DialogTitle>
                 </Dialog>
               </div>
             </Grid>
