@@ -99,7 +99,7 @@ function MapView() {
     imageWindow.document.close();
     imageWindow.print();
   };
-  
+
   const actions = [
     {
       icon: <BiIcon.BiSolidSave />,
@@ -129,11 +129,11 @@ function MapView() {
 
   const tabImgStyle = {
     // position: "absolute",
-    marginLeft: show ? "25vw" : "15vw",
+    marginLeft: show ? "20.5vw" : "10vw",
     width: "150vw",
     height: "150vh",
     transition: "margin-left 0.1s ease",
-    marginTop: "-92vh",
+    marginTop: "-99vh",
   };
 
   const ControlPanel = () => {
@@ -282,7 +282,7 @@ function MapView() {
   return (
     <body
       style={{
-        background: ourPalette.mapBackground,
+        background: ourPalette.blankDarker,
         overflow: "hidden",
         height: "100vh",
       }}
@@ -303,12 +303,13 @@ function MapView() {
               <ControlPanel />
             </div>
           </nav>
-          <div style={tabImgStyle} id="printable">
+          <div style={tabImgStyle}>
             <TransformImage
+              id="printable"
               img={displayMap}
-              imgWidth={"65vw"}
-              imgHeight={"80vh"}
-              left={0}
+              imgWidth={show ? "83.9vw" : "85vw"}
+              imgHeight={show ? "95vh" : "95vh"}
+              left={"-5vw"}
               top={0}
             />
           </div>

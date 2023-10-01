@@ -28,7 +28,7 @@ public class MapController {
         // For example, you can use param1 to determine the image path dynamically.
         String mapTheme = param1;
         String mapSize = param2;
-        
+
         MapTheme theme = null;
         MapSize size = null;
 
@@ -51,7 +51,7 @@ public class MapController {
         Generator gen = new Generator(size, theme);
         Dungeon dungeon = gen.build();
         TextureRenderer renderer = new TextureRenderer(dungeon);
-        
+
         // byte[] imageBytes = Files.readAllBytes();
         return ResponseEntity.ok().body(renderer.renderTextures(dungeon, 1));
     }
