@@ -79,7 +79,8 @@ export const Home = () => {
 
     const request = {
       theme: randomTheme,
-      size: randomSize
+      size: randomSize,
+      roomNumber: -1
     };
 
     MapRequest(request)

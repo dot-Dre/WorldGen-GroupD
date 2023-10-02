@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogTitle,
   Slider,
+  TextField,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
@@ -24,7 +25,6 @@ import { setMap } from "../slices/mapSlice";
 import { MapRequest } from "../components/MapRequest";
 
 export const Generate = () => {
-
   const navigateToMapView = useNavigate();
   const dispatch = useDispatch();
 
@@ -53,8 +53,11 @@ export const Generate = () => {
   // Advanced Options selections, variables and handlers ====================
   const [variance, setVariance] = useState(0.7);
   const [roomNumber, setRoomNumber] = useState(15);
+  const [seed, setSeed] = useState(7);
+  const [seedInputError, setSeedInputError] = useState(false);
 
   const HandleSizeClick = (size) => {
+    setRoomNumber(-1)
     if (size.trim() === "Small".trim()) {
       setSelectedSize("Small");
       setSmallButtonColor(ourPalette.white);
@@ -96,22 +99,36 @@ export const Generate = () => {
   };
   // ==============================================================================
 
+  const handleSeedChange = (event) => {
+    const seedInput = event.target.value;
+    setSeed(seedInput);
+    setSeedInputError(seed % 1 !== 0);
+  };
+
   const handleGenerateClick = () => {
+    if (seedInputError) {
+      alert("Seed must be an integer!");
+      return;
+    }
+
     const request = {
       theme: selectedTheme,
-      size: selectedSize
+      size: selectedSize,
+      roomNumber: roomNumber,
+      variance: variance,
+      seed: seed,
     };
 
     MapRequest(request)
       .then((blob) => {
         const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
         // localStorage.setItem("imgUrl", blob)
-        setDisplayedImage(imageUrl)
+        setDisplayedImage(imageUrl);
         dispatch(setMap(imageUrl));
         navigateToMapView("/MapView");
       })
       .catch((error) => {
-        alert('Error: ' + error.message);
+        alert("Error: " + error.message);
         console.error("Error:", error);
       });
   };
@@ -397,6 +414,7 @@ export const Generate = () => {
                         setSmallButtonColor(ourPalette.primary);
                         setMediumButtonColor(ourPalette.primary);
                         setLargeButtonColor(ourPalette.primary);
+                        setSelectedTheme(null)
                         setRoomNumber(value);
                       }}
                       sx={{
@@ -412,8 +430,33 @@ export const Generate = () => {
                         },
                       }}
                     />
+                    <p
+                      style={{
+                        fontFamily: "monospace",
+                        color: ourPalette.white,
+                      }}
+                    >
+                      Seed
+                    </p>
+                    <TextField
+                      variant="filled"
+                      label="Seed"
+                      sx={{
+                        input: {
+                          color: ourPalette.white,
+                          backgroundColor: ourPalette.blank,
+                        },
+                        label: {
+                          color: ourPalette.white,
+                          fontFamily: "monospace",
+                        },
+                      }}
+                      value={seed}
+                      onChange={handleSeedChange}
+                      error={seedInputError}
+                    ></TextField>
                   </div>
-                  <Box
+                  {/* <Box
                     mt={3}
                     p={2}
                     style={{
@@ -432,7 +475,7 @@ export const Generate = () => {
                     >
                       {infoText}
                     </Typography>
-                  </Box>
+                  </Box> */}
                 </div>
                 <Button
                   variant="outlined"
