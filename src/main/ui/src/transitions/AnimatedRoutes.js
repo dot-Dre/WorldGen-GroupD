@@ -2,6 +2,7 @@ import Home from '../pages/Home';
 import Generate from '../pages/Generate';
 import DMView from '../pages/DMView';
 import PlayerView from '../pages/PlayerView';
+import MapView from '../pages/MapView'
 import React from 'react';
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from 'framer-motion';
@@ -17,6 +18,7 @@ function AnimatedRoutes() {
             <Route path = "/DMView" element={<DMView />} />
             <Route path = "/PlayerView" element={<PlayerView />} />
             <Route path = "/PlayerDetails" element={<PlayerDetails/>}/>
+            <Route path = "/MapView" element={<MapView/>}/>
         </Routes>
       </AnimatePresence>
     );

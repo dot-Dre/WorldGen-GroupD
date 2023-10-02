@@ -1,0 +1,94 @@
+package groupd.DNDMapGen.Generator.RoomFactory;
+
+import groupd.DNDMapGen.Generator.Room;
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Rectangle;
+import org.dyn4j.world.World;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class AbstractRoomFactory {
+    /**
+     * Generates a collection of rooms with a given seed
+     * @param roomCount The number of rooms to generate
+     * @param seed The seed to use for random number generation
+     * @return A collection of rooms that don't overlap
+     */
+    public abstract Collection<Room> generateRooms(int roomCount, int seed);
+
+    /**
+     * Selects the main rooms from a collection of rooms
+     * @param rooms The rooms to select from
+     * @return A collection of main rooms
+     */
+    public abstract Collection<Room> selectMainRooms(Collection<Room> rooms, int roomCount);
+
+    /**
+     * Takes a collection of rooms and separates them, so they don't overlap.
+     * This is done by simulating the rooms as rigid bodies in a dyn4j world
+     * @param rooms The rooms to separate
+     */
+    protected void separateRooms(Collection<Room> rooms){
+        System.out.println("Creating physics world...");
+        Map<Body, Room> roomBodies = new HashMap<>();
+        // Create a dyn4j world
+        World<Body> world = new World<>();
+        world.setGravity(World.ZERO_GRAVITY);
+
+        for(Room room : rooms){
+            // Create a body to simulate the room
+            Rectangle roomShape = new Rectangle(room.width(), room.height());
+            Body roomBody = new Body();
+            roomBody.addFixture(roomShape);
+
+            // Remove angular velocity so rooms remain axis-aligned
+            roomBody.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+            roomBody.setAngularVelocity(0.0);
+
+            // Move the room to its position
+            roomBody.translate(room.x()+room.width()/2.0, room.y()+room.height()/2.0);
+            world.addBody(roomBody);
+            roomBodies.put(roomBody, room);
+        }
+
+        // Simulate the world until all bodies are at rest
+        System.out.println("Simulating physics...");
+        while(!allBodiesAtRest(world)){
+            world.step(1);
+        }
+
+        System.out.println("Saving room positions...");
+        // Update the room positions
+        for(Body b: world.getBodies()){
+            Room room = roomBodies.get(b);
+            room.moveTo((int) Math.round(b.getTransform().getTranslationX()-room.width()/2.0),
+                    (int) Math.round(b.getTransform().getTranslationY() - room.height()/2.0));
+        }
+    }
+
+    protected void normalizeRoomPosition(Collection<Room> rooms){
+        int minX = rooms.stream().mapToInt(Room::x).min().getAsInt();
+        int minY = rooms.stream().mapToInt(Room::y).min().getAsInt();
+        for(Room room : rooms){
+            room.moveTo(room.x() - minX, room.y() - minY);
+        }
+    }
+
+    /**
+     * Checks if all bodies in a dyn4j world are at rest
+     * This is a helper method for separateRooms()
+     * @param world The world to check
+     * @return True if all bodies are not moving, false otherwise
+     */
+    private boolean allBodiesAtRest(World<Body> world) {
+        for(Body body : world.getBodies()){
+            if(!body.isAtRest()){
+                return false;
+            }
+        }
+        return true;
+    }
+}

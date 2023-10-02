@@ -3,6 +3,7 @@ import fileSliceReducer from './slices/fileSlice'
 import gameCodeSliceReducer from './slices/gameCodeSlice'
 import nameSliceReducer from './slices/playerNameSlice'
 import roleSliceReducer from './slices/roleSlice'
+import mapSliceReducer from './slices/mapSlice'
 
 /**
  * How to use the global store:
@@ -24,6 +25,7 @@ export const store = configureStore({
         fileState: fileSliceReducer,
         gameCodeState: gameCodeSliceReducer,
         nameState: nameSliceReducer,
-        roleState: roleSliceReducer
+        roleState: roleSliceReducer,
+        mapState: mapSliceReducer
     },
 })
