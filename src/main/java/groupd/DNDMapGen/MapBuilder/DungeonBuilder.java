@@ -7,7 +7,7 @@ import groupd.DNDMapGen.Generator.Generator;
 import groupd.DNDMapGen.Generator.MockRenderer;
 
 /**
- * A utility class to encapsulate the building of a dungeon image 
+ * A utility class to encapsulate the building of a dungeon image
  * to return to the front end.
  * 
  * @author Andre Lepardo
@@ -107,7 +107,7 @@ public class DungeonBuilder implements Builder<byte[]> {
      */
     public void roomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
-    }   
+    }
 
     /**
      * TODO
@@ -126,7 +126,7 @@ public class DungeonBuilder implements Builder<byte[]> {
         // Still waiting on texture renderer but this will do for now, again
         MockRenderer mock = new MockRenderer();
         // STILL NEEDS TEXTURE RENDERING
-        //TODO 
+        //TODO
         return ResponseEntity.ok().body(null);
     }
 
