@@ -1,7 +1,6 @@
 package groupd.DNDMapGen.Generator.RoomFactory;
 
 import groupd.DNDMapGen.Generator.Room;
-import groupd.DNDMapGen.MapSize;
 
 import java.util.*;
 import java.util.stream.Collectors;

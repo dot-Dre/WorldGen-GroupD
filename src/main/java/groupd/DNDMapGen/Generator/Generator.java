@@ -4,7 +4,6 @@ import groupd.DNDMapGen.Generator.HallwayFactory.AbstractHallwayFactory;
 import groupd.DNDMapGen.Generator.HallwayFactory.DefaultHallwayFactory;
 import groupd.DNDMapGen.Generator.RoomFactory.AbstractRoomFactory;
 import groupd.DNDMapGen.Generator.RoomFactory.DefaultRoomFactory;
-import groupd.DNDMapGen.MapSize;
 import groupd.DNDMapGen.MapTheme;
 
 import java.util.*;
@@ -59,7 +58,7 @@ public class Generator {
         AbstractHallwayFactory hallwayFactory = getHallwayFactory(theme);
 
         // Generate rooms and hallways
-        Collection<Room> rooms = roomFactory.generateRooms(roomCount*3);
+        Collection<Room> rooms = roomFactory.generateRooms(roomCount*4);
         Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms, roomCount);
         Collection<Hallway> hallways = hallwayFactory.generate(mainRooms);
 
@@ -82,7 +81,7 @@ public class Generator {
     }
 
     public static void main(String[] args) {
-        Generator gen = new Generator(50, MapTheme.NECROMANCER_DUNGEON);
+        Generator gen = new Generator(20, MapTheme.NECROMANCER_DUNGEON);
         Dungeon dungeon = gen.build();
         MockRenderer.render(dungeon, "./test.png");
     }

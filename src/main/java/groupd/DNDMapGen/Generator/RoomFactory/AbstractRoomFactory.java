@@ -1,7 +1,6 @@
 package groupd.DNDMapGen.Generator.RoomFactory;
 
 import groupd.DNDMapGen.Generator.Room;
-import groupd.DNDMapGen.MapSize;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
