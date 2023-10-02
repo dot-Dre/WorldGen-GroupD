@@ -1,0 +1,15 @@
+.control-panel {
+  position: absolute;
+  right: 2%;
+  width: 15%;
+  padding: 2%;
+  z-index: 999;
+  cursor: pointer;
+  transition: transform 0.05s ease-in-out;
+}
+
+.update-button {
+  border-radius: 2px;
+  font-family: monospace;
+  width: 100%;
+}
