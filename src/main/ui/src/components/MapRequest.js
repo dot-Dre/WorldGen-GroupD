@@ -1,4 +1,4 @@
-export const MapRequest = (mapRequest) => { // WILL NEED TO REFACTOR 
+export const MapRequest = (mapRequest) => { // WILL NEED TO REFACTOR
   const mapTheme = mapRequest.theme;
   const mapSize = mapRequest.size;
 
