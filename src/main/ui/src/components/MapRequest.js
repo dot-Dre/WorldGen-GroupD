@@ -8,7 +8,7 @@ export const MapRequest = (mapRequest) => { // WILL NEED TO REFACTOR
   // Construct the URL with query parameters
   const urlCustom = `http://localhost:8080/getCustomMap?theme=${mapTheme}&size=${mapSize}&roomNumber=${roomNumber}&seed=${seed}&variance=${variance}`;
 
-  const urlQuick = `http://localhost:8080/getQuickMap?theme=${mapTheme}&size=${mapSize}`;
+  const urlQuick = `http://localhost:8080/getQuickMap?theme=${mapTheme}&size=${mapSize}&roomNumber=${roomNumber}&seed=${seed}&variance=${variance}`;
 
   var url = urlCustom
 

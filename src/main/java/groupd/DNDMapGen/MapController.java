@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import groupd.DNDMapGen.MapBuilder.Builder;
 import groupd.DNDMapGen.MapBuilder.DungeonBuilder;
-import groupd.DNDMapGen.MapBuilder.ResourceContent;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,7 +30,7 @@ public class MapController {
         DungeonBuilder dungeonBuilder = new DungeonBuilder();
 
         dungeonBuilder.theme(theme);
-        
+
         if (size != null) {
             dungeonBuilder.size(size);
         }
@@ -53,14 +52,21 @@ public class MapController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/getQuickMap", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getQuickMap(@RequestParam(name = "theme") String theme,
-            @RequestParam(name = "size") String size)
+            @RequestParam(name = "size") String size, @RequestParam(name = "roomNumber") int roomNumber,
+            @RequestParam(name = "seed") int seed, @RequestParam(name = "variance") double variance)
             throws IOException {
 
         DungeonBuilder dungeonBuilder = new DungeonBuilder();
 
         dungeonBuilder.theme(theme);
+        
+        if (size != null) {
+            dungeonBuilder.size(size);
+        }
 
-        dungeonBuilder.size(size);
+        dungeonBuilder.seed(seed);
+
+        dungeonBuilder.variance(variance);
 
         return dungeonBuilder.construct();
     }

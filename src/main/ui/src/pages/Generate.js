@@ -22,6 +22,7 @@ import * as FaIcon from "react-icons/fa";
 
 import { useDispatch } from "react-redux";
 import { setMap } from "../slices/mapSlice";
+import { setGenerationDetails } from "../slices/generationSlice";
 import { MapRequest } from "../components/MapRequest";
 
 export const Generate = () => {
@@ -125,6 +126,7 @@ export const Generate = () => {
         // localStorage.setItem("imgUrl", blob)
         setDisplayedImage(imageUrl);
         dispatch(setMap(imageUrl));
+        dispatch(setGenerationDetails(request))
         navigateToMapView("/MapView");
       })
       .catch((error) => {
@@ -414,7 +416,7 @@ export const Generate = () => {
                         setSmallButtonColor(ourPalette.primary);
                         setMediumButtonColor(ourPalette.primary);
                         setLargeButtonColor(ourPalette.primary);
-                        setSelectedTheme(null)
+                        setSelectedSize(null)
                         setRoomNumber(value);
                       }}
                       sx={{

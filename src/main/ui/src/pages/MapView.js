@@ -22,6 +22,12 @@ function MapView() {
   const [show, setShow] = useState(true);
   const [displayMap, setDisplayMap] = useState(useSelector((state) => state.mapState.map));
 
+  const generationDetails = useSelector((state) => state.generationState.generation)
+
+  const roomOrSize = generationDetails.size === null ? `Number of Rooms: ${generationDetails.roomNumber}` : `Size: ${generationDetails.size}`
+
+  const mapDetails = `Theme: ${generationDetails.theme}\n${roomOrSize}\nSeed: ${generationDetails.seed}\nVariance: ${generationDetails.variance}`
+
   const SaveMap = () => {
     const imageUrl = displayMap; // Assuming 'displayMap' contains the Blob URL
 
@@ -49,6 +55,7 @@ function MapView() {
 
         const jsonObject = {
           map: base64Image,
+          info:generationDetails
         };
 
         // Create a JSON blob
@@ -89,7 +96,6 @@ function MapView() {
       },
     },
     { icon: <BiIcon.BiSolidPrinter />, name: "Print your map!" },
-    { icon: <BiIcon.BiShareAlt />, name: "Share your map using a link!" },
   ];
 
   const tabStyle = {
@@ -111,7 +117,7 @@ function MapView() {
   const ControlPanel = () => {
     const navigateToGenerate = useNavigate();
     const [infoText, setInfoText] = useState(
-      "Map attributes will appear here"
+      mapDetails
     );
 
     const handleRegenerateClick = () => {

@@ -11,6 +11,7 @@ import * as BiIcons from "react-icons/bs";
 import LinearProgress from "@mui/material/LinearProgress";
 import "./DragDrop.css";
 import { setMap } from "../slices/mapSlice"
+import { setGenerationDetails } from "../slices/generationSlice";
 
 export const DragDrop = (props) => {
   const wrapperRef = useRef(null);
@@ -52,9 +53,8 @@ export const DragDrop = (props) => {
           try {
             const fileContent = event.target.result;
             const parsedContent = JSON.parse(fileContent);
-
             dispatch(setMap(parsedContent.map))
-
+            dispatch(setGenerationDetails(parsedContent.info))
             console.log(parsedContent);
             // dispatch(setFile(parsedContent));
             setBarColor("secondary");
