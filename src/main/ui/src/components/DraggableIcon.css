@@ -1,0 +1,6 @@
+.draggable-wrapper {
+  cursor: pointer;
+  background: none;
+  position: absolute;
+  transition: transform 0.05s ease-in-out;
+}
