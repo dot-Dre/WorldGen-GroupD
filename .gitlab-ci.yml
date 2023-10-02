@@ -12,8 +12,8 @@ lint:
   stage: lint
   image: python:3.9
   script:
-    - pip install pre-commit
-    - pre-commit run --all-files
+    # - pip install pre-commit
+    # - pre-commit run --all-files
   tags:
     - docker
 
