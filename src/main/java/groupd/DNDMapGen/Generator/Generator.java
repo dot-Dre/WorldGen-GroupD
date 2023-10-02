@@ -12,6 +12,7 @@ public class Generator {
 
     private final int roomCount;
     private final MapTheme theme;
+    private final int seed;
 
     /**
      * Constructs a new Generator with the specified size and theme.
@@ -22,6 +23,20 @@ public class Generator {
     public Generator(int roomCount, MapTheme theme){
         this.roomCount = roomCount;
         this.theme = theme;
+        this.seed = new Random().nextInt();
+    }
+
+    /**
+     * Constructs a new Generator with the specified size, theme, and seed.
+     *
+     * @param roomCount The number of rooms to generate.
+     * @param theme  The desired map theme.
+     * @param seed  The seed to use for random number generation.
+     */
+    public Generator(int roomCount, MapTheme theme, int seed) {
+        this.roomCount = roomCount;
+        this.theme = theme;
+        this.seed = seed;
     }
 
     /**
@@ -58,7 +73,7 @@ public class Generator {
         AbstractHallwayFactory hallwayFactory = getHallwayFactory(theme);
 
         // Generate rooms and hallways
-        Collection<Room> rooms = roomFactory.generateRooms(roomCount*4);
+        Collection<Room> rooms = roomFactory.generateRooms(roomCount*5, seed);
         Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms, roomCount);
         Collection<Hallway> hallways = hallwayFactory.generate(mainRooms);
 
@@ -81,7 +96,7 @@ public class Generator {
     }
 
     public static void main(String[] args) {
-        Generator gen = new Generator(20, MapTheme.NECROMANCER_DUNGEON);
+        Generator gen = new Generator(50, MapTheme.NECROMANCER_DUNGEON);
         Dungeon dungeon = gen.build();
         MockRenderer.render(dungeon, "./test.png");
     }

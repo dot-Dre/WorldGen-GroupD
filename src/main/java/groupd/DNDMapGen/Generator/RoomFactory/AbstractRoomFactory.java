@@ -12,11 +12,12 @@ import java.util.Map;
 
 public abstract class AbstractRoomFactory {
     /**
-     * Generates a collection of rooms
+     * Generates a collection of rooms with a given seed
      * @param roomCount The number of rooms to generate
+     * @param seed The seed to use for random number generation
      * @return A collection of rooms that don't overlap
      */
-    public abstract Collection<Room> generateRooms(int roomCount);
+    public abstract Collection<Room> generateRooms(int roomCount, int seed);
 
     /**
      * Selects the main rooms from a collection of rooms

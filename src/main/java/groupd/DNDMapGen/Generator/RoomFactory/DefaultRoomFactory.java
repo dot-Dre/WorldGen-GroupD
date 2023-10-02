@@ -10,8 +10,8 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
     /**
      * The default minimum room size
      */
-    private int minRoomSize = 3;
-    private int maxRoomSize = 20;
+    private int minRoomSize = 30;
+    private int maxRoomSize = 50;
 
 
     /**
@@ -28,11 +28,11 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
      * @return A collection of generated rooms.
      */
     @Override
-    public Collection<Room> generateRooms(int roomCount) {
+    public Collection<Room> generateRooms(int roomCount, int seed) {
         List<Room> rooms = new ArrayList<>();
         int radius = (int) Math.round(Math.sqrt(roomCount* minRoomSize * minRoomSize /Math.PI));
 
-        Random rand = new Random();
+        Random rand = new Random(seed);
 
         for(int i = 0; i < roomCount; i++){
             // Random distance from the center
