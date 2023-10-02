@@ -9,7 +9,7 @@ import java.util.*;
 public class DefaultHallwayFactory extends AbstractHallwayFactory {
 
     Map<Point, Room> roomsPoints;
-    private int hallwayWidth = 5;
+    private int hallwayWidth = 3;
 
     public DefaultHallwayFactory(){}
 

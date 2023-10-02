@@ -10,8 +10,8 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
     /**
      * The default minimum room size
      */
-    private int minRoomSize = 30;
-    private int maxRoomSize = 50;
+    private int minRoomSize = 3;
+    private int maxRoomSize = 10;
 
 
     /**
