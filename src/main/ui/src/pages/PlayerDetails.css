@@ -1,0 +1,69 @@
+/*
+No longer in use
+*/
+
+.PlayerDetails {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.title-text {
+  margin-left: 7vw;
+  font-size: 5vh;
+  margin-top: 8vh;
+}
+
+.text-field {
+  background-color: #222822;
+  border-radius: 6px;
+  border: none;
+  margin-left: 7vw;
+}
+
+.text-field {
+  background-color: #222822;
+  color: #ffffff;
+  border-radius: 6px;
+  border: none;
+}
+
+.button {
+  background-color: #221252;
+  color: white;
+  height: 5vh;
+  display: flex; /* Add this line to make the content of the button flex container */
+  align-items: center; /* Center the content vertically */
+}
+
+.button:hover {
+  background-color: #92df9b;
+}
+
+.button-text {
+  font-family: Arial;
+  font-weight: bold;
+  color: "#ffffff";
+  margin: 0 auto; /* Horizontally center the text within the button */
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.help-text {
+  font-family: "Courier New", monospace;
+  margin-left: 7vw;
+  font-size: 2vh;
+  animation-name: fade-in;
+  animation-duration: 2s;
+}
