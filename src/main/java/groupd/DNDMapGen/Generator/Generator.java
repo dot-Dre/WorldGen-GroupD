@@ -11,17 +11,17 @@ import java.util.*;
 
 public class Generator {
 
-    private final MapSize size;
+    private final int roomCount;
     private final MapTheme theme;
 
     /**
      * Constructs a new Generator with the specified size and theme.
      *
-     * @param size   The desired map size.
+     * @param roomCount The number of rooms to generate.
      * @param theme  The desired map theme.
      */
-    public Generator(MapSize size, MapTheme theme){
-        this.size = size;
+    public Generator(int roomCount, MapTheme theme){
+        this.roomCount = roomCount;
         this.theme = theme;
     }
 
@@ -59,8 +59,8 @@ public class Generator {
         AbstractHallwayFactory hallwayFactory = getHallwayFactory(theme);
 
         // Generate rooms and hallways
-        Collection<Room> rooms = roomFactory.generateRooms(size);
-        Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms);
+        Collection<Room> rooms = roomFactory.generateRooms(roomCount*3);
+        Collection<Room> mainRooms = roomFactory.selectMainRooms(rooms, roomCount);
         Collection<Hallway> hallways = hallwayFactory.generate(mainRooms);
 
         // Return a new Dungeon
@@ -68,10 +68,10 @@ public class Generator {
     }
 
     /**
-     * Returns the specified map size.
+     * Returns the number of rooms to generate.
      */
-    public MapSize getSize() {
-        return size;
+    public int getRoomCount() {
+        return roomCount;
     }
 
     /**
@@ -82,7 +82,7 @@ public class Generator {
     }
 
     public static void main(String[] args) {
-        Generator gen = new Generator(MapSize.LARGE, MapTheme.NECROMANCER_DUNGEON);
+        Generator gen = new Generator(50, MapTheme.NECROMANCER_DUNGEON);
         Dungeon dungeon = gen.build();
         MockRenderer.render(dungeon, "./test.png");
     }
