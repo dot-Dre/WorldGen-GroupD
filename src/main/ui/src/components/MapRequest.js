@@ -3,8 +3,7 @@ export const MapRequest = (mapRequest) => { // WILL NEED TO REFACTOR
   const mapSize = mapRequest.size;
 
   // Construct the URL with query parameters
-  // const url = `http://localhost:8080/getMap?param1=${mapTheme}&param2=${mapSize}`;
-  const url = 'http://localhost:8080/getMap'
+  const url = `http://localhost:8080/getMap?param1=${mapTheme}&param2=${mapSize}`;
 
   return fetch(url)
     .then((response) => {
