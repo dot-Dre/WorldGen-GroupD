@@ -1,15 +1,18 @@
 package groupd.DNDMapGen.Generator.RoomFactory;
 
 import groupd.DNDMapGen.Generator.Room;
-import groupd.DNDMapGen.MapSize;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DefaultRoomFactory extends AbstractRoomFactory {
+
+    /**
+     * The default minimum room size
+     */
+    private int minRoomSize = 30;
+    private int maxRoomSize = 50;
+
 
     /**
      * Generates a collection of non-overlapping rooms based on the given map size.
@@ -22,17 +25,14 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
      * <p>
      * After generating all rooms, the separateRooms() method is called to ensure the rooms do not overlap.
      *
-     * @param size The size category of the map, used to determine room count and minimum room size.
      * @return A collection of generated rooms.
      */
     @Override
-    public Collection<Room> generateRooms(MapSize size) {
-        int roomCount = getRoomCount(size);
-        int minRoomSize = getMinRoomSize(size);
+    public Collection<Room> generateRooms(int roomCount, int seed) {
         List<Room> rooms = new ArrayList<>();
-        int radius = (int) Math.round(Math.sqrt(roomCount*minRoomSize*minRoomSize/Math.PI));
+        int radius = (int) Math.round(Math.sqrt(roomCount* minRoomSize * minRoomSize /Math.PI));
 
-        Random rand = new Random();
+        Random rand = new Random(seed);
 
         for(int i = 0; i < roomCount; i++){
             // Random distance from the center
@@ -45,15 +45,21 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
             int x = (int)(distance * Math.cos(angle));
             int y = (int)(distance * Math.sin(angle));
 
+            int mean = (maxRoomSize + minRoomSize)/2;
+            int stdDev = (maxRoomSize - minRoomSize)/3;
+
             // Random width and height based on a normal distribution
-            int width = (int) (Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
-            int height = (int) (Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
+            int width = (int) (rand.nextGaussian() * stdDev + mean);
+            int height = (int) (rand.nextGaussian() * stdDev + mean);
 
             // Ensure the width to height ratio isn't too skewed (We don't want long skinny rooms)
-            while (width / (double)height > 2.5 || height / (double)width > 2.5) {
-                width = (int) Math.round(Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
-                height = (int) Math.round(Math.abs(rand.nextGaussian()) * minRoomSize + minRoomSize);
+            while (width / (double)height > 3 || height / (double)width > 3) {
+                width = (int) Math.round(Math.abs(rand.nextGaussian()) * stdDev + mean);
+                height = (int) Math.round(Math.abs(rand.nextGaussian()) * stdDev + mean);
             }
+
+            width = Math.max(minRoomSize, Math.min(width, maxRoomSize));
+            height = Math.max(minRoomSize, Math.min(height, maxRoomSize));
 
             rooms.add(new Room(x, y, width, height));
         }
@@ -63,13 +69,28 @@ public class DefaultRoomFactory extends AbstractRoomFactory {
         return rooms;
     }
 
-    public List<Room> selectMainRooms(Collection<Room> rooms) {
-        double averageWidth = rooms.stream().mapToInt(Room::width).average().orElse(0);
-        double averageHeight = rooms.stream().mapToInt(Room::height).average().orElse(0);
-
+    public List<Room> selectMainRooms(Collection<Room> rooms, int roomCount) {
+        // Return top 20 rooms
         return rooms.stream()
-                .filter(room -> room.width() >= averageWidth && room.height() >= averageHeight)
+                .sorted(Comparator.comparingInt((Room r) -> r.width() * r.height()).reversed())
+                .limit(roomCount)
                 .collect(Collectors.toList());
+    }
+
+    public int getMinRoomSize() {
+        return minRoomSize;
+    }
+
+    public void setMinRoomSize(int minRoomSize) {
+        this.minRoomSize = minRoomSize;
+    }
+
+    public int getMaxRoomSize() {
+        return maxRoomSize;
+    }
+
+    public void setMaxRoomSize(int maxRoomSize) {
+        this.maxRoomSize = maxRoomSize;
     }
 
 }

@@ -21,6 +21,25 @@ public class Hallway {
         return hallwayRooms;
     }
 
+    public void removeTileOverlap(){
+        int xOffset = x();
+        int yOffset = y();
+        Tile[][] tiles = getTiles();
+
+        for(Room r: hallwayRooms){
+            Tile[][] roomTiles = r.getTiles();
+            for(int row = 0; row < r.height(); row++){
+                for(int col = 0; col < r.width(); col++){
+                    int x = r.x() - xOffset + col;
+                    int y = r.y() - yOffset + row;
+
+                    roomTiles[row][col] = tiles[y][x];
+                }
+            }
+            r.setTiles(roomTiles);
+        }
+    }
+
     public Tile[][] getTiles(){
         int xOffset = x();
         int yOffset = y();

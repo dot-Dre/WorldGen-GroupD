@@ -1,7 +1,6 @@
 package groupd.DNDMapGen.Generator.RoomFactory;
 
 import groupd.DNDMapGen.Generator.Room;
-import groupd.DNDMapGen.MapSize;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
@@ -12,25 +11,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractRoomFactory {
-
     /**
-     * The default minimum room size
-     */
-    private static final int DEFAULT_MIN_ROOM_SIZE = 5;
-
-    /**
-     * Generates a collection of rooms
-     * @param size The size of the map
+     * Generates a collection of rooms with a given seed
+     * @param roomCount The number of rooms to generate
+     * @param seed The seed to use for random number generation
      * @return A collection of rooms that don't overlap
      */
-    public abstract Collection<Room> generateRooms(MapSize size);
+    public abstract Collection<Room> generateRooms(int roomCount, int seed);
 
     /**
      * Selects the main rooms from a collection of rooms
      * @param rooms The rooms to select from
      * @return A collection of main rooms
      */
-    public abstract Collection<Room> selectMainRooms(Collection<Room> rooms);
+    public abstract Collection<Room> selectMainRooms(Collection<Room> rooms, int roomCount);
 
     /**
      * Takes a collection of rooms and separates them, so they don't overlap.
@@ -96,27 +90,5 @@ public abstract class AbstractRoomFactory {
             }
         }
         return true;
-    }
-
-    /**
-     * Returns the number of rooms to generate for a given map size
-     * @param size The size of the map
-     * @return The number of rooms to generate
-     */
-    protected int getRoomCount(MapSize size){
-        return switch (size) {
-            case SMALL -> 50;
-            case MEDIUM -> 100;
-            case LARGE -> 150;
-        };
-    }
-
-    /**
-     * Returns the maximum width/height of a room for a given map size
-     * @param size The size of the map
-     * @return The maximum width/height of a room
-     */
-    protected int getMinRoomSize(MapSize size){
-        return DEFAULT_MIN_ROOM_SIZE;
     }
 }
