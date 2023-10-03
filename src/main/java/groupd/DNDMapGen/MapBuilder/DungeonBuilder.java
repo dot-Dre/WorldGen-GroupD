@@ -1,7 +1,7 @@
 package groupd.DNDMapGen.MapBuilder;
 
 import java.util.Base64;
-
+import com.google.gson.JsonObject;
 import groupd.DNDMapGen.MapTheme;
 import groupd.DNDMapGen.Generator.Dungeon;
 import groupd.DNDMapGen.Generator.Generator;
@@ -142,16 +142,29 @@ public class DungeonBuilder {
 
         String base64Image = "Nothing";
 
-        String json = "{ \"info\":{" +
-                "\"theme\": \"" + theme + "\"," +
-                "\"seed\": " + seed + "," +
-                "\"roomNumber\": " + roomNumber + "," +
-                "\"size\": \"" + size + "\"," +
-                "\"variance\": " + variance + "}," +
-                "\"mapImage\": " + "\"data:image/png;base64," + base64Image + "\"" +
-                "}";
+        // Original constructed String
+        // String json = "{ \"info\":{" +
+        //         "\"theme\": \"" + theme + "\"," +
+        //         "\"seed\": " + seed + "," +
+        //         "\"roomNumber\": " + roomNumber + "," +
+        //         "\"size\": \"" + size + "\"," +
+        //         "\"variance\": " + variance + "}," +
+        //         "\"mapImage\": " + "\"data:image/png;base64," + base64Image + "\"" +
+        //         "}";
 
-        return json; 
+        // Constructing nested info element
+        JsonObject info = new JsonObject();
+        info.addProperty("theme", this.theme.toString());
+        info.addProperty("seed", this.seed);
+        info.addProperty("roomNumber", this.roomNumber);
+        info.addProperty("size", this.size);
+        info.addProperty("variance", this.variance);
+        // Constructing final response json
+        JsonObject response = new JsonObject();
+        response.add("info", info);
+        response.addProperty("mapImage", base64Image);
+
+        return response.toString(); 
     }
 
 }
