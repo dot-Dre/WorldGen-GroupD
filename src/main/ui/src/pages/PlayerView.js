@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Grid, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
 import PlayerList from "../components/PlayerList";
-import data from "./testData/mockPlayers.json";
 import { ourPalette } from "../Theme";
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import * as IoIcon from "react-icons/io5";
 import "./PlayerView.css";
 import TransformImage from "../components/TransformImage";
 import dummy from "./assets/gen.gif";
 import { Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import SockJS from "sockjs-client";
 import StompJs from "stompjs";
 
@@ -20,7 +20,13 @@ function showGreeting(greeting) {
 
 function PlayerView() {
   const [show, setShow] = useState(true);
-  // const [stompClient, setStompClient] = useState(null);
+  const [players, setPlayers] = useState([]);
+  const [playerName, setPlayerName] = useState(
+    useSelector((state) => state.nameState.name)
+  );
+  const [playerRole, setPlayerRole] = useState(
+    useSelector((state) => state.roleState.role)
+  );
 
   const reveal = () => {
     setShow(!show);
@@ -43,24 +49,42 @@ function PlayerView() {
     marginTop: "-100vh",
   };
 
-  const player = {} // Initialise the players list
-
+  // Establish a Web Socket Connection on Page Load
   useEffect(() => {
     // Create a SockJS WebSocket instance and connect with http handshake
-     // FIXME make this use the server's ip that the user enter, this only works for testing on same pc
+    // FIXME make this use the server's ip that the user enter, this only works for testing on same pc
     var socket = new SockJS("http://localhost:8080/ws");
     const client = StompJs.over(socket);
 
     // Connect to the WebSocket server
     client.connect({}, () => {
-      // setStompClient(client);
-      // Subscribe to a WebSocket topic
+      // Setup Subscriptions ASAP
       client.subscribe("/topic/greetings", (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
       });
+      client.subscribe("/topic/newPlayers", (newPlayer) => {
+        setPlayers((prevPlayers) => {
+          const playerToAppend = {
+            id: newPlayer.id,
+            name: newPlayer.name,
+            role: newPlayer.role,
+            status: newPlayer.status,
+          };
+          return [...prevPlayers, playerToAppend];
+        });
+      });
 
       // Send a message to the server
-      client.send("/app/hello", {}, JSON.stringify({ name: "Player Finn" }));
+      client.send(
+        "/app/hello",
+        {},
+        JSON.stringify({ name: "Player Finn", role: "role" })
+      );
+      client.send(
+        "/app/joinGame",
+        {},
+        JSON.stringify({ name: playerName, role: playerRole }) // TODO test me and ask dre about it
+      );
     });
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
@@ -88,13 +112,16 @@ function PlayerView() {
                 color: ourPalette.secondary,
                 fontSize: "3.5vh",
                 marginLeft: "12%",
-                paddingTop: "7%"
+                paddingTop: "7%",
               }}
             >
               Game ID:
             </Typography>
             <div>
-              <PlayerList initialData={data} gameID={localStorage.getItem("gameCode")} />
+              <PlayerList
+                initialData={players}
+                gameID={localStorage.getItem("gameCode")}
+              />
             </div>
           </nav>
           <div style={tabImgStyle}>

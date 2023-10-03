@@ -1,14 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Button, Container, Grid, IconButton } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
 import PlayerList from "../components/PlayerList";
-import data from "./testData/mockPlayers.json";
 import { ourPalette } from "../Theme";
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import * as IoIcon from "react-icons/io5";
 import "./DMView.css";
-import TransformImage from "../components/TransformImage";
 import dummy from "./assets/testMap.png";
 import { Typography, Dialog, DialogTitle } from "@mui/material";
 import PlayerIcon from "../components/PlayerIcon";
@@ -37,7 +35,7 @@ function showGreeting(greeting) {
 function DMView() {
   const [show, setShow] = useState(true);
   const [showPopup, setShowPopup] = useState(true);
-  // const [stompClient, setStompClient] = useState(null);
+  const [players, setPlayers] = useState([]);
   const [displayMap, setDisplayMap] = useState(
     useSelector((state) => state.mapState.map)
   );
@@ -46,7 +44,8 @@ function DMView() {
   const mapPinY = 400;
   const radius = 75;
 
-  const mapJson = { //TODO send this shit to server on game start
+  const mapJson = {
+    //TODO send this shit to server on game start
     map: displayMap,
   };
 
@@ -71,28 +70,42 @@ function DMView() {
     marginTop: "-100vh",
   };
 
-  // Map over data array and generate a random position for each player
-  // FIXME: make this empty initially when no longer testing
-  const players = data.map((player) => ({
-    id: player.id,
-    position: calculateRandomPlayerPosition(mapPinX, mapPinY, radius),
-  }));
+  // // Map over data array and generate a random position for each player
+  // const players = data.map((player) => ({
+  //   id: player.id,
+  //   position: calculateRandomPlayerPosition(mapPinX, mapPinY, radius),
+  // }));
 
+  // Establish a Web Socket Connection on Page Load
   useEffect(() => {
     // Create a SockJS WebSocket instance and connect with http handshake
-    var socket = new SockJS("http://localhost:8080/ws");
+    var socket = new SockJS("http://localhost:8080/ws"); //This is Fine in the DMView just not in the PlayerView
     const client = StompJs.over(socket);
 
     // Connect to the WebSocket server
     client.connect({}, () => {
-      // setStompClient(client);
-      // Subscribe to a WebSocket topic
+      // Setup Subscriptions ASAP
       client.subscribe("/topic/greetings", (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
       });
+      client.subscribe("/topic/newPlayers", (newPlayer) => {
+        setPlayers((prevPlayers) => {
+          const playerToAppend = {
+            id: newPlayer.id,
+            name: newPlayer.name,
+            role: newPlayer.role,
+            status: newPlayer.status,
+          };
+          return [...prevPlayers, playerToAppend];
+        });
+      });
 
       // Send a message to the server
-      client.send("/app/hello", {}, JSON.stringify({ name: "Dungeon Master Finn" }));
+      client.send(
+        "/app/hello",
+        {},
+        JSON.stringify({ name: "Dungeon Master Finn" })
+      );
     });
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
@@ -128,7 +141,8 @@ function DMView() {
             </Typography>
             <div>
               <PlayerList
-                initialData={data}
+                // initialData={data}
+                initialData={players}
                 gameID={"234-900-001"}
                 isDMView={true}
               />
