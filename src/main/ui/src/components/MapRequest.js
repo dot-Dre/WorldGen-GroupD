@@ -18,12 +18,13 @@ export const MapRequest = (mapRequest) => { // WILL NEED TO REFACTOR
 
   // const url = 'http://localhost:8080/getMap'
 
-  return fetch(url)
+  return fetch(urlCustom)
     .then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.blob();
+      const obj = response.json()
+      return obj;
     })
     .catch((error) => {
       console.error('Error fetching map:', error);

@@ -1,6 +1,7 @@
 package groupd.DNDMapGen.MapBuilder;
 
-import org.springframework.http.ResponseEntity;
+import java.util.Base64;
+
 import groupd.DNDMapGen.MapTheme;
 import groupd.DNDMapGen.Generator.Dungeon;
 import groupd.DNDMapGen.Generator.Generator;
@@ -12,7 +13,7 @@ import groupd.DNDMapGen.Generator.MockRenderer;
  * 
  * @author Andre Lepardo
  */
-public class DungeonBuilder implements Builder<byte[]> {
+public class DungeonBuilder {
 
     /**
      * Size constant for small
@@ -49,12 +50,18 @@ public class DungeonBuilder implements Builder<byte[]> {
      */
     private double variance = 0.7;
 
+    /*
+     * Default size
+     */
+    private String size = "Medium";
+
     /**
      * Method to set size of dungeon
      * 
      * @param size Size of dungeon
      */
     public void size(String size) {
+        this.size = size;
         switch (size) {
             case "Small":
                 this.roomNumber = this.SMALL;
@@ -111,6 +118,7 @@ public class DungeonBuilder implements Builder<byte[]> {
 
     /**
      * TODO
+     * 
      * @param variance
      */
     public void variance(double variance) {
@@ -118,16 +126,31 @@ public class DungeonBuilder implements Builder<byte[]> {
     }
 
     /**
-     * Returns a response entity to send back to the front end.
+     * This method constructs a dungeon and builds the json response which will be sent to the
+     * front end.
+     * 
+     * @return A valid JSON string.
      */
-    public ResponseEntity<byte[]> construct() {
+    public String constructResource() {
         Generator gen = new Generator(this.roomNumber, this.theme, this.seed);
         Dungeon dungeon = gen.build();
         // Still waiting on texture renderer but this will do for now, again
         MockRenderer mock = new MockRenderer();
-        // STILL NEEDS TEXTURE RENDERING
-        //TODO
-        return ResponseEntity.ok().body(null);
+
+        // String base64Image = Base64.getEncoder().encodeToString(mock.render(dungeon, ""));
+
+        String base64Image = "Nothing";
+
+        String json = "{ \"info\":{" +
+                "\"theme\": \"" + theme + "\"," +
+                "\"seed\": " + seed + "," +
+                "\"roomNumber\": " + roomNumber + "," +
+                "\"size\": \"" + size + "\"," +
+                "\"variance\": " + variance + "}," +
+                "\"mapImage\": " + "\"data:image/png;base64," + base64Image + "\"" +
+                "}";
+
+        return json; 
     }
 
 }
