@@ -24,10 +24,11 @@ export const CodeFieldStyles = {
   // same as style prop
   input: {
     color: ourPalette.white,
+    fontFamily: "monospace"
   },
   backgroundColor: ourPalette.blank,
   marginLeft: "15%",
-
+  height: "6vh"
 };
 
 export const RocketButtonStyles = {
@@ -36,8 +37,7 @@ export const RocketButtonStyles = {
     color: "#9d82ab", // Text color in disabled state
   },
   marginLeft: "2%",
-  // maxHeight: "90%",
-  height: "6.7vh"
+  height: "6vh"
 };
 
 export const EnterHelpStyles = {

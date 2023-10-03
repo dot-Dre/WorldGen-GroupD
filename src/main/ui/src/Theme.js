@@ -50,7 +50,7 @@ export const ourPalette = {
     blank:"#1a191c",
 
     // even darker grey
-    blankDarker:"",
+    blankDarker:"#0f0f0f",
 
     // light grey
     smooth:"#87868a",
