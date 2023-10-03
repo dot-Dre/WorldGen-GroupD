@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogTitle,
 } from "@mui/material";
+import Lottie from "lottie-react";
 import { SplitScreen } from "../components/SplitScreen";
 import { DragDrop } from "../components/DragDrop";
 import { ThemeProvider } from "@mui/material/styles";
@@ -41,6 +42,7 @@ import {
 import "./Home.css";
 import logo from "./assets/logo.png";
 import gen from "./assets/gen.gif";
+import load from "./assets/load.json";
 
 export const Home = () => {
   const navigateToGenerate = useNavigate();
@@ -124,7 +126,7 @@ export const Home = () => {
       >
         <ThemeProvider theme={theme}>
           <SplitScreen leftSpace={2} rightSpace={1.5}>
-            <Container height="100vh">
+            <div>
               <img src={logo} alt="crashed" style={LogoStyles} />
               <div>
                 <h2 style={EnterIDStyles}>Enter A Game ID</h2>
@@ -282,17 +284,22 @@ export const Home = () => {
                 </div>
               </Modal>
               <Divider />
-            </Container>
+            </div>
             <img src={gen} alt="crashed" style={LeftImageStyles} />
           </SplitScreen>
           <Dialog open={isGenerating}>
-            <DialogTitle style={{ background: ourPalette.blank, borderRadius:"2px" }}>
+            <DialogTitle
+              style={{ background: ourPalette.blank, borderRadius: "2px" }}
+            >
+              <center>
               <Typography
                 variant="h5"
                 style={{ fontFamily: "monospace", color: ourPalette.secondary }}
               >
-                Generating . . .
+                Generating
               </Typography>
+              <Lottie animationData={load} style={{width:"5vw"}}/>
+              </center>
             </DialogTitle>
           </Dialog>
         </ThemeProvider>

@@ -10,6 +10,7 @@ import {
   Slider,
   TextField,
 } from "@mui/material";
+import Lottie from "lottie-react";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
 import { ourPalette } from "../Theme";
@@ -19,6 +20,7 @@ import TransformImage from "../components/TransformImage";
 import gen from "./assets/gen.gif";
 import * as GiIcon from "react-icons/gi";
 import * as FaIcon from "react-icons/fa";
+import load from "./assets/load.json";
 
 import { useDispatch } from "react-redux";
 import { setMap } from "../slices/mapSlice";
@@ -101,13 +103,13 @@ export const Generate = () => {
   // ==============================================================================
 
   const [isGenerating, setIsGenerating] = useState(false);
-  
+
   const handleGenerateClick = () => {
     if (seedInputError) {
       alert("Seed must be an integer!");
       return;
     }
-    
+
     setIsGenerating(true);
 
     const request = {
@@ -533,15 +535,18 @@ export const Generate = () => {
                       borderRadius: "2px",
                     }}
                   >
-                    <Typography
-                      variant="h5"
-                      style={{
-                        fontFamily: "monospace",
-                        color: ourPalette.secondary,
-                      }}
-                    >
-                      Generating . . .
-                    </Typography>
+                    <center>
+                      <Typography
+                        variant="h5"
+                        style={{
+                          fontFamily: "monospace",
+                          color: ourPalette.secondary,
+                        }}
+                      >
+                        Generating
+                      </Typography>
+                      <Lottie animationData={load} style={{ width: "5vw" }} />
+                    </center>
                   </DialogTitle>
                 </Dialog>
               </div>

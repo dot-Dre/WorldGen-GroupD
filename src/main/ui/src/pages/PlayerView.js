@@ -21,7 +21,7 @@ function PlayerView() {
 
   const tabStyle = {
     flex: 1,
-    background: ourPalette.tabGradient,
+    background: ourPalette.pageGradient,
     marginLeft: show ? 0 : "-40%",
     // opacity: show ? 1 : 0,
     transition: "margin-left 0.1s ease",
@@ -37,7 +37,14 @@ function PlayerView() {
   };
 
   return (
-    <body style={{ background: ourPalette.black, overflow: "hidden" }}>
+    <body
+      style={{
+        background: ourPalette.black,
+        overflow: "hidden",
+        backgroundSize: "cover",
+        height: "100vh",
+      }}
+    >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -60,13 +67,16 @@ function PlayerView() {
                 color: ourPalette.secondary,
                 fontSize: "3.5vh",
                 marginLeft: "12%",
-                paddingTop: "7%"
+                paddingTop: "7%",
               }}
             >
               Game ID:
             </Typography>
             <div>
-              <PlayerList initialData={data} gameID={localStorage.getItem("gameCode")} />
+              <PlayerList
+                initialData={data}
+                gameID={localStorage.getItem("gameCode")}
+              />
             </div>
           </nav>
           <div style={tabImgStyle}>
