@@ -132,7 +132,8 @@ public class DungeonBuilder {
      * @return A valid JSON string.
      */
     public String constructResource() {
-        Generator gen = new Generator(this.roomNumber, this.theme, this.seed);
+        Generator gen = new Generator(this.roomNumber, this.theme);
+        gen.setSeed(this.seed);
         Dungeon dungeon = gen.build();
         // Still waiting on texture renderer but this will do for now, again
         MockRenderer mock = new MockRenderer();
