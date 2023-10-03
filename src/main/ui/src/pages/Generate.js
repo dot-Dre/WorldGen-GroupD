@@ -207,7 +207,7 @@ export const Generate = () => {
                     variant="outlined"
                     fullWidth
                     size="medium"
-                    style={{
+                    sx={{
                       marginBottom: "15px",
                       color: graveyardButtonColor,
                       borderColor: graveyardButtonColor,
@@ -230,7 +230,7 @@ export const Generate = () => {
                     variant="outlined"
                     fullWidth
                     size="medium"
-                    style={{
+                    sx={{
                       marginBottom: "15px",
                       color: mansionButtonColor,
                       borderColor: mansionButtonColor,
@@ -253,7 +253,7 @@ export const Generate = () => {
                     variant="outlined"
                     fullWidth
                     size="medium"
-                    style={{
+                    sx={{
                       marginBottom: "15px",
                       color: basementButtonColor,
                       borderColor: basementButtonColor,
@@ -288,7 +288,7 @@ export const Generate = () => {
                       <Button
                         variant="outlined"
                         size="small"
-                        style={{
+                        sx={{
                           color: ourPalette.white,
                           borderColor: smallButtonColor,
                           borderRadius: "2px",
@@ -308,7 +308,7 @@ export const Generate = () => {
                       <Button
                         variant="outlined"
                         size="small"
-                        style={{
+                        sx={{
                           color: ourPalette.white,
                           borderColor: mediumButtonColor,
                           borderRadius: "2px",
@@ -328,7 +328,7 @@ export const Generate = () => {
                       <Button
                         variant="outlined"
                         size="small"
-                        style={{
+                        sx={{
                           color: ourPalette.white,
                           borderColor: largeButtonColor,
                           borderRadius: "2px",

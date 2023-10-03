@@ -147,9 +147,11 @@ export const Home = () => {
                   color={goButtonColor}
                   disabled={inputError}
                   onClick={gameCodeSubmit}
+                  onMouseEnter={()=>{setGoButtonColor("secondary")}}
+                  onMouseLeave={()=>{setGoButtonColor("primary")}}
                 >
                   <Typography variant="body1">
-                    <BiIcons.BiSolidRocket />
+                    <BiIcons.BiPaperPlane />
                   </Typography>
                 </Button>
               </div>
