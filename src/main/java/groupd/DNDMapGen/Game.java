@@ -9,6 +9,8 @@ public class Game {
 
     // Constructors, getters, and setters
     public Game(int gameId, List<Player> players, String mapImage) {
-        
+        this.gameId = gameId;
+        this.players = players;
+        this.mapImage = mapImage;
     }
 }
