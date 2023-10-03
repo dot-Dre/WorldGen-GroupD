@@ -1,6 +1,8 @@
 package texturerendering;
 
 import groupd.DNDMapGen.Generator.Dungeon;
+import groupd.DNDMapGen.Generator.Hallway;
+import groupd.DNDMapGen.Generator.Room;
 import groupd.DNDMapGen.Generator.Tile;
 
 import javax.imageio.ImageIO;
@@ -62,7 +64,8 @@ public class TextureRenderer {
      * @param scaleFactor The scale factor of the dungeon.
      */
     public void renderTextures(Dungeon dungeon, int scaleFactor) {
-        Tile[][] tiles = scaleDownDungeon(dungeon.getTiles(), scaleFactor);
+//        Tile[][] tiles = scaleDownDungeon(dungeon.getTiles(), scaleFactor);
+        Tile[][] tiles = dungeon.getTiles();
 
         int newWidth = tiles[0].length;
         int newHeight = tiles.length;
@@ -70,23 +73,62 @@ public class TextureRenderer {
         int tileHeight = 16;
 
         // Create a new image
-        BufferedImage image = new BufferedImage(newWidth * tileWidth, newHeight * tileHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(newWidth * tileWidth, newHeight * tileHeight, BufferedImage.TYPE_INT_ARGB);
 
-        for (int y = 0; y < newHeight; y++) {
-            for (int x = 0; x < newWidth; x++) {
-                Tile tile = tiles[y][x];
-                Texture texture;
-                // Assign the texture based on the tile type
-                if (tile == Tile.WALL) {
-                    texture = determineWallTexture(tiles, x, y);
-                } else if (tile == Tile.FLOOR) {
-                    texture = determineFloorTexture(tiles, x, y);
+        for(Room r: dungeon.getRooms()){
+            Tile[][] roomTiles = r.getTiles();
+            for(int row = 0; row < r.height(); row++){
 
-                } else {
-                    texture = textureMap.get("empty_tile");
+                for(int col = 0; col < r.width(); col++){
+                    Tile tile = roomTiles[row][col];
+                    Texture texture;
+                    // Assign the texture based on the tile type
+                    if (tile == Tile.WALL) {
+                        texture = determineWallTexture(roomTiles, col, row);
+                    } else if (tile == Tile.FLOOR) {
+                        texture = determineFloorTexture(tiles, r.x() + col, r.y() + row);
+
+                    } else {
+                        texture = textureMap.get("empty_tile");
+                    }
+
+                    int x = (r.x() + col) * tileWidth;
+                    int y = (r.y() + row) * tileHeight;
+
+                    BufferedImage tileImage = texture.getImage();
+                    image.getGraphics().drawImage(tileImage, x, y, tileWidth, tileHeight, null);
                 }
-                BufferedImage tileImage = texture.getImage();
-                image.getGraphics().drawImage(tileImage, x * tileWidth, y * tileHeight, tileWidth, tileHeight, null);
+
+            }
+        }
+
+        for(Hallway h: dungeon.getHallways()){
+            Tile[][] hallTiles = h.getTiles();
+            for(int row = 0; row < h.height(); row++){
+                for(int col = 0; col < h.width(); col++){
+                    Tile tile = hallTiles[row][col];
+                    Texture texture;
+
+
+                    // Assign the texture based on the tile type
+                    if(hallTiles[row][col] == Tile.WALL){
+                        if(tiles[h.y() + row][h.x() + col] == Tile.FLOOR) {
+                            continue;
+                        }
+                        texture = determineWallTexture(hallTiles, col, row);
+                    }else if(hallTiles[row][col] == Tile.FLOOR){
+                        texture = determineFloorTexture(hallTiles, col, row);
+                    }else{
+                        continue;
+                    }
+
+                    int x = (h.x() + col) * tileWidth;
+                    int y = (h.y() + row) * tileHeight;
+
+                    BufferedImage tileImage = texture.getImage();
+                    image.getGraphics().drawImage(tileImage, x, y, tileWidth, tileHeight, null);
+                }
+
             }
         }
 
@@ -208,15 +250,15 @@ public class TextureRenderer {
 
     // Helper methods to identify specific positions for walls
     private boolean isTopLeftCorner(Tile[][] tiles, int x, int y) {
-        return y > 0 && x > 0 && tiles[y - 1][x] == Tile.EMPTY && tiles[y][x - 1] == Tile.EMPTY;
+        return y == 0 && x == 0;
     }
 
     private boolean isTopRightCorner(Tile[][] tiles, int x, int y) {
-        return y > 0 && x < tiles[0].length - 1 && tiles[y - 1][x] == Tile.EMPTY && tiles[y][x + 1] == Tile.EMPTY;
+        return y == 0 && x == tiles[y].length-1;
     }
 
     private boolean isBottomLeftCorner(Tile[][] tiles, int x, int y) {
-        return y < tiles.length - 1 && x > 0 && tiles[y + 1][x] == Tile.EMPTY && tiles[y][x - 1] == Tile.EMPTY;
+        return x == 0 && y == tiles.length-1;
     }
 
     private boolean isBottomRightCorner(Tile[][] tiles, int x, int y) {
@@ -224,19 +266,19 @@ public class TextureRenderer {
     }
 
     private boolean isTopEdge(Tile[][] tiles, int x, int y) {
-        return y > 0 && tiles[y - 1][x] == Tile.EMPTY;
+        return y == 0;
     }
 
     private boolean isBottomEdge(Tile[][] tiles, int x, int y) {
-        return y < tiles.length - 1 && tiles[y + 1][x] == Tile.EMPTY;
+        return tiles[y][x] == Tile.WALL && (y == tiles.length-1 || tiles[y+1][x] != Tile.WALL);
     }
 
     private boolean isLeftEdge(Tile[][] tiles, int x, int y) {
-        return x > 0 && tiles[y][x - 1] == Tile.EMPTY;
+        return tiles[y][x] == Tile.WALL && (x == 0 || tiles[y][x-1] == Tile.EMPTY || tiles[y][x-1] == null);
     }
 
     private boolean isRightEdge(Tile[][] tiles, int x, int y) {
-        return x < tiles[0].length - 1 && tiles[y][x + 1] == Tile.EMPTY;
+        return tiles[y][x] == Tile.WALL && (x == tiles[y].length-1 || tiles[y][x+1] == Tile.EMPTY || tiles[y][x+1] == null);
     }
 
     /**
