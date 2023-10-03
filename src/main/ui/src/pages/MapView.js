@@ -95,18 +95,19 @@ function MapView() {
   };
 
   const ControlPanel = () => {
-    const navigateToGenerate = useNavigate();
+    const navigateToPage = useNavigate();
     const [infoText, setInfoText] = useState(
       mapDetails
     );
 
     const handleRegenerateClick = () => {
-      navigateToGenerate("/Generate")
+      navigateToPage("/Generate")
     };
 
     const handleBeginGame = () => {
       console.log(`Beginning game...`);
       // Logic for starting the game
+      navigateToPage("/DMView")
     };
 
     return (

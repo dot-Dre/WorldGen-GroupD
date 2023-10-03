@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Grid, IconButton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
@@ -11,9 +11,16 @@ import "./PlayerView.css";
 import TransformImage from "../components/TransformImage";
 import dummy from "./assets/gen.gif";
 import { Typography } from "@mui/material";
+import SockJS from "sockjs-client";
+import StompJs from "stompjs";
+
+function showGreeting(greeting) {
+  alert(greeting);
+}
 
 function PlayerView() {
   const [show, setShow] = useState(true);
+  // const [stompClient, setStompClient] = useState(null);
 
   const reveal = () => {
     setShow(!show);
@@ -35,6 +42,27 @@ function PlayerView() {
     transition: "margin-left 0.1s ease",
     marginTop: "-100vh",
   };
+
+  const player = {} // Initialise the players list
+
+  useEffect(() => {
+    // Create a SockJS WebSocket instance and connect with http handshake
+     // FIXME make this use the server's ip that the user enter, this only works for testing on same pc
+    var socket = new SockJS("http://localhost:8080/ws");
+    const client = StompJs.over(socket);
+
+    // Connect to the WebSocket server
+    client.connect({}, () => {
+      // setStompClient(client);
+      // Subscribe to a WebSocket topic
+      client.subscribe("/topic/greetings", (greeting) => {
+        showGreeting(JSON.parse(greeting.body).content);
+      });
+
+      // Send a message to the server
+      client.send("/app/hello", {}, JSON.stringify({ name: "Player Finn" }));
+    });
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <body style={{ background: ourPalette.black, overflow: "hidden" }}>

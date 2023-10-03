@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button, Container, Grid, IconButton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme";
@@ -14,6 +14,9 @@ import { Typography, Dialog, DialogTitle } from "@mui/material";
 import PlayerIcon from "../components/PlayerIcon";
 import MapPin from "../components/MapPin";
 import ControlPanel from "../components/ControlPanel";
+import { useSelector } from "react-redux";
+import SockJS from "sockjs-client";
+import StompJs from "stompjs";
 
 function calculateRandomPlayerPosition(centerX, centerY, radius) {
   // Generate a random angle and distance within the radius
@@ -27,13 +30,25 @@ function calculateRandomPlayerPosition(centerX, centerY, radius) {
   return { x, y };
 }
 
+function showGreeting(greeting) {
+  alert(greeting);
+}
+
 function DMView() {
   const [show, setShow] = useState(true);
   const [showPopup, setShowPopup] = useState(true);
+  // const [stompClient, setStompClient] = useState(null);
+  const [displayMap, setDisplayMap] = useState(
+    useSelector((state) => state.mapState.map)
+  );
 
   const mapPinX = 400;
   const mapPinY = 400;
   const radius = 75;
+
+  const mapJson = { //TODO send this shit to server on game start
+    map: displayMap,
+  };
 
   const reveal = () => {
     setShow(!show);
@@ -57,10 +72,29 @@ function DMView() {
   };
 
   // Map over data array and generate a random position for each player
+  // FIXME: make this empty initially when no longer testing
   const players = data.map((player) => ({
     id: player.id,
     position: calculateRandomPlayerPosition(mapPinX, mapPinY, radius),
   }));
+
+  useEffect(() => {
+    // Create a SockJS WebSocket instance and connect with http handshake
+    var socket = new SockJS("http://localhost:8080/ws");
+    const client = StompJs.over(socket);
+
+    // Connect to the WebSocket server
+    client.connect({}, () => {
+      // setStompClient(client);
+      // Subscribe to a WebSocket topic
+      client.subscribe("/topic/greetings", (greeting) => {
+        showGreeting(JSON.parse(greeting.body).content);
+      });
+
+      // Send a message to the server
+      client.send("/app/hello", {}, JSON.stringify({ name: "Dungeon Master Finn" }));
+    });
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <body style={{ background: ourPalette.black, overflow: "hidden" }}>
