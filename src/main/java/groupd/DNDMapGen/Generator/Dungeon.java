@@ -1,5 +1,7 @@
 package groupd.DNDMapGen.Generator;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import groupd.DNDMapGen.MapTheme;
 
 import java.util.Collection;
@@ -98,6 +100,11 @@ public class Dungeon {
                 }
             }
         }
+    }
+
+    public String toJson(){
+
+        return new Gson().toJson(getTiles());
     }
 
 }
