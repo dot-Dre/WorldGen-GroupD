@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "x": -1,
+    "y": -1,
+    "name": "John",
+    "role": "Assassin",
+    "status": "Alive"
+  },
+  {
+    "id": 2,
+    "x": -1,
+    "y": -1,
+    "name": "Sarah",
+    "role": "Healer",
+    "status": "Lost Memory"
+  },
+  {
+    "id": 3,
+    "x": -1,
+    "y": -1,
+    "name": "David",
+    "role": "Wizard",
+    "status": "Alive"
+  },
+  {
+    "id": 4,
+    "x": -1,
+    "y": -1,
+    "name": "Emma",
+    "role": "Rogue",
+    "status": "Imprisoned"
+  },
+  {
+    "id": 5,
+    "x": -1,
+    "y": -1,
+    "name": "Michael",
+    "role": "Cleric",
+    "status": "Poisoned"
+  },
+  {
+    "id": 6,
+    "x": -1,
+    "y": -1,
+    "name": "Sophia",
+    "role": "Barbarian",
+    "status": "Asleep"
+  },
+  {
+    "id": 7,
+    "x": -1,
+    "y": -1,
+    "name": "William",
+    "role": "Sorcerer",
+    "status": "Alive"
+  },
+  {
+    "id": 8,
+    "x": -1,
+    "y": -1,
+    "name": "Olivia",
+    "role": "Druid",
+    "status": "Dead"
+  },
+  {
+    "id": 9,
+    "x": -1,
+    "y": -1,
+    "name": "James",
+    "role": "Monk",
+    "status": "Frozen"
+  },
+  {
+    "id": 10,
+    "x": -1,
+    "y": -1,
+    "name": "Charlotte",
+    "role": "Paladin",
+    "status": "Alive"
+  }
+]
