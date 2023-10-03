@@ -120,21 +120,6 @@ public class TextureRenderer {
         if (isLeftEdge(tiles, x, y)) return textureMap.get(random.nextInt() % 5 == 0 ? "wall_left1" : "wall_left2");
         if (isRightEdge(tiles, x, y)) return textureMap.get(random.nextInt()% 5 == 0 ? "wall_right2" : "wall_right1");
 
-        // Check for adjacent room walls and set texture accordingly
-        if (isAdjacentToAnotherRoomWall(tiles, x, y, "top")) {
-
-            return textureMap.get("wall_top_inner");
-        }
-        if (isAdjacentToAnotherRoomWall(tiles, x, y, "bottom")) {
-            return textureMap.get("wall_bottom");
-        }
-        if (isAdjacentToAnotherRoomWall(tiles, x, y, "right")) {
-            return textureMap.get("wall_right2");
-        }
-        if (isAdjacentToAnotherRoomWall(tiles, x, y, "left")) {
-            return textureMap.get("wall_left1");
-        }
-
         // Default wall texture
         return textureMap.get("wall_topinner");
     }
@@ -235,7 +220,7 @@ public class TextureRenderer {
     }
 
     private boolean isBottomRightCorner(Tile[][] tiles, int x, int y) {
-        return y < tiles.length - 1 && x < tiles[0].length - 1 && tiles[y + 1][x] == Tile.EMPTY && tiles[y][x + 1] == Tile.EMPTY;
+        return y == tiles.length-1 && x == tiles[y].length-1;
     }
 
     private boolean isTopEdge(Tile[][] tiles, int x, int y) {
