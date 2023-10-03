@@ -24,38 +24,18 @@ function MapView() {
 
   const generationDetails = useSelector((state) => state.generationState.generation)
 
-  const roomOrSize = generationDetails.size === null ? `Number of Rooms: ${generationDetails.roomNumber}` : `Size: ${generationDetails.size}`
+  const roomOrSize = generationDetails.size === "none" ? `Number of Rooms: ${generationDetails.roomNumber}` : `Size: ${generationDetails.size}`
 
   const mapDetails = `Theme: ${generationDetails.theme}\n${roomOrSize}\nSeed: ${generationDetails.seed}\nVariance: ${generationDetails.variance}`
 
   const SaveMap = () => {
-    const imageUrl = displayMap; // Assuming 'displayMap' contains the Blob URL
-
-    const encodeImageToBase64 = async (url) => {
-      try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            resolve(reader.result);
-          };
-          reader.readAsDataURL(blob);
-        });
-      } catch (error) {
-        console.error('Error encoding image to base64:', error);
-        throw error;
-      }
-    };
-
     const createAndDownloadJson = async () => {
       try {
-        const base64Image = await encodeImageToBase64(imageUrl);
+        const base64Image = displayMap
 
         const jsonObject = {
-          map: base64Image,
-          info:generationDetails
+          info:generationDetails,
+          map: base64Image
         };
 
         // Create a JSON blob

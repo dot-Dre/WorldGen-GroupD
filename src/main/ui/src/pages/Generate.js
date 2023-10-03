@@ -58,7 +58,7 @@ export const Generate = () => {
   const [seedInputError, setSeedInputError] = useState(false);
 
   const HandleSizeClick = (size) => {
-    setRoomNumber(-1)
+    setRoomNumber(-1);
     if (size.trim() === "Small".trim()) {
       setSelectedSize("Small");
       setSmallButtonColor(ourPalette.white);
@@ -100,17 +100,15 @@ export const Generate = () => {
   };
   // ==============================================================================
 
-  const handleSeedChange = (event) => {
-    const seedInput = event.target.value;
-    setSeed(seedInput);
-    setSeedInputError(seed % 1 !== 0);
-  };
-
+  const [isGenerating, setIsGenerating] = useState(false);
+  
   const handleGenerateClick = () => {
     if (seedInputError) {
       alert("Seed must be an integer!");
       return;
     }
+    
+    setIsGenerating(true);
 
     const request = {
       theme: selectedTheme,
@@ -122,17 +120,23 @@ export const Generate = () => {
 
     MapRequest(request)
       .then((blob) => {
-        const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
-        // localStorage.setItem("imgUrl", blob)
-        setDisplayedImage(imageUrl);
-        dispatch(setMap(imageUrl));
-        dispatch(setGenerationDetails(request))
+        const obj = blob;
+        setDisplayedImage(obj.mapImage);
+        dispatch(setMap(obj.mapImage));
+        dispatch(setGenerationDetails(obj.info));
         navigateToMapView("/MapView");
       })
       .catch((error) => {
+        setIsGenerating(false);
         alert("Error: " + error.message);
         console.error("Error:", error);
       });
+  };
+
+  const handleSeedChange = (event) => {
+    const seedInput = event.target.value;
+    setSeed(seedInput);
+    setSeedInputError(seed % 1 !== 0);
   };
 
   const handleMouseOver = (text) => {
@@ -416,7 +420,7 @@ export const Generate = () => {
                         setSmallButtonColor(ourPalette.primary);
                         setMediumButtonColor(ourPalette.primary);
                         setLargeButtonColor(ourPalette.primary);
-                        setSelectedSize(null)
+                        setSelectedSize("none");
                         setRoomNumber(value);
                       }}
                       sx={{
@@ -521,6 +525,24 @@ export const Generate = () => {
                 {/* Popup */}
                 <Dialog open={showPopup} onClose={() => setShowPopup(false)}>
                   <DialogTitle>Please select a Theme and Map size</DialogTitle>
+                </Dialog>
+                <Dialog open={isGenerating}>
+                  <DialogTitle
+                    style={{
+                      background: ourPalette.blank,
+                      borderRadius: "2px",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      style={{
+                        fontFamily: "monospace",
+                        color: ourPalette.secondary,
+                      }}
+                    >
+                      Generating . . .
+                    </Typography>
+                  </DialogTitle>
                 </Dialog>
               </div>
             </Grid>
