@@ -11,6 +11,7 @@ import * as BiIcons from "react-icons/bi";
 import { Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setMap } from "../slices/mapSlice";
+import { setGenerationDetails } from "../slices/generationSlice";
 import { MapRequest } from "../components/MapRequest";
 
 import {
@@ -59,6 +60,9 @@ export const Home = () => {
 
   const handleGameCodeChange = (event) => {
     const inputValue = event.target.value;
+    if (inputValue.includes('a')) {
+      return;
+    }
     setGameCode(inputValue);
     setInputError(inputValue.length !== 9 || !/^\d+$/.test(inputValue));
   };
@@ -76,10 +80,15 @@ export const Home = () => {
     // Randomly select a theme and size
     const randomTheme = themes[Math.floor(Math.random() * themes.length)];
     const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+    const randomSeed = Math.floor(Math.random() * 1000001);
+    const randomVariance = Math.random();
 
     const request = {
       theme: randomTheme,
-      size: randomSize
+      size: randomSize,
+      seed: randomSeed,
+      variance: randomVariance,
+      roomNumber: -1
     };
 
     MapRequest(request)
@@ -87,6 +96,7 @@ export const Home = () => {
         const imageUrl = URL.createObjectURL(blob); // Extract the Blob URL
         // setDisplayedImage(imageUrl)
         dispatch(setMap(imageUrl));
+        dispatch(setGenerationDetails(request))
         navigateToMapView("/MapView");
       })
       .catch((error) => {
