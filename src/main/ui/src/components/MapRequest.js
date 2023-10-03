@@ -1,17 +1,30 @@
 export const MapRequest = (mapRequest) => { // WILL NEED TO REFACTOR
   const mapTheme = mapRequest.theme;
   const mapSize = mapRequest.size;
+  const roomNumber = mapRequest.roomNumber
+  const seed = mapRequest.seed
+  const variance = mapRequest.variance
 
   // Construct the URL with query parameters
-  // const url = `http://localhost:8080/getMap?param1=${mapTheme}&param2=${mapSize}`;
-  const url = 'http://localhost:8080/getMap'
+  const urlCustom = `http://localhost:8080/getCustomMap?theme=${mapTheme}&size=${mapSize}&roomNumber=${roomNumber}&seed=${seed}&variance=${variance}`;
 
-  return fetch(url)
+  const urlQuick = `http://localhost:8080/getQuickMap?theme=${mapTheme}&size=${mapSize}&roomNumber=${roomNumber}&seed=${seed}&variance=${variance}`;
+
+  var url = urlCustom
+
+  if (roomNumber === -1) {
+    url = urlQuick
+  }
+
+  // const url = 'http://localhost:8080/getMap'
+
+  return fetch(urlCustom)
     .then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.blob();
+      const obj = response.json()
+      return obj;
     })
     .catch((error) => {
       console.error('Error fetching map:', error);

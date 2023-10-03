@@ -91,4 +91,8 @@ public abstract class AbstractRoomFactory {
         }
         return true;
     }
+
+    public abstract void setMinRoomSize(int minRoomSize);
+
+    public abstract void setMaxRoomSize(int maxRoomSize);
 }

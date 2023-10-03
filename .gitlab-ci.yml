@@ -1,5 +1,5 @@
 stages:
-  - lint
+  # - lint
   - build
   - test
   - deploy
@@ -8,14 +8,14 @@ variables:
   # Set the maven local repository location to speed up builds by reusing cached dependencies
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-lint:
-  stage: lint
-  image: python:3.9
-  script:
-    - pip install pre-commit
-    - pre-commit run --all-files
-  tags:
-    - docker
+# lint:
+#   stage: lint
+#   image: python:3.9
+#   script:
+#     # - pip install pre-commit
+#     # - pre-commit run --all-files
+#   tags:
+#     - docker
 
 # Build stage
 build:

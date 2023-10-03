@@ -12,31 +12,20 @@ public class Generator {
 
     private final int roomCount;
     private final MapTheme theme;
-    private final int seed;
+    private int seed = new Random().nextInt();
+    private int minRoomSize = 3;
+    private int maxRoomSize = 10;
 
-    /**
-     * Constructs a new Generator with the specified size and theme.
-     *
-     * @param roomCount The number of rooms to generate.
-     * @param theme  The desired map theme.
-     */
-    public Generator(int roomCount, MapTheme theme){
-        this.roomCount = roomCount;
-        this.theme = theme;
-        this.seed = new Random().nextInt();
-    }
 
     /**
      * Constructs a new Generator with the specified size, theme, and seed.
      *
      * @param roomCount The number of rooms to generate.
      * @param theme  The desired map theme.
-     * @param seed  The seed to use for random number generation.
      */
-    public Generator(int roomCount, MapTheme theme, int seed) {
+    public Generator(int roomCount, MapTheme theme) {
         this.roomCount = roomCount;
         this.theme = theme;
-        this.seed = seed;
     }
 
     /**
@@ -93,6 +82,21 @@ public class Generator {
      */
     public MapTheme getTheme() {
         return theme;
+    }
+
+    public Generator setSeed(int seed) {
+        this.seed = seed;
+        return this;
+    }
+
+    public Generator setMinRoomSize(int minRoomSize) {
+        this.minRoomSize = minRoomSize;
+        return this;
+    }
+
+    public Generator setMaxRoomSize(int maxRoomSize) {
+        this.maxRoomSize = maxRoomSize;
+        return this;
     }
 
     public static void main(String[] args) {
